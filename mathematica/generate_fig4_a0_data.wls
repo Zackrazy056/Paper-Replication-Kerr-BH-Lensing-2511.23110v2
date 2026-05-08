@@ -1,0 +1,203 @@
+(* =================================================================== *)
+(* Kerr GW lensing: Fig.4 data generation (a=0 only, fixed theta_o)    *)
+(* =================================================================== *)
+
+AppendTo[$Path, "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+AppendTo[$Path, "C:/Users/97747/KerrGeodesics/Kernel"];
+AppendTo[$Path, "C:/Users/97747/Teukolsky/Kernel"];
+
+Needs["SpinWeightedSpheroidalHarmonics`"];
+Needs["KerrGeodesics`"];
+Needs["Teukolsky`"];
+
+If[
+  Length[DownValues[SpinWeightedSpheroidalEigenvalue]] == 0 ||
+  Length[DownValues[KerrGeoOrbit]] == 0 ||
+  Length[DownValues[TeukolskyRadial]] == 0,
+  Print["[!] BHPToolkit package load failed. Check local paths and dependencies."];
+  Quit[1];
+];
+
+sWeight = -2;
+mIndex = 2;
+workingPrec = 50;
+retryPrec = 80;
+
+(* Fig.4 setup: gamma = 0, theta_o = phi_o = pi/6 *)
+gammaVal = N[0, workingPrec];
+thetaObs = N[Pi/6, workingPrec];
+
+(* Sweep Momega in [1e-2, 2] on log grid *)
+wMin = N[10^-2, workingPrec];
+wMax = N[2, workingPrec];
+wN = 56;
+omegaList = N[Exp[Subdivide[Log[wMin], Log[wMax], wN - 1]], workingPrec];
+
+(* Keep moderate l for first-pass trend *)
+lMin = 2;
+lMax = 60;
+aVal = SetPrecision[0, workingPrec];
+
+IsFiniteNumeric[x_] := Module[{y},
+  y = Quiet[Check[N[x, workingPrec], $Failed]];
+  y =!= $Failed && NumberQ[y] && FreeQ[y, ComplexInfinity | DirectedInfinity[_] | Indeterminate | Infinity]
+];
+
+SafeToString[x_] := Module[{y},
+  y = Quiet[Check[N[x, workingPrec], $Failed]];
+  If[y === $Failed || !IsFiniteNumeric[y], "0", ToString[y, InputForm]]
+];
+
+ComputeHarmonics[l_, c_, prec_] := Module[
+  {sh, sGamma, sTheta},
+  sh = Quiet[
+    Check[
+      SpinWeightedSpheroidalHarmonicS[
+        sWeight, l, mIndex, SetPrecision[c, prec],
+        Method -> {"SphericalExpansion", "NumTerms" -> 24}
+      ],
+      $Failed
+    ]
+  ];
+  If[sh === $Failed, Return[{False, 0, 0}]];
+
+  sGamma = Quiet[Check[N[sh[gammaVal, 0], prec], $Failed]];
+  sTheta = Quiet[Check[N[sh[thetaObs, 0], prec], $Failed]];
+
+  If[
+    sGamma === $Failed || sTheta === $Failed ||
+      !IsFiniteNumeric[sGamma] || !IsFiniteNumeric[sTheta],
+    {False, 0, 0},
+    {True, sGamma, sTheta}
+  ]
+];
+
+ComputeEigenReC[l_, c_, omega_, prec_] := Module[
+  {eval, reCExpr, reC},
+  eval = Quiet[
+    Check[
+      N[SpinWeightedSpheroidalEigenvalue[sWeight, l, mIndex, SetPrecision[c, prec]], prec],
+      $Failed
+    ]
+  ];
+  If[eval === $Failed || !IsFiniteNumeric[eval], Return[{False, 0}]];
+
+  reCExpr = eval^2 * (eval + 2)^2 - 8 * SetPrecision[c, prec]^2 * eval * (eval + 2) + 144 * SetPrecision[omega, prec]^2;
+  reC = Quiet[Check[N[Re[Sqrt[reCExpr]], prec], $Failed]];
+
+  If[reC === $Failed || !IsFiniteNumeric[reC], {False, 0}, {True, reC}]
+];
+
+ComputeBratio[l_, aPrec_, omegaPrec_, prec_] := Module[
+  {radialIn, amps, incAmp, reflAmp, ratio},
+  radialIn = Quiet[
+    Check[
+      TeukolskyRadial[
+        sWeight, l, mIndex, SetPrecision[aPrec, prec], SetPrecision[omegaPrec, prec],
+        "BoundaryConditions" -> "In",
+        WorkingPrecision -> prec
+      ],
+      $Failed
+    ]
+  ];
+  If[radialIn === $Failed, Return[{False, 0, 0}]];
+
+  amps = Quiet[Check[radialIn["Amplitudes"], $Failed]];
+  If[amps === $Failed, Return[{False, 0, 0}]];
+
+  incAmp = Quiet[Check[N[amps["Incidence"], prec], $Failed]];
+  reflAmp = Quiet[Check[N[amps["Reflection"], prec], $Failed]];
+  If[
+    incAmp === $Failed || reflAmp === $Failed ||
+      !IsFiniteNumeric[incAmp] || !IsFiniteNumeric[reflAmp] || incAmp == 0,
+    Return[{False, 0, 0}]
+  ];
+
+  ratio = reflAmp / incAmp;
+  If[!IsFiniteNumeric[ratio], {False, 0, 0}, {True, Re[ratio], Im[ratio]}]
+];
+
+GetRow[l_, omega_] := Module[
+  {
+    omegaPrec, c,
+    harmTry1, harmTry2, eigTry1, eigTry2, ratioTry1, ratioTry2,
+    harmOk, eigOk, ratioOk, sGamma, sTheta, reC, ratioRe, ratioIm, validAll
+  },
+  omegaPrec = SetPrecision[omega, workingPrec];
+  c = SetPrecision[aVal * omegaPrec, workingPrec];
+
+  harmTry1 = Quiet[Check[ComputeHarmonics[l, c, workingPrec], {False, 0, 0}]];
+  harmOk = harmTry1[[1]];
+  sGamma = harmTry1[[2]];
+  sTheta = harmTry1[[3]];
+  If[!harmOk,
+    harmTry2 = Quiet[Check[ComputeHarmonics[l, c, retryPrec], {False, 0, 0}]];
+    harmOk = harmTry2[[1]];
+    sGamma = harmTry2[[2]];
+    sTheta = harmTry2[[3]];
+  ];
+
+  eigTry1 = Quiet[Check[ComputeEigenReC[l, c, omegaPrec, workingPrec], {False, 0}]];
+  eigOk = eigTry1[[1]];
+  reC = eigTry1[[2]];
+  If[!eigOk,
+    eigTry2 = Quiet[Check[ComputeEigenReC[l, c, omegaPrec, retryPrec], {False, 0}]];
+    eigOk = eigTry2[[1]];
+    reC = eigTry2[[2]];
+  ];
+
+  ratioTry1 = Quiet[Check[ComputeBratio[l, aVal, omegaPrec, workingPrec], {False, 0, 0}]];
+  ratioOk = ratioTry1[[1]];
+  ratioRe = ratioTry1[[2]];
+  ratioIm = ratioTry1[[3]];
+  If[!ratioOk,
+    ratioTry2 = Quiet[Check[ComputeBratio[l, aVal, omegaPrec, retryPrec], {False, 0, 0}]];
+    ratioOk = ratioTry2[[1]];
+    ratioRe = ratioTry2[[2]];
+    ratioIm = ratioTry2[[3]];
+  ];
+
+  validAll = harmOk && eigOk && ratioOk;
+  If[!validAll, sGamma = 0; sTheta = 0; reC = 0; ratioRe = 0; ratioIm = 0;];
+
+  <|
+    "l" -> l,
+    "m" -> mIndex,
+    "a" -> N[aVal, 20],
+    "omega" -> N[omegaPrec, 20],
+    "theta_obs" -> N[thetaObs, 20],
+    "gamma" -> N[gammaVal, 20],
+    "Re_C" -> SafeToString[reC],
+    "B_ratio_re" -> SafeToString[ratioRe],
+    "B_ratio_im" -> SafeToString[ratioIm],
+    "S_gamma" -> SafeToString[sGamma],
+    "S_theta_obs" -> SafeToString[sTheta],
+    "valid" -> validAll
+  |>
+];
+
+Print["[*] Starting Fig.4 (a=0) data generation..."];
+Print["    omega grid: [", N[wMin, 16], ", ", N[wMax, 16], "], n=", wN];
+Print["    l range: [", lMin, ", ", lMax, "]"];
+Print["    theta_o=pi/6, gamma=0"];
+
+dataTable = Flatten[
+  Table[
+    GetRow[l, w],
+    {w, omegaList},
+    {l, lMin, lMax}
+  ]
+];
+
+Print["[*] Total rows: ", Length[dataTable]];
+Print["[*] Valid rows: ", Count[dataTable[[All, "valid"]], True], "/", Length[dataTable]];
+
+Export[
+  ExpandFileName[
+    FileNameJoin[{DirectoryName[$InputFileName], "..", "data", "fig4_a0_data.json"}]
+  ],
+  dataTable,
+  "JSON"
+];
+
+Print["[+] Export complete: data/fig4_a0_data.json"];

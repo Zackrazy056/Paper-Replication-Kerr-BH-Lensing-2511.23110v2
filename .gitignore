@@ -1,0 +1,14 @@
+﻿.venv/
+.venv-paper-wsl/
+wheelhouse-paper-wsl/
+wheelhouse-test-lalsuite/
+.tmp_table1_paper_wsl.sh
+.tmp_fig6_paper_wsl.sh
+.tmp_fig789_paper_wsl.sh
+__pycache__/
+*.pyc
+results/logs/
+.tmp_*.sh
+tmp_*.wls
+tmp_check_*.json
+tmp_preview_*.png

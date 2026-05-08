@@ -1,0 +1,1270 @@
+
+==================== PAGE 15 ====================
+15
+to each other, in which case the scattered contribution
+arrives within milliseconds of the direct signal, which
+is well inside the duration of typical LIGO event, and
+produces noticeable amplitude and phase modulations.
+To quantify this more concretely, we performed a mis-
+match analysis for a class of source–lens–observer con-
+figurations. These results show that strong-field scatter-
+ing effects could be detectable even with current detec-
+tors for a subset of considered configurations, and the
+improved sensitivity and higher SNR of future obser-
+vatories will only strengthen this prospect. In particu-
+lar, as already discussed in the Sec. I, percentage-level
+mismatches found forθ o = 30 ◦ lie near the detectabil-
+ity threshold of the current ground-based detectors and
+may be observable in sufficiently loud events. Looking
+ahead, next-generation detectors such as ET, CE, and
+LISA will achieve SNRs in the hundreds to thousands, re-
+ducing the detectable mismatch threshold to10−4−10−6.
+In these regimes, the strong-field Kerr-lensing signatures
+predicted here become decisively measurable, opening a
+realistic pathway to probing strong-field wave-optical ef-
+fects in astrophysical environments.
+The present work naturally motivates several future
+directions. Although our formalism applies to arbitrary
+scattering angles, we restricted explicit computations to
+the on-axis configuration for demonstration purposes and
+numerical simplicity. Extending the analysis to off-axis
+scattering could unveil richer spin-induced effects rele-
+vant for realistic astrophysical scenarios. Another im-
+portant step is to incorporate the full chirping waveforms
+with broader frequency content, allowing our framework
+to address a wider variety of astrophysically viable sys-
+tems. Such an effort will additionally enable a faithful
+estimate of lensing-induced biases in parameter estima-
+tion and could reveal subtle degeneracies between lensing
+signatures and intrinsic binary parameters. Ultimately,
+developing surrogate models tailored to Bayesian infer-
+ence would allow strong-field lensing effects to be incor-
+porated directly into GW data analysis pipelines.
+From an observational standpoint, the rapidly growing
+catalogue of LVK events, together with with hints that
+some mergers may occur in AGN disks or hierarchical
+environments, making our study particularly timely. In
+summary, our analysis provides a unified and consistent
+framework for understanding wave-optical lensing in the
+strong-field region of Kerr BHs, setting the stage for re-
+alistic observational applications. As GW astronomy en-
+ters an era of higher sensitivity and richer astrophysical
+contexts, the phenomena investigated here may become
+essential tools for testing general relativity, probing BH
+environments, and mapping the strong-field structure of
+spacetime itself.
+ACKNOWLEDGMENTS
+We thank Uddeepta Deka for helping us perform the
+mismatch analysis and providing valuable feedback. We
+thank Chris Kavanagh and Ajith Parameswaran for use-
+ful comments at many phases of the work. We ex-
+tend our gratitude to Luka Vujeva and Juno Chan for
+carefully reading an earlier draft and providing valu-
+able feedback. We are also thankful to the Astrophys-
+ical Relativity group at ICTS, for many engaging dis-
+cussions and useful feedback. We acknowledge the use
+of IUCAA LDG cluster Sarathi for the computational
+work. The work utilizesMathematica[163] and the
+following software packages:Black Hole Perturbation
+Toolkit[145],Cython[164],FLINT[146],Jupyter
+notebook[165],LALSuite[166],Matplotlib[167],
+NumPy[168],PyCBC[154], andSciPy[158]. The research
+of M.V.S.S is supported by the National Post-Doctoral
+Fellowship (PDF/2025/004764), ANRF, Government of
+India. The research of RG and AM is supported by the
+Department of Atomic Energy, Government of India, un-
+der Project No. RTI4001.
+Appendix A: Spheroidal harmonics decomposition of
+the incident wave
+In this appendix, our goal is to provide a detailed out-
+line for the computation ofeψlm
+P atr→ ∞. We follow
+the approach outlined in Ref. [140]. For this purpose, we
+can use the orthogonality relation of the spheroidal har-
+monics
+R
+dΩ −2Slm(θ, aω)eimϕ −2Sl′m′(θ, aω)e−im′ϕ =
+δll′δmm′, wheredΩis the standard area element on a
+2-sphere. Note also that the spheroidal harmonics are all
+real and hence, we have avoided inserting the complex
+conjugation sign. Thus, we obtain
+eψlm
+P (ω′, r) =
+Z
+dΩ −2Slm(θ, aω′)e−imϕ eψP,(A1)
+where eψP is given by Eq. (7), which can be rewritten as
+eψP =e i(αP cosθ+β P sinθcosϕ)
+2X
+m=−2
+AP
+m(θ, γ)eimϕ.(A2)
+Here, we haveα P = Pω ′rcosγ,β P = Pω ′rsinγ, and
+the10coefficientsA P
+m can be easily identified by pro-
+jecting ontoe −imϕ. Note that the sum runs overm=
+{−2,−1,0,1,2}due to the fact that the maximum pow-
+ers ofcos(ϕ/2)andsin(ϕ/2)in Eq. (6) is4. Then, we
+can rewrite Eq. (A1) as
+eψlm
+P =
+2X
+m′=−2
+Z π
+0
+dθsinθ e iαP cosθ
+−2Slm(θ, aω)AP
+m′(θ, γ)
+×
+Z 2π
+0
+dϕ eiβP sinθcosϕ e−i(m−m′)ϕ,
+= 2π
+m′=2X
+m′=−2
+Z
+eiαP cosθ sinθ dθ i ν Jν(βP sinθ)
+×A P
+m′(θ, γ)−2Slm(θ, aω′),
+(A3)
+
+==================== PAGE 16 ====================
+16
+whereν= (m−m ′)and we have used the Schläfli’s
+integral representation (also known as the Jacobi-Anger
+expansion) of the Bessel function, namely
+iν Jν(z) = 1
+2π
+Z 2π
+0
+dϕ e−i ν ϕ+i zcosϕ (A4)
+withν∈Randz∈C. Now, in the limitω ′r≫1, we
+can approximate the Bessel function as
+Jν(βP sinθ)≈ 1√2πβP sinθ
+
+ei¯θ +e −i¯θ
+
+(A5)
+where ¯θ=β P sinθ−(2ν+1)π/4, providedarg|β P sinθ|<
+π. Then, after some straightforward algebra, one obtains
+eψlm
+P ≈
+r 2π
+βP
+2X
+m′=−2
+Z π
+0
+dθ
+√
+sinθ −2Slm(θ, aω′)A P
+m′(θ, γ)
+×
+h
+−eiPω′rcos(θ−γ) e3iπ/4 + (−1)νeiPω′rcos(θ+γ)e iπ/4i
+.
+(A6)
+Moreover, since in the limitω′r≫1, the above exponen-
+tial functions are highly oscillatory, we can consider the
+SPA
+Z
+R
+dx g(x)e ikf(x) ≈
+X
+x0|f(x 0)=0
+g(x0)e ikf(x 0)
+s
+2π
+k|f ′′(x0)|
+×e (iπ/4) sgn[f′′(x0)] +O(k −1/2).
+(A7)
+Using this formula, we further get
+eψlm
+P ≈ 2πi
+Pω′r
+"
+−eiPω′r
+−2Slm(γ, aω′)
+1 + P
+2
+
++
+(−1)m e−iPω′r
+−2Slm(π−γ, aω ′)
+1−P
+2
+#
+.
+(A8)
+Then, specializing forP =±1, we finally obtain
+eψlm
++ (ω′, r)≈ − 2πi
+ω′r eiω′r
+−2Slm(γ, aω′),
+eψlm
+− (ω′, r)≈(−1) m+1 2πi
+ω′r eiω′r
+−2Slm(π−γ, aω ′).
+(A9)
+Now, we can use Eq. (7) to write down the parity-specific
+frequency-domain modes of the incident wave as
+eψ+(ω′, r, θ, ϕ)≈ − 2πi eiω′r∗
+ω′r
+X
+lm
+Slm(γ, aω′)×
+−2Slm(θ, aω′)e imϕ,
+eψ−(ω′, r, θ, ϕ)≈ 2πi eiω′r∗
+ω′r
+X
+lm
+(−1)m+1 Slm(π−γ, aω ′)
+× −2Slm(θ, aω′)eimϕ.
+(A10)
+Here, we have replacedr→r ∗ in the exponent for the
+reason discussed earlier in the main text. The above re-
+sults are consistent with Ref. [140] for off-axis scattering.
+Appendix B: Derivation of the phase formula
+In this appendix, we derive the phase relation pre-
+sented in Eq.(11). The overall approach can be outlined
+as follows. The Teukolsky scalarψ0 characterizes the in-
+coming component (ψin
+0 ) of the radiation at spatial infin-
+ity, to leading order in1/r, and can be obtained directly
+from the plane wave given in Eq. (2) using a procedure
+analogous to that employed for calculating the outgo-
+ing componentψ out
+4 in the main text. Furthermore, as
+discussed earlier, the subleading termψin
+4 also carries in-
+formation about the incoming radiation. The connection
+between this subleading contribution and the plane-wave
+amplitudes ultimately yields the desired phase formula.
+We use some of the results given in Ref. [140], while cor-
+recting for a few typos.
+(a) Computation ofψ0:For this purpose, we first com-
+pute the asymptotic parity-specific mode expansions of
+ψ0 for the plane waves given by Eq. (2):
+(2ϵ ω 2)−1 ψP
+0 (t, r, θ, ϕ)≈
+−e −iχ+h
+cos
+ ϕ
+2
+
+sin
+ γ−θ
+2
+
+−isin
+ ϕ
+2
+
+sin
+ γ+θ
+2
+i4
+∓Pe iχ−h
+cos
+ ϕ
+2
+
+cos
+ γ−θ
+2
+
+−isin
+ ϕ
+2
+
+cos
+ γ+θ
+2
+i4
+.
+(B1)
+Expanding it in frequency basis using similar conventions
+as forψ 4 in Eq. (5) we get
+ψP
+0 =− ϵ ω2
+4
+Z ∞
+−∞
+dω′ e−iω′teψP
+0 (ω′, r, θ, ϕ),(B2)
+where to match with the expression in Eq. (B1),
+we need eψP
+0 (ω′, r, θ, ϕ) = eψ′
++(ω′, r, θ, ϕ)δ(ω−ω ′) +
+Peψ′
+−(ω′, r, θ, ϕ)δ(ω+ω ′)with the shorthands
+eψ′
++(ω′, r, θ, ϕ)≈8e iω′r(cosγcosθ+sinγsinθcosϕ) ×
+h
+cos
+ ϕ
+2
+
+sin
+ γ−θ
+2
+
+−isin
+ ϕ
+2
+
+sin
+ γ+θ
+2
+i4
+,
+eψ′
+−(ω′, r, θ, ϕ)≈8e −iω′r(cosγcosθ+sinγsinθcosϕ) ×
+h
+cos
+ ϕ
+2
+
+cos
+ γ−θ
+2
+
+−isin
+ ϕ
+2
+
+cos
+ γ+θ
+2
+i4
+,
+(B3)
+We can now further decomposeeψ′
+P in spheroidal harmon-
+ics, but this time with spin weights= +2, as
+˜ψ′
+P =
+X
+lm
+eψ′lm
+P 2Slm(θ, aω′)e imϕ
+=⇒ eψ′lm
+P =
+Z
+dΩeψ′
+P 2Slm(θ, aω′)e−imϕ.(B4)
+
+==================== PAGE 17 ====================
+17
+Now, followingthesimilarcomputationsasdemonstrated
+in Appendix-A, and obtain
+eψ′lm
++ (ω′, r)≈(−1) m 8πi
+ω′r e−iω′r
+2Slm(π−γ, aω ′),
+eψ′lm
+− (ω′, r)≈ 8πi
+ω′r e−iω′r
+2Slm(γ, aω′).
+(B5)
+Now, using Eq. (B2), we can rewrite the ingoing part of
+ψ0 by adding the specific-parity modes in the following
+suggestive form
+ψin
+0 ≈ −ϵ ω2
+4
+Z ∞
+−∞
+dω′X
+Plm
+K ′in
+lmP(ω′) e−iω′(t+r∗)
+ω′r
+× 2Slm(θ, aω′)e imϕ,
+(B6)
+whereK ′in
+lmP = bψ′lm
++ (ω′)δ(ω ′ −ω) + P bψ′lm
+− (ω′)δ(ω ′ +ω)
+with bψ′lm
+P (ω′) = eψ′lm
+P ω′r eiω′r∗.
+(b) Obtainingψ in
+4 fromψ in
+0 :Now that we have found
+the leading piece ofψ in
+0 , we can apply the follow-
+ing Teukolsky-Starobinsky identity in the Geroch-Held-
+Penrose (GHP) notation [140] as
+þ4ζ4ψ4 =ð ′4ζ4ψ0 −3ML t ¯ψ0,(B7)
+whereζ=r−iacosθ, þ=ℓ µ∂µ in Kinnersley tetrad,
+ð′ = ¯mµ∂µ +pβ ′ −q ¯βwithβ= cotθ/(2
+√
+2 ¯ζ),β ′ =
+[rcotθ−iasinθ(csc 2 θ+ 1)]/(2
+√
+2ζ), and{p, q}are the
+GHP weights of the function being acted upon by the op-
+erator (hereð). Specifically, the GHP weights ofψ0 and
+ζare{4,0}and{0,0}, respectively. When two functions
+are multiplied, their GHP weights are added. Finally,Lt
+is the Lie-derivative with respect to the time-like killing
+vector. Sinceψ 0 is a scalar function, and we have aligned
+our time-like direction with(∂t)α,L t is simply the time-
+derivative.
+Let us now evaluate both sides of the above identity
+for the following asymptoticω′lm-mode expansion ofψ4:
+ζ4 ψ4 ≈ϵ
+Z
+dω′X
+lm
+e−iω′t+imϕ
+−2Slm(θ, aω′)×
+h
+r3 B(refl)
+lmω′ eiω′r +B (inc)
+lmω′
+e−iω′r
+r
+i
+.
+(B8)
+Then, the left hand side of Eq. (B7), for the choice of
+tetrads given by Eq. (3), asymptotically reduces (in lead-
+ing contribution) to
+(∂t +∂ r)4ζ4ψ4 ≈16ϵ
+X
+lm
+Z
+dω′ ω′4 r−1B(inc)
+lmω′ e−iω′(t+r)
+× −2Slm(θ, aω′)eimϕ.(B9)
+Notethattheleadingpiece(outgoing)ofψ 4 isannihilated
+by þ4. Now, on the right hand side of Eq. (B7), the first
+term can be evaluated by using the relation [140]
+ð′4ζ4
+2Slm(θ, aω)e imϕ = 1
+4 ℜ(C) −2Slm(θ, aω)e imϕ,
+(B10)
+where the Teukolsky-Starobinsky constantCwas intro-
+duced earlier in Eq. (11). Note that the operatorð′ only
+involves angular derivatives as the tetrad vectormhas
+no time-like or radial components far away from the BH.
+Hence, one can straightforwardly apply the above result
+on Eq. (B6).
+Finally, we have−3ML t ¯ψ0 =−3M(d ¯ψ0/dt), where
+¯ψ0 can be obtained by taking the complex conjugation of
+Eq. (B6). This can be further simplified to
+− 3iM ω2
+4 ϵ
+X
+Plm
+Z
+dω′ (−1)l K ′in
+lmP(ω′) e−iω′(t+r)
+r
+−2Slm(θ, aω′)eimϕ
+by first switching the dummy variablesω′ → −ω ′ and
+m→ −m, and then applying the identitysSlm(θ, aω) =
+(−1)m+s−sSl−m(θ,−aω). Moreover, we have used
+¯K ′in
+l−mP (−ω′) = (−1)l+m+1PK ′in
+lmP(ω′), which follows eas-
+ily from the definition ofK′in
+lmP given below Eq. (B6).
+Now, collecting all parts of the Teukolsky-Starobinsky
+identity together, we get the relation betweenB(inc)
+lmω′ and
+K ′in
+lmP(ω′)as
+B(inc)
+lmω′ =− ω2
+4
+X
+P
+h ℜ(C) + 12iM ω′ P(−1)l
+16ω′5
+i
+Kin
+lmP(ω′),
+(B11)
+where we have usedKin
+lmP(ω′) =K ′in
+lmP(ω′)/4for future
+reference. Note also that the above expression has a
+relative(−1) l compared to the expression in Ref. [114],
+which is due to the different convention of parity
+operators being used.
+(c) Obtaining the phase formulae:We can now rewrite
+the asymptotic form of the incidentψ4 given by Eq. (B8)
+with parity modes separated and including the sublead-
+ing (ingoing) term as well:
+ζ4
+r4 ψPW
+4 ≈ −ϵ ω2
+4
+Z ∞
+−∞
+dω′
+−2Slm(θ, aω′)e imϕ×
+X
+Plm
+"
+Kout
+lmP(ω′) e−iω′(t−r∗)
+ω′r + ℜ(C) + 12iM ω′ P(−1)l
+16(ω′)4r4
+×K in
+lmP(ω′) e−iω′(t+r∗)
+ω′r
+#
+,
+(B12)
+where we have used Eq. (B11) and identifiedB refl in
+terms ofK out.
+Finally, to define the phase, we need to understand
+the relationship connecting the in-out coefficients, as
+given below Eq. (9) and Eq. (B6), for the case of in-
+cident and scattered plane waves. It can be easily
+verified that for the incident plane wave, we have the
+relationK out
+lmP(ω′) = (−1) l+1 Kin
+lmP(ω′). However, as
+discussed earlier, scattering produces a relative phase
+
+==================== PAGE 18 ====================
+18
+shift in the outgoing part of the wave. This suggests
+the above relation should be modified asK out
+lmP(ω′) =
+(−1)l+1 ηP
+lm exp(2iδP
+lm)K in
+lmP(ω′)after scattering. Thus,
+we have
+ηP
+lme2iδP
+lm(ω′) = (−1)l+1 ℜ(C) + 12iM ω′ P(−1)l
+16ω′4
+B(refl)
+lmω′
+B(inc)
+lmω′
+(B13)
+as used in the main text. Note that the ratio ofB′sin the
+right hand side of the above expression is independent of
+parity, and can be computed using the MST approach.
+Appendix C: Two resummation techniques
+In this appendix, we briefly describe two resumma-
+tion techniques, namely the Cesàro-αsummation and se-
+ries reduction procedure, used to resum the multipolar
+(l) spheroidal-harmonic expansion of a series, especially
+while reconstructing a plane wave from partial waves.
+When such a reconstruction is done from a truncated set
+of multipolar modes, i.e.,l∈[0, l max], the straightfor-
+ward sum typically fails to converge and usually show
+unphysical oscillations about the true value. This is a
+well-know difficulty in partial-wave analysis, where the
+following techniques can provide a controlled way to ex-
+tract the physically meaningful sum.
+(a) Cesàro-αsummation:Let us first discuss the
+methodology behind the Cesàro-αsum [143]. Given a
+sequence of terms{al}to be summed, the seriesP∞
+l=0 al
+is said to be Cesàro-αsummable to a value ofSif the fol-
+lowing series of weighted-terms (equivalently, of averaged
+partial sums) converges:
+C α[al] :=
+lmaxX
+l=0
+ lmax
+l
+
+ lmax+α
+l
+ al − − − − − − →
+lmax→∞
+S,(C1)
+for someα >−1. Forα= 0, this reduces to the ordinary
+sum. Whereas larger values ofαusually apply stronger
+smoothening by suppressing oscillations in the ordinary
+sum. In practice, however, one keeps on increase the
+value ofαunless a numerically stable sum [i.e., when
+the relative error between Cesàro-αand Cesàro-(α+ 1)
+sum drops below a prefixed threshold] of the underlying
+truncated (atl max) series is attained.
+Although largerαvalues usually regularize the sum
+better, care must be taken when applying it on such trun-
+cated series. Choosing too large a value ofαcan over-
+suppress the high-lcontributions that could be physically
+important. In such cases, the resummed result may de-
+viate from the correct value due to artificially induced
+smoothening/distortion effects. Hence, it is always best
+practice to start from lower values, sayα= 2, and then
+gradually increasing it to higher values, sayα= 5, while
+keeping track of the relative error in the subsequent in-
+crease inα.
+One should, however, keep in mind that Cesàro sum-
+mation is essentially a numerical regularization scheme.
+Thus, in a given physical problem (e.g., BH scattering),
+some other methods like series reduction, which we shall
+discuss next, can work better if they factor out the known
+physical divergence(s) of the underlying sum for achiev-
+ing a better convergence property.
+C0 1 2 5
+SR2 g
+0 10 20 30 40 50 60 70
+0.001
+0.010
+0.100
+1
+10
+100
+lmax
+|Amplitudes|
+FIG. 10. Plots showing the absolute amplitudes|f(γ=
+0, θo =ϕ o =π/6)|and|g(γ= 0, θ o =ϕ o =π/6)|for the
+spinless case (a= 0) atM ω= 0.5, resummed using series re-
+duction of order 2, and Cesàro summation forα={0,1,2,5}.
+The x-axis showslmax which sets the limit for summation over
+lin Eqs. (12). Note thatg, the helicity-reversing amplitude,
+smoothly converges asl max is increased. However, the raw
+result forf, i.e.,(C 0) (shown by the dotted-red line) is highly
+oscillatory and does not converge aslmax is increased. How-
+ever, upon doing series reduction of order2(SR2) or Cesàro
+summation(C 0,C 1,C 2,C 5), itshowsmuchbetterconvergece
+properties for largelmax.
+(b) Series reduction:In series reduction, one analyt-
+ically captures its divergent behaviour at some param-
+eter location(s) by properly factoring them out, leaving
+behind a well defined convergent sum. In the scatter-
+ing problem, it turns out that the helicity-preserving
+scattering amplitudef(γ, θ o, ϕo)requires series reduc-
+tion, whereas the helicity-reversing scattering amplitude
+g(γ, θo, ϕo), does not. This follows from the fact that
+fis divergent whenθ o =γ, whereasgis regular there.
+This can be seen even from the leading-order analytical
+expressions for the scattering amplitudes [136].
+Thus, to perform series reduction, we first write
+fas an expansion in spin-weighted spherical har-
+monics. As shown in Eq. (12),fis naturally ex-
+pressed as an expansion in spin-weighted spheroidal
+harmonics. However, spin-weighted spheroidal har-
+monics further admit an expansion in spin weighted
+spherical harmonics (as any other regular function
+defined on a 2-sphere). This expansion can be
+found using the matrix method implemented in the
+SpinWeightedSpheroidalHarmonicspackage of the
+Black Hole Perturbation Toolkit[145].
+
+==================== PAGE 19 ====================
+19
+Thus, we have an expansion of the form
+f(γ, θ o, ϕo) =
+X
+lm
+Flm−2 Ylm(θo, ϕo).(C2)
+As a demonstration, we show series reduction for the on-
+axis case, whereγ= 0, albeit the principles remain sim-
+ilar. In this case, the above function is divergent for
+θo = 0. Note that one can always perform a rotation
+so the divergence is centred at 0. Thus, we rewrite the
+function as
+f(0, θ o, ϕo) =
+ˆf(θ o, ϕo)
+(1−cosθ o)k , ˆf=
+X
+lm
+ˆFlm−2 Ylm(θo, ϕo).
+(C3)
+For a suitable value ofk(referred to as the order of series
+reduction), the function ˆf(θ o, ϕo)is expected to have a
+well-defined convergent spherical expansion. For the spe-
+cific problem of interest [114], orderk= 2appears to be
+a good choice.
+To proceed further, we need to compute the coefficients
+ˆFlm, in terms of the knowns, i.e., the coefficientsFlm. It
+is sufficient to solve the problem fork= 1, as one can
+then just iterate as required to obtain the relation for any
+k∈Z +. We thus write
+ˆFlm =
+Z
+dθo sinθ o
+Z
+dϕo ˆf −2Y ∗
+lm
+=
+X
+l′m′
+Fl′m′
+Z
+dθo sinθ o
+Z
+dϕo−2 Yl′m′×(C4)
+−2Y ∗
+lm(1−cosθ o).
+This can be evaluated analytically using the Wigner-
+3j symbols. It is clear from angular-momentum con-
+siderations that there can be a non-zero value only for
+l={l ′, l′ + 1, l′ −1}andm ′ =m. Specifically, we have
+ˆFlm =F lm
+
+1− 2m
+l(l+ 1)
+
+− Al
+l+ 1 Fl+1,m − Bl
+l Fl−1,m,
+Al =
+s
+(l−1)(l+ 3)(l−m+ 1)(l+m+ 1)
+4l(l+ 2) + 3 ,(C5)
+Bl =
+r
+(l2 −4)(l 2 −m 2)
+4l2 −1 .(C6)
+The above relation lets us generate the list of the reduced
+series ˆFlm. Doing it twice yields the result fork= 2. The
+reduced series is found to converge much faster. In this
+work, we compute the coefficients up tol= 70.
+Asademonstration, weshowforparticularcase(a= 0,
+M ω= 0.5,γ= 0,θ o =ϕ o =π/6) in Fig. 10 how the
+amplitudes (fandg) obtained directly via computation
+compares with that obtained either via series reduction
+(at k=2), and Cesàro summation (forα= 1,2,3,5.).
+Note that all methods succeed in smoothening the data
+and giving a convergent result forfandgasl max is in-
+creased. However, increasingαdoes not cause the series-
+reduction result and Cesàro summation results to agree
+with each other. For example, in Fig. 10, Cesàro sum-
+mation withα= 5(solid pink) disagrees more with the
+result obtained via series-reduction technique than the
+correspondingα= 2(solid orange) case.
+Appendix D: Computing correction to waveform in
+frequency domain
+In the main text, we have already shown (via SFSF)
+how a monochromatic-plane wave is affected by a Kerr
+BH lens. Here, we generalize this to the case where the
+plane wave is instead a superposition of frequencies, as
+expected from realistic GW signals that evolve in time.
+It is simplest to work in the frequency domain. We again
+restrict to the case where the lens experiences purely pos-
+itive helicity GW radiation, for simplicity. It is straight-
+forward to generalize this, following the discussion below
+Eq. (18), in cases where the incident wave is a linear
+combination of both helicities.
+The frequency-domain waveform at the lens location
+in the(+,×)-basis can be easily obtained using the soft-
+ware packagePyCBCand is related to the time-domain
+waveform via a Fourier transform. If the time-domain
+waveform is schematically given by
+hµν
+wave(t, ⃗ r) =h+(t−r, ⃗ r)ηµν
++ +h ×(t−r, r)η µν
+× ,(D1)
+whereη µν
++,× are the basis polarization tensors. We define
+the frequency domain waveforms as
+h+,×(ν, ⃗ r) =
+Z ∞
+−∞
+h+,×(u, ⃗ r)e2iπνu du,(D2)
+whereu=t−ris the retarded time. It is convenient
+to write them ash+(ν) =A +eiψ+ andh ×(ν) =A ×eiψ×.
+We can invert these relations as
+hµν
+wave(u, ⃗ r) =
+Z ∞
+−∞
+dν
+2π e−2πiνu 
+h+(ν, ⃗ r)ηµν
++ + (+↔ ×)
+
+= 2ℜ
+Z ∞
+0
+dν
+2π e−2πiνu 
+h+(ν, ⃗ r)ηµν
++ + (+↔ ×)
+
+(D3)
+Now, in the special case whereA + =A ×, andψ × =
+π/2 +ψ +. We have
+hµν
+wave(u, ⃗ r) = 2ℜ
+Z ∞
+0
+dν
+2π e−2πiνu A+eiψ+
+
+ηµν
++ +iη µν
+×
+
+.
+(D4)
+Now, using the relationεµ
++εν
++ =η µν
++ +iη µν
+× , whereε µ
++εν
++
+is the polarization tensor for a positive helicity wave, de-
+fined in the main text. We see, thus, that a purely posi-
+tive helicity GW perturbation, conveniently rewritten as
+hµν
+wave(u, ⃗ r) = 2ℜ
+Z ∞
+0
+dν
+2π e−2πiνu A+eiψ+ εµ
++εν
++
+
+= 2ℜ
+Z ∞
+0
+dν
+2π e−2πiνu h+(ν, ⃗ r)εµ
++εν
++
+ (D5)
+
+==================== PAGE 20 ====================
+20
+In the main text, we showed in Eq. (17) that for
+a monochromatic plane-wave with positive helicity, i.e,
+whenh +(ν >0, ⃗ r) =πδ(ν−ν 0) =ih ×(ν >0), the+and
+×polarizations in the scattered wave are simply given by
+hSW
++ (u, ⃗ rLO) =ℜ
+ f+g
+rLO
+e−i2πν0u
+
+,
+hSW
+× (u, ⃗ rLO) =−ℑ
+ f−g
+rLO
+e−i2πν0u
+
+.
+(D6)
+In the frequency domain, these can be rewritten as
+hSW
++ (ν >0) = π
+rLO
+(f+g)δ(ν−ν 0)
+hSW
+× (ν >0) = iπ
+rLO
+(f−g)δ(ν−ν 0).
+(D7)
+To generalize them for arbitraryh+(ν >0), we simply
+rewrite them as
+hSW
++ (ν >0) = 1
+rLO
+(f+g)h +(ν >0)
+hSW
+× (ν >0) = 1
+rLO
+(f−g)h ×(ν >0).
+(D8)
+Finally, before adding the scattered wave to the direct
+wave from the source to observer, we need to account for
+the time-delay between them. The direct wave travels
+roughly along the straight line from source to observer,
+whereasthescatteredwavefirstreachesthelens, andsub-
+sequently makes its way to the observer. Thus, the time-
+delay is given by∆t=rLO+rSL −rSO ≈r SL[1−cosθ o] =
+2rSL sin2(θo/2), wherewehaveusedr SL ≪r SO ∼r LO. In
+the frequency domain, this time-delay can be taken into
+account simply through a relative phase before adding
+the two contributions as
+hobs
++ (ν >0) =h dir
++ (ν >0) +e 2iπν∆t hSW
++ (ν >0),
+hobs
+× (ν >0) =h dir
+× (ν >0) +e 2iπν∆t hSW
+× (ν >0).
+(D9)
+The direct waveform,h dir
++,× can also be computed with
+ease usingPyCBC. This concludes the derivation.
+[1] J. C. L. Chan, C. Dyson, M. Garcia, J. Redondo-
+Yuste, and L. Vujeva, Phys. Rev. D112, 064009 (2025),
+arXiv:2502.14073 [gr-qc].
+[2] B. P. Abbottet al.(LIGO Scientific, Virgo), Phys. Rev. Lett.
+116, 061102 (2016), arXiv:1602.03837 [gr-qc].
+[3] J. Aasiet al.(LIGO Scientific), Class. Quant. Grav.32,
+074001 (2015), arXiv:1411.4547 [gr-qc].
+[4] F. Acerneseet al.(VIRGO), Class. Quant. Grav.32, 024001
+(2015), arXiv:1408.3978 [gr-qc].
+[5] B. P. Abbottet al.(LIGO Scientific, Virgo), Phys. Rev. X9,
+031040 (2019), arXiv:1811.12907 [astro-ph.HE].
+[6] R. Abbottet al.(LIGO Scientific, Virgo), Phys. Rev. X11,
+021053 (2021), arXiv:2010.14527 [gr-qc].
+[7] R. Abbottet al.(LIGO Scientific, VIRGO), Phys. Rev. D
+109, 022001 (2024), arXiv:2108.01045 [gr-qc].
+[8] R. Abbottet al.(KAGRA, VIRGO, LIGO Scientific), Phys.
+Rev. X13, 041039 (2023), arXiv:2111.03606 [gr-qc].
+[9] A. G. Abacet al.(LIGO Scientific, VIRGO, KAGRA),
+arXiv:2508.18082 (2025), arXiv:2508.18082 [gr-qc].
+[10] B. P. Abbottet al.(LIGO Scientific, Virgo), Phys. Rev. Lett.
+116, 221101 (2016), [Erratum: Phys.Rev.Lett. 121, 129902
+(2018)], arXiv:1602.03841 [gr-qc].
+[11] B. P. Abbottet al.(LIGO Scientific, Virgo, Fermi-
+GBM, INTEGRAL), Astrophys. J. Lett.848, L13 (2017),
+arXiv:1710.05834 [astro-ph.HE].
+[12] B. P. Abbottet al.(LIGO Scientific, Virgo), Phys. Rev. D
+100, 104036 (2019), arXiv:1903.04467 [gr-qc].
+[13] R. Abbottet al.(LIGO Scientific, VIRGO, KAGRA),
+arXiv:2112.06861 (2021), arXiv:2112.06861 [gr-qc].
+[14] arXiv:2509.08099 (2025), arXiv:2509.08099 [gr-qc].
+[15] H. Siegel, N. M. Khusid, M. Isi, and W. M. Farr,
+arXiv:2511.02691 (2025), arXiv:2511.02691 [gr-qc].
+[16] R. Abbottet al.(LIGO Scientific, Virgo), Astrophys. J. Lett.
+913, L7 (2021), arXiv:2010.14533 [astro-ph.HE].
+[17] R. Abbottet al.(KAGRA, VIRGO, LIGO Scientific), Phys.
+Rev. X13, 011048 (2023), arXiv:2111.03634 [astro-ph.HE].
+[18] A. G. Abacet al.(LIGO Scientific, VIRGO, KAGRA),
+arXiv:2508.18083 (2025), arXiv:2508.18083 [astro-ph.HE].
+[19] A. K. Mehta, A. Buonanno, J. Gair, M. C. Miller, E. Farag,
+R. J. deBoer, M. Wiescher, and F. X. Timmes, Astrophys. J.
+924, 39 (2022), arXiv:2105.06366 [gr-qc].
+[20] M. Zevin, M. Spera, C. P. L. Berry, and V. Kalogera, As-
+trophys. J. Lett.899, L1 (2020), arXiv:2006.14573 [astro-
+ph.HE].
+[21] B. Edelman, Z. Doctor, and B. Farr, The Astrophysical Jour-
+nal Letters913, L23 (2021).
+[22] G. Pierra, S. Mastrogiovanni, and S. Perriès, Astron. Astro-
+phys.692, A80 (2024), arXiv:2406.01679 [gr-qc].
+[23] D. Chattopadhyay, S. Stevenson, F. Broekgaarden, F. An-
+tonini, and K. Belczynski, Mon. Not. Roy. Astron. Soc.513,
+5780 (2022), arXiv:2203.05850 [astro-ph.HE].
+[24] Y. Qinet al., Astron. Astrophys.691, L19 (2024),
+arXiv:2409.14476 [astro-ph.HE].
+[25] G.-P. Li, Astron. Astrophys.666, A194 (2022),
+arXiv:2208.11894 [astro-ph.HE].
+[26] H. Tagawa, Z. Haiman, I. Bartos, B. Kocsis, and
+K. Omukai, Mon. Not. Roy. Astron. Soc.507, 3362 (2021),
+arXiv:2104.09510 [astro-ph.HE].
+[27] K.Somiya(KAGRA),Class.Quant.Grav.29,124007(2012),
+arXiv:1111.7185 [gr-qc].
+[28] Y. Aso, Y. Michimura, K. Somiya, M. Ando, O. Miyakawa,
+T. Sekiguchi, D. Tatsumi, and H. Yamamoto (KAGRA),
+Phys. Rev. D88, 043007 (2013), arXiv:1306.6747 [gr-qc].
+[29] T. Akutsuet al.(KAGRA), Nature Astron.3, 35 (2019),
+arXiv:1811.08079 [gr-qc].
+[30] T. Akutsuet al.(KAGRA), PTEP2021, 05A101 (2021),
+arXiv:2005.05574 [physics.ins-det].
+[31] B. Iyer, T. Souradeep, C. Unnikrishnan, S. Dhurandhar,
+S. Raja, and A. Sengupta, LIGO-India Tech. rep. (2011).
+[32] C. S. Unnikrishnan, Int. J. Mod. Phys. D22, 1341010 (2013),
+arXiv:1510.06059 [physics.ins-det].
+[33] P. Ajithet al., J. Astrophys. Astron.46, 6 (2025),
+arXiv:2501.04333 [astro-ph.IM].
+[34] M. Punturoet al., Class. Quant. Grav.27, 194002 (2010).
+
+==================== PAGE 21 ====================
+21
+[35] S. Hildet al., Class. Quant. Grav.28, 094013 (2011),
+arXiv:1012.0908 [gr-qc].
+[36] D. Reitzeet al., Bull. Am. Astron. Soc.51, 035 (2019),
+arXiv:1907.04833 [astro-ph.IM].
+[37] B. P. Abbottet al.(LIGO Scientific), Class. Quant. Grav.
+34, 044001 (2017), arXiv:1607.08697 [astro-ph.IM].
+[38] T. Regimbau, M. Evans, N. Christensen, E. Katsavouni-
+dis, B. Sathyaprakash, and S. Vitale, Phys. Rev. Lett.118,
+151105 (2017), arXiv:1611.08943 [astro-ph.CO].
+[39] P. Amaro-Seoaneet al., arXiv:1702.00786 (2017),
+arXiv:1702.00786 [astro-ph.IM].
+[40] A. Einstein, Science84, 506 (1936).
+[41] F. Zwicky, Phys. Rev.51, 290 (1937).
+[42] P. Schneider, J. Ehlers, and E. E. Falco,Gravitational Lenses
+(1992).
+[43] J. K. Lawrence, Nuovo Cimento B Serie6B, 225 (1971).
+[44] H. C. Ohanian, Int. J. Theor. Phys.9, 425 (1974).
+[45] F. Bernardeau, arXiv:astro-ph/9901117 (1999), arXiv:astro-
+ph/9901117.
+[46] R. Takahashi, Astrophys. J.835, 103 (2017),
+arXiv:1606.00458 [astro-ph.CO].
+[47] L. Dai and T. Venumadhav, arXiv:1702,04724 (2017),
+arXiv:1702.04724 [gr-qc].
+[48] G. P. Smithet al., IAU Symp.338, 98 (2017),
+arXiv:1803.07851 [astro-ph.CO].
+[49] K. Liao, X.-L. Fan, X.-H. Ding, M. Biesiada, and Z.-H. Zhu,
+Nature Commun.8, 1148 (2017), [Erratum: Nature Com-
+mun. 8, 2136 (2017)], arXiv:1703.04151 [astro-ph.CO].
+[50] K. Haris, A. K. Mehta, S. Kumar, T. Venumadhav, and
+P. Ajith, arXiv:1807.07062 (2018), arXiv:1807.07062 [gr-qc].
+[51] S.-S. Li, S. Mao, Y. Zhao, and Y. Lu, Mon. Not. Roy. Astron.
+Soc.476, 2220 (2018), arXiv:1802.05089 [astro-ph.CO].
+[52] T. Broadhurst, J. M. Diego, and G. Smoot, arXiv:1802.05273
+(2018), arXiv:1802.05273 [astro-ph.CO].
+[53] T. Broadhurst, J. M. Diego, and G. F. Smoot,
+arXiv:1901.03190 (2019), arXiv:1901.03190 [astro-ph.CO].
+[54] T. Broadhurst, J. M. Diego, and G. F. Smoot,
+arXiv:2006.13219 (2020), arXiv:2006.13219 [astro-ph.CO].
+[55] L. Dai, B. Zackay, T. Venumadhav, J. Roulet, and M. Zal-
+darriaga, arXiv:2007.12709 (2020), arXiv:2007.12709 [astro-
+ph.HE].
+[56] J. M. Ezquiaga, D. E. Holz, W. Hu, M. Lagos, and R. M.
+Wald, Phys. Rev. D103, 064047 (2021), arXiv:2008.12814
+[gr-qc].
+[57] M. Çalışkan, J. M. Ezquiaga, O. A. Hannuksela, and D. E.
+Holz, Phys. Rev. D107, 063023 (2023), arXiv:2201.04619
+[astro-ph.CO].
+[58] A. Vijaykumar, A. K. Mehta, and A. Ganguly, Phys. Rev. D
+108, 043036 (2023), arXiv:2202.06334 [gr-qc].
+[59] A. Barsode, S. Goyal, and P. Ajith, Astrophys. J.980, 258
+(2025), arXiv:2412.01278 [gr-qc].
+[60] S. Deguchi and W. D. Watson, Astrophys. J.307, 30 (1986).
+[61] T. T. Nakamura, Phys. Rev. Lett.80, 1138 (1998).
+[62] T. T. Nakamura and S. Deguchi, Prog. Theor. Phys. Suppl.
+133, 137 (1999).
+[63] R. Takahashi and T. T. Nakamura, Astrophys. J.595, 1039
+(2003), arXiv:astro-ph/0305055 [astro-ph].
+[64] S. Jung and C. S. Shin, Phys. Rev. Lett.122, 041103 (2019),
+arXiv:1712.01396 [astro-ph.CO].
+[65] X. Shan, C. Wei, and B. Hu, Mon. Not. Roy. Astron. Soc.
+508, 1253 (2021), arXiv:2012.08381 [astro-ph.CO].
+[66] A. Mishra, A. K. Meena, A. More, S. Bose, and J. S.
+Bagla, Mon. Not. Roy. Astron. Soc.508, 4869 (2021),
+arXiv:2102.03946 [astro-ph.CO].
+[67] P. Cremonese, J. M. Ezquiaga, and V. Salzano, Phys. Rev. D
+104, 023503 (2021), arXiv:2104.07055 [astro-ph.CO].
+[68] P. Cremonese, D. F. Mota, and V. Salzano, Annalen Phys.
+535, 2300040 (2023), arXiv:2111.01163 [astro-ph.CO].
+[69] A. K. Meena, A. Mishra, A. More, S. Bose, and J. S.
+Bagla, Mon. Not. Roy. Astron. Soc.517, 872 (2022),
+arXiv:2205.05409 [astro-ph.GA].
+[70] X. Shan, X. Chen, B. Hu, and R.-G. Cai, arXiv:2301.06117
+(2023), arXiv:2301.06117 [astro-ph.IM].
+[71] A. Mishra, A. K. Meena, A. More, and S. Bose, Mon. Not.
+Roy. Astron. Soc.531, 764 (2024), arXiv:2306.11479 [astro-
+ph.CO].
+[72] A. Mishra, N. V. Krishnendu, and A. Ganguly, Phys. Rev. D
+110, 084009 (2024), arXiv:2311.08446 [gr-qc].
+[73] A. Liu and K. Kim, Phys. Rev. D110, 123008 (2024),
+arXiv:2301.07253 [gr-qc].
+[74] A. Liu, R. S. Chandramouli, O. A. Hannuksela, N. Yunes,
+and T. G. F. Li, Phys. Rev. D112, 064043 (2025),
+arXiv:2410.21738 [gr-qc].
+[75] R. K. L. Lo, L. Vujeva, J. M. Ezquiaga, and J. C. L. Chan,
+Phys. Rev. Lett.134, 151401 (2025), arXiv:2407.17547 [gr-
+qc].
+[76] J. M. Ezquiaga, R. K. L. Lo, and L. Vujeva, Phys. Rev. D
+112, 043544 (2025), arXiv:2503.22648 [gr-qc].
+[77] N. Rao, A. Mishra, A. Ganguly, and A. More,
+arXiv:2510.17787 (2025), arXiv:2510.17787 [gr-qc].
+[78] M. Çalışkan, L. Ji, R. Cotesta, E. Berti, M. Kamionkowski,
+and S. Marsat, Phys. Rev. D107, 043029 (2023),
+arXiv:2206.02803 [astro-ph.CO].
+[79] M. Pijnenburg, G. Cusin, C. Pitrou, and J.-P. Uzan, Phys.
+Rev. D110, 044054 (2024), arXiv:2404.07186 [gr-qc].
+[80] K. S. Virbhadra and G. F. R. Ellis, Phys. Rev. D62, 084003
+(2000), arXiv:astro-ph/9904193.
+[81] V. Bozza, Phys. Rev. D66, 103001 (2002), arXiv:gr-
+qc/0208075.
+[82] J. Kumar, S. Ul Islam, and S. G. Ghosh, The Astrophysical
+Journal938, 104 (2022).
+[83] K. Akiyamaet al.(Event Horizon Telescope), Astrophys. J.
+Lett.875, L1 (2019), arXiv:1906.11238 [astro-ph.GA].
+[84] K. Akiyamaet al.(Event Horizon Telescope), Astrophys. J.
+Lett.930, L12 (2022), arXiv:2311.08680 [astro-ph.HE].
+[85] R. Bondarescu, H. Ubach, O. Bulashenko, and A. P. Lund-
+gren, Phys. Rev. D108, 084033 (2023), arXiv:2211.13604 [gr-
+qc].
+[86] C. Baraldo, A. Hosoya, and T. T. Nakamura, Phys. Rev. D
+59, 083001 (1999).
+[87] M. Biesiada and S. Harikumar, Universe7, 502 (2021),
+arXiv:2111.05963 [gr-qc].
+[88] C. Dalang, G. Cusin, and M. Lagos, Phys. Rev. D105,
+024005 (2022), arXiv:2104.10119 [gr-qc].
+[89] G. Tambalo, M. Zumalacárregui, L. Dai, and M. H.-Y. Che-
+ung, Phys. Rev. D108, 043527 (2023), arXiv:2210.05658 [gr-
+qc].
+[90] S. Harikumar, L. Järv, M. Saal, A. Wojnar, and M. Biesiada,
+Phys. Rev. D109, 124014 (2024), arXiv:2312.09908 [gr-qc].
+[91] C. Leung, D. Jow, P. Saha, L. Dai, M. Oguri, and L. V. E.
+Koopmans, Space Sci. Rev.221, 29 (2025), arXiv:2304.01202
+[astro-ph.HE].
+[92] U. Deka, S. Chakraborty, S. J. Kapadia, M. A. Shaikh, and
+P. Ajith, Phys. Rev. D111, 064028 (2025), arXiv:2401.06553
+[gr-qc].
+[93] X. Shan, G. Li, X. Chen, W. Zheng, and W. Zhao, Sci. China
+Phys. Mech. Astron.66, 239511 (2023), arXiv:2208.13566
+[astro-ph.CO].
+[94] A. Liu, I. C. F. Wong, S. H. W. Leong, A. More, O. A.
+Hannuksela, and T. G. F. Li, Mon. Not. Roy. Astron. Soc.
+525, 4149 (2023), arXiv:2302.09870 [gr-qc].
+[95] H. Villarrubia-Rojo, S. Savastano, M. Zumalacárregui,
+L. Choi, S. Goyal, L. Dai, and G. Tambalo, Phys. Rev. D
+111, 103539 (2025), arXiv:2409.04606 [gr-qc].
+[96] U. Deka, G. Prabhu, M. A. Shaikh, S. J. Kapadia,
+V. Varma, and S. E. Field, Phys. Rev. D111, 104042 (2025),
+arXiv:2501.02974 [gr-qc].
+[97] L. Vujeva, J. M. Ezquiaga, D. Gilman, S. Goyal, and M. Zu-
+malacárregui, arXiv (2025), 2510.14953 [astro-ph.CO].
+[98] L. Vujeva, J. M. Ezquiaga, R. K. L. Lo, and J. C. L. Chan,
+
+==================== PAGE 22 ====================
+22
+Phys. Rev. D112, 063044 (2025), arXiv:2501.02096 [astro-
+ph.CO].
+[99] O. Bulashenko, N. Villanueva, R. B. Nerin, and J. A. Font,
+arXiv (2025), 2510.20442 [gr-qc].
+[100] R. P. Kerr, Phys. Rev. Lett.11, 237 (1963).
+[101] J. M. Bardeen, W. H. Press, and S. A. Teukolsky, The As-
+trophysical Journal178, 347 (1972).
+[102] C. W. Misner, K. S. Thorne, and J. A. Wheeler,Gravitation
+(W. H. Freeman, San Francisco, 1973).
+[103] A. Farooqui, N. Kamran, and P. Panangaden, Adv. Theor.
+Math. Phys.18, 659 (2014), arXiv:1306.6292 [math-ph].
+[104] Z.Gelles, E.Himwich, D.C.M.Palumbo,andM.D.Johnson,
+Phys. Rev. D104, 044060 (2021), arXiv:2105.09440 [gr-qc].
+[105] V. P. Frolov and A. Koek, Phys. Rev. D111, 104081 (2025),
+arXiv:2503.19208 [gr-qc].
+[106] V. Bozza, F. De Luca, G. Scarpetta, and M. Sereno, Phys.
+Rev. D72, 083003 (2005), arXiv:gr-qc/0507137.
+[107] M. Sereno and F. De Luca, Phys. Rev. D74, 123009 (2006),
+arXiv:astro-ph/0609435.
+[108] M. Sereno and F. De Luca, Phys. Rev. D78, 023008 (2008),
+arXiv:0710.5923 [astro-ph].
+[109] S. A. Teukolsky, Phys. Rev. Lett.29, 1114 (1972).
+[110] S. A. Teukolsky and W. H. Press, Astrophys. J.193, 443
+(1974).
+[111] J. A. H. Futterman, F. A. Handler, and R. A. Matzner,
+SCATTERING FROM BLACK HOLES, Cambridge Mono-
+graphs on Mathematical Physics (Cambridge University
+Press, 2012).
+[112] K. Glampedakis and N. Andersson, Class. Quant. Grav.18,
+1939 (2001), arXiv:gr-qc/0102100.
+[113] S.R.Dolan,Phys.Rev.D77,044004(2008),arXiv:0710.4252
+[gr-qc].
+[114] S. R. Dolan, Class. Quant. Grav.25, 235002 (2008),
+arXiv:0801.3805 [gr-qc].
+[115] K.-i. Kubota, S. Arai, H. Motohashi, and S. Mukohyama,
+Phys. Rev. D110, 124011 (2024), arXiv:2408.03289 [gr-qc].
+[116] L. C. S. Leite, C. L. Benone, and L. C. B. Crispino, Phys.
+Rev. D96, 044043 (2017), arXiv:1708.03370 [gr-qc].
+[117] L. Lindblom, B. J. Owen, and D. A. Brown, Phys. Rev. D
+78, 124020 (2008), arXiv:0809.3844 [gr-qc].
+[118] T. Damour, A. Nagar, and M. Trias, Phys. Rev. D83, 024006
+(2011), arXiv:1009.5998 [gr-qc].
+[119] N. Cornish, L. Sampson, N. Yunes, and F. Pretorius, Phys.
+Rev. D84, 062003 (2011), arXiv:1105.2088 [gr-qc].
+[120] J. E. Thompson, C. Hoy, E. Fauchon-Jones, and M. Hannam,
+Phys. Rev. D112, 064011 (2025), arXiv:2506.10530 [gr-qc].
+[121] C. L. Rodriguez and A. Loeb, Astrophys. J. Lett.866, L5
+(2018), arXiv:1809.01152 [astro-ph.HE].
+[122] F. Antonini and M. Gieles, Phys. Rev. D102, 123016 (2020),
+arXiv:2009.01861 [astro-ph.HE].
+[123] H. Ubach, M. Gieles, and J. Miralda-Escudé, Phys. Rev. D
+112, 083026 (2025), arXiv:2505.04794 [astro-ph.HE].
+[124] B. McKernan, K. E. S. Ford, W. Lyra, and H. B. Perets,
+MNRAS425, 460 (2012), arXiv:1206.2309 [astro-ph.GA].
+[125] H. Tagawa, Z. Haiman, and B. Kocsis, Astrophys. J.898, 25
+(2020), arXiv:1912.08218 [astro-ph.GA].
+[126] B. Mckernanet al., Astrophys. J.866, 66 (2018),
+arXiv:1702.07818 [astro-ph.HE].
+[127] M. Gröbner, W. Ishibashi, S. Tiwari, M. Haney, and P. Jet-
+zer, Astron. Astrophys.638, A119 (2020), arXiv:2005.03571
+[astro-ph.GA].
+[128] J. S. Santos, V. Cardoso, J. Natário, and M. van de Meent,
+Phys. Rev. Lett.135, 211402 (2025), arXiv:2506.14868 [gr-
+qc].
+[129] F. Antonini, N. Murray, and S. Mikkola, Astrophys. J.781,
+45 (2014), arXiv:1308.3674 [astro-ph.HE].
+[130] K. Silsbee and S. Tremaine, Astrophys. J.836, 39 (2017),
+arXiv:1608.07642 [astro-ph.HE].
+[131] G. Fragione and A. Loeb, Mon. Not. Roy. Astron. Soc.486,
+4443 (2019), arXiv:1903.10511 [astro-ph.GA].
+[132] B. Liu and D. Lai, Mon. Not. Roy. Astron. Soc.502, 2049
+(2021), arXiv:2009.10068 [astro-ph.HE].
+[133] M. J. Grahamet al., Phys. Rev. Lett.124, 251102 (2020),
+arXiv:2006.14122 [astro-ph.HE].
+[134] S. L. Morton, S. Rinaldi, A. Torres-Orjuela, A. Derdzinski,
+M. P. Vaccaro, and W. Del Pozzo, Phys. Rev. D108, 123039
+(2023), arXiv:2310.16025 [gr-qc].
+[135] S. H. W. Leong, J. Janquart, A. K. Sharma, P. Martens,
+P. Ajith, and O. A. Hannuksela, Astrophys. J. Lett.979,
+L27 (2025), arXiv:2408.13144 [astro-ph.HE].
+[136] M. V. S. Saketh and J. Vines, Phys. Rev. D106, 124026
+(2022), arXiv:2208.03170 [gr-qc].
+[137] T. Regge and J. A. Wheeler, Phys. Rev.108, 1063 (1957).
+[138] F. J. Zerilli, Phys. Rev. Lett.24, 737 (1970).
+[139] S. A. Teukolsky, Phys. Rev. Lett.29, 1114 (1972).
+[140] Y. F. Bautista, A. Guevara, C. Kavanagh, and J. Vines,
+JHEP05, 211, arXiv:2212.07965 [hep-th].
+[141] S. Mano, H. Suzuki, and E. Takasugi, Progress of Theoretical
+Physics96, 549 (1996).
+[142] M. Shuhei and T. Eiichi, Progress of Theoretical Physics97,
+213 (1997).
+[143] G. Hardy,Divergent Series, AMS Chelsea Publishing (Amer-
+ican Mathematical Society, 2024).
+[144] D. R. Yennie, D. G. Ravenhall, and R. N. Wilson, Phys. Rev.
+95, 500 (1954).
+[145] Black Hole Perturbation Toolkit, (bhptoolkit.org).
+[146] F. Johansson, IEEE Transactions on Computers66, 1281
+(2017).
+[147] S. V. Dhurandhar and B. S. Sathyaprakash, Phys. Rev. D49,
+1707 (1994).
+[148] B. Allen, W. G. Anderson, P. R. Brady, D. A. Brown, and
+J. D. E. Creighton, Phys. Rev. D85, 122006 (2012), arXiv:gr-
+qc/0509116.
+[149] S. A. Usmanet al., Class. Quant. Grav.33, 215004 (2016),
+arXiv:1508.02357 [gr-qc].
+[150] L. S. Finn and D. F. Chernoff, Phys. Rev. D47, 2198 (1993),
+arXiv:gr-qc/9301003.
+[151] C. Cutler and E. E. Flanagan, Phys. Rev. D49, 2658 (1994),
+arXiv:gr-qc/9402014.
+[152] E. E. Flanagan and S. A. Hughes, Phys. Rev. D57, 4566
+(1998), arXiv:gr-qc/9710129.
+[153] E. E. Flanagan and S. A. Hughes, Phys. Rev. D57, 4535
+(1998), arXiv:gr-qc/9701039.
+[154] A. Nitzet al., Pycbc software,https://github.com/
+gwastro/pycbc(2024).
+[155] S. Khan, S. Husa, M. Hannam, F. Ohme, M. Pürrer, X. J.
+Forteza, and A. Bohé, Phys. Rev. D93, 044007 (2016).
+[156] S. Husa, S. Khan, M. Hannam, M. Pürrer, F. Ohme,
+X. Jiménez Forteza, and A. Bohé, Phys. Rev. D93, 044006
+(2016), arXiv:1508.07250 [gr-qc].
+[157] J. A. Nelder and R. Mead, Comput. J.7, 308 (1965).
+[158] P. Virtanenet al., Nature Meth.17, 261 (2020),
+arXiv:1907.10121 [cs.MS].
+[159] P. Ajith, N. Fotopoulos, S. Privitera, A. Neunzert, and A. J.
+Weinstein, Phys. Rev. D89, 084041 (2014), arXiv:1210.6666
+[gr-qc].
+[160] W. Del Pozzo, K. Grover, I. Mandel, and A. Vecchio, Class.
+Quant. Grav.31, 205006 (2014), arXiv:1408.2356 [gr-qc].
+[161] H. Jeffreys,The Theory of Probability, Oxford Classic Texts
+in the Physical Sciences (1939).
+[162] M. Carrillo Gonzalez, V. De Luca, A. Garoffolo, J. Parra-
+Martinez, and M. Trodden, arXiv:2511.15797 (2025),
+arXiv:2511.15797 [hep-th].
+[163] Wolfram research, inc. mathematica, Version 13.2, cham-
+paign, IL, 2022.
+[164] S. Behnel, R. Bradshaw, C. Citro, L. Dalcin, D. S. Seljebotn,
+and K. Smith, Computing in Science & Engineering13, 31
+(2011).
+[165] T.Kluyveret al.,inPositioning and Power in Academic Pub-
+lishing: Players, Agents and Agendas, edited by F. Loizides
+
+==================== PAGE 23 ====================
+23
+and B. Schmidt (IOS Press, 2016) pp. 87 – 90.
+[166] LIGO Scientific Collaboration, LALSuite: LIGO Scientific
+Collaboration Algorithm Library Suite, Astrophysics Source
+Code Library, record ascl:2012.021 (2020), ascl:2012.021.
+[167] J. D. Hunter, Computing in Science & Engineering9, 90
+(2007).
+[168] C. R. Harriset al., Nature585, 357 (2020), arXiv:2006.10256
+[cs.MS].

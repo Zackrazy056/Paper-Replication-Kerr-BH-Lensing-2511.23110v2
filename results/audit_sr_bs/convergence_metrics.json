@@ -1,0 +1,50 @@
+{
+  "metrics_vs_ref": {
+    "base_N20_S80": {
+      "max_rel_to_ref": 5.122729669152097,
+      "p95_rel_to_ref": 0.7178240590899095,
+      "mean_rel_to_ref": 0.2243504084594237
+    },
+    "N40_S80": {
+      "max_rel_to_ref": 5.122729669152097,
+      "p95_rel_to_ref": 0.7178240590899095,
+      "mean_rel_to_ref": 0.2243504084594237
+    },
+    "N20_S160": {
+      "max_rel_to_ref": 0.0,
+      "p95_rel_to_ref": 0.0,
+      "mean_rel_to_ref": 0.0
+    },
+    "N40_S160": {
+      "max_rel_to_ref": 0.0,
+      "p95_rel_to_ref": 0.0,
+      "mean_rel_to_ref": 0.0
+    }
+  },
+  "scan": {
+    "numterms_change_S80": {
+      "max": 0.0,
+      "p95": 0.0,
+      "mean": 0.0
+    },
+    "numterms_change_S160": {
+      "max": 0.0,
+      "p95": 0.0,
+      "mean": 0.0
+    },
+    "grid_change_N20": {
+      "max": 5.122729669152097,
+      "p95": 0.7178240590899095,
+      "mean": 0.2243504084594237
+    },
+    "grid_change_N40": {
+      "max": 5.122729669152097,
+      "p95": 0.7178240590899095,
+      "mean": 0.2243504084594237
+    },
+    "trend_checks": {
+      "numterms_stabilizes": false,
+      "grid_stabilizes": false
+    }
+  }
+}

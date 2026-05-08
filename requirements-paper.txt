@@ -1,0 +1,4 @@
+-r requirements.txt
+scipy>=1.13
+pycbc>=2.11
+lalsuite>=7.26

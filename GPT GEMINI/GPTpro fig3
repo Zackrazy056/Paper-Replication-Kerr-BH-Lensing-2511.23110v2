@@ -1,0 +1,562 @@
+我按“论文 Appendix C 的理论公式（尤其是 C2–C6）→ 你脚本的实现”做了逐项对照。整体工作流（spheroidal 模态求 (f(\theta)) → 投影到 spherical basis 得到 (F_{Lm}) → series reduction 得到 (\hat F_{Lm}) → 再除以 ((1-\cos\theta)^k) 重建 (f)）在概念层面是对的，而且你也正确区分了：需要 SR 的是 helicity-preserving 振幅 (f)，而不是 (g)。
+
+但是：你现在这份脚本里有一个“结构性硬错误”，会直接把 SR 的数学关系做错，结果数值即便看起来“能跑”，物理上也不可信。另外还有一个很可能导致“你以为在复现 Fig.3，其实参数不一致”的问题。下面我把结论、原因、修复建议、以及你应该怎么做自洽验证讲清楚。
+
+一、最关键的硬错误：ReduceOnce 实现与 Appendix C 的 SR 递推公式不一致（会严重错）
+
+你写的 `ReduceOnce` 显然是在实现 Appendix C 的一次降阶（(k=1)）递推，也就是论文里的（我用你脚本的符号）：
+
+[
+\hat F_{l m}
+============
+
+F_{l m}\Big(1-\frac{2m}{l(l+1)}\Big)
+-\frac{A_l}{l+1}F_{l+1,m}
+-\frac{B_l}{l}F_{l-1,m},
+]
+其中
+[
+A_l=\sqrt{\frac{(l-1)(l+3)(l-m+1)(l+m+1)}{4l(l+2)+3}},\qquad
+B_l=\sqrt{\frac{(l^2-4)(l^2-m^2)}{4l^2-1}}.
+]
+
+对照你的代码：
+
+* 你把 (A_l) 和 (B_l) 写成了“分子/分母”，但没有开平方；也就是说你实际用的是 (A_l^2)、(B_l^2) 的量级。
+* 你还漏掉了递推里至关重要的除法因子 ((l+1)) 和 (l)（即 (\frac{A_l}{l+1})、(\frac{B_l}{l}) 这两个系数你没有实现）。
+
+这不是一个“小系数差一点”的问题：在大 (l) 极限下，
+
+* 正确的 (\frac{A_l}{l+1}\sim O(1))，(\frac{B_l}{l}\sim O(1))，它们不会随 (l) 发散；
+* 你当前用的 (A_l^2\sim O(l^2))，(B_l^2\sim O(l^2))，会把高 (l) 项系数人为放大到完全不对的量级，SR 反而会“制造爆炸/伪振荡”。
+
+这会直接破坏 Fig.3 所依赖的“SR2 让 (f) 收敛更快、更平滑”的核心效果。也就是说：如果你现在得到的曲线“看起来还行”，那更可能是误差在别处被抵消了，而不是 SR 做对了。
+
+你应该把 `ReduceOnce` 改成下面这种（仍然是你现在的 Association keyed by l 的风格，且固定适用于 (s=-2) 的公式）：
+
+```mathematica
+ReduceOnce[coeff_Association, m_:2] := Module[
+  {lVals, lMin, lMax, out, fl, fp, fm, termDiag, Al, Bl},
+  lVals = Sort[Keys[coeff]];
+  If[Length[lVals] == 0, Return[<||>]];
+  lMin = Min[lVals]; lMax = Max[lVals];
+  out = <||>;
+
+  Do[
+    fl = Lookup[coeff, l, 0];
+    fp = Lookup[coeff, l + 1, 0];   (* truncation: assume missing higher l -> 0 *)
+    fm = Lookup[coeff, l - 1, 0];   (* for l=2 this is F_{1m}=0 anyway *)
+
+    termDiag = 1 - (2 m)/(l (l + 1));
+
+    Al = Sqrt[
+      ((l - 1) (l + 3) (l - m + 1) (l + m + 1)) / (4 l (l + 2) + 3)
+    ];
+    Bl = Sqrt[
+      ((l^2 - 4) (l^2 - m^2)) / (4 l^2 - 1)
+    ];
+
+    out[l] = termDiag fl - (Al/(l + 1)) fp - (Bl/l) fm;
+    ,
+    {l, lMin, lMax}
+  ];
+
+  out
+];
+```
+
+关于边界处理你现在还有一个额外问题：你原版代码对 `l == lMax` 直接 `Continue[]`，等于每做一次 reduction 你就把最高的 (l) 模式“硬砍掉一个”。这在 SR 里不是必然要这么做的；更合理的方式是像我上面这样把 `fp` 视为 0（等价于假设截断尾项为零），这样输出仍然覆盖到 `lMax`。在高 (l) 尾部已经很小、且你做了 `lBasisPad` 的情况下，这个处理通常比“直接丢掉顶端模式”更稳定、也更贴近递推的结构。
+
+二、第二个高风险点：你的 Fig.3 参数组合里把 (\omega) 写成 0.5，但论文 Fig.3 是 0.6（至少在你给的这版 PDF 中）
+
+你脚本默认：
+
+```mathematica
+defaultComboTargets = {
+  {0.0, 0.5},
+  {0.0, 2.0},
+  {0.99, 0.5},
+  {0.99, 2.0}
+};
+```
+
+但你给的论文版本里，Fig.3 的低频面板标注是 (M\omega = 0.6)，不是 0.5（而 Appendix C 的示例 Fig.10/文字确实用的是 (M\omega=0.5)）。这会导致两种典型错误场景：
+
+1）如果你的数据文件 `fig3_data.json` 真的是按 Fig.3 生成的（含 0.6），那你脚本会把 `comboKeys` 过滤空，最终“没算到你以为要算的那组”；你可能只看到了 `[skip]` 或者干脆 rows=0，但没注意到根因是 key 不匹配。
+
+2）如果你的数据文件就是 0.5（更像 Appendix C 示例），那你脚本算出来的东西也许能对上 Fig.10 的行为，但你把它叫“Fig.3 data generation”就会产生概念混淆：你并没有严格复现论文 Fig.3 的参数。
+
+严格复现 Fig.3（以你这版 PDF 为准）的话，建议把 0.5 改成 0.6，或者至少让 `defaultComboTargets` 同时包含 0.5 和 0.6，并在输出里把真实的 `omega` 写入并检查。
+
+三、你投影到 spherical basis 的方法“能用但不够严谨”的地方，以及我建议的更稳健替代
+
+你现在用的是：在 (\theta) 网格上采样 (f(\theta, \phi=0))，然后对 ({}*{-2}Y*{Lm}(\theta,0)) 做加权最小二乘拟合，权重用 (\sqrt{\sin\theta}) 来模拟球面积分的内积。
+
+这个方法从数值分析角度不是错的，但它有三个隐患：
+
+1）你其实不需要解一个病态的最小二乘问题
+因为 spherical harmonics 在球面上正交归一，你要的本质是“正交投影”的系数。对固定 (m) 的情形，完全可以直接用数值积分/求积来算：
+[
+F_{Lm} = \int f(\theta,\phi), {}*{-2}Y*{Lm}^*(\theta,\phi), d\Omega
+= 2\pi\int_0^\pi f(\theta,0),{}*{-2}Y*{Lm}^*(\theta,0),\sin\theta, d\theta.
+]
+这比 LS 更稳健，不会出现你现在还要靠 `SingularValueList` 去筛掉 `cond > 1e18` 的情况（而且“cond 不太大”不等于“投影系数就是对的”，它只说明线性代数上没完全崩）。
+
+2）你的 `lBasisPad` 与 `spheroidalNumTerms` 之间可能不自洽
+你用 `SpinWeightedSpheroidalHarmonicS[..., Method -> {"SphericalExpansion","NumTerms"->40}]` 生成 spheroidal 值，本身就是通过 spherical expansion 截断得到的近似。然后你又用一个只到 `lBasisMax = lModeMax + 16` 的 spherical basis 去拟合它。这里存在“双重截断”的耦合风险：你最终的 `fitResidual` 可能很小，但那可能只是因为你在“用截断的 spheroidal 去拟合截断的 spherical”，而不是因为真实的（无限模态）投影收敛了。
+
+严格做法是：至少做一次收敛性扫描，确认当你把 `spheroidalNumTerms` 从 40 提到 60/80、把 `lBasisPad` 从 16 提到 30/50 时，你的最终 (f_{\mathrm{SR}}(\theta))（或最后要画的 (d\sigma/d\Omega)）在目标角域（40°–180°）内变化足够小。
+
+3）采样点选在 `Subdivide[0,Pi,...]` 含端点，虽然你用 (\sin\theta) 权重压低了端点影响，但端点仍可能引入高 (L) 基函数的数值噪声
+特别是自旋权重 (-2) 的 harmonics 在端点附近的数值评估有时会出现舍入误差放大的问题（不同实现/规范会有差异）。这不是必然出错，但如果你追求“严格审核”，建议把 full-grid 改成“避开端点”的 Gauss–Legendre 节点（对 (\cos\theta)）更合适。
+
+四、你 SR 重建公式目前只适用于 on-axis（(\gamma=0)）或已旋转把发散点移到 (\theta=0) 的情形
+
+你现在的 SR 分母是 ((1-\cos\theta)^{k_{\rm SR}})。这正是 Appendix C 里 on-axis 的写法（发散在 (\theta=0)）。这点在 Fig.3 复现是对的。
+
+但如果你将来把这个脚本“顺手拿去做 off-axis（(\gamma\neq 0)）”，那就会错得很隐蔽：真实的发散位置在 (\theta=\gamma)（更准确说是观测方向与入射方向的夹角为 0 的位置），需要先做旋转把发散点搬到极点，或者把因子写成与两方向夹角有关的 ((1-\cos\Theta)^{k})，其中 (\cos\Theta=\cos\theta\cos\gamma+\sin\theta\sin\gamma\cos(\phi-\phi_{\rm inc}))。你当前代码完全没有处理这件事，所以它“严格上”只应标注为 on-axis SR pipeline。
+
+五、我建议你做的“最小严格自证”测试（不做这些，你很难说服自己结果可靠）
+
+你要的是“严格审核”，那就不仅是修 bug，还要有可复现的正确性证据。下面这四个测试是成本最低、说服力最高的：
+
+1）对 `ReduceOnce` 做单位测试（强烈建议）
+随便取一个纯模态 (f(\theta,\phi) = {}*{-2}Y*{L_0 m}(\theta,\phi))。你可以数值计算 (\hat f = (1-\cos\theta) f)，然后用正交投影算出 (\hat F_{Lm}) 的数值结果；再用 `ReduceOnce` 的解析递推从 (F_{Lm}) 生成 (\hat F_{Lm})，两者应当一致到数值误差。这能直接验证你实现的就是论文 C5/C6，而不是“看起来像”。
+
+2）做 SR 阶数一致性检查
+对同一组 ((a,\omega))，用 (k=1) 与 (k=2) 分别重建 (f(\theta))。理论上 (k=2) 应更平滑、对 (l_{\max}) 更不敏感。你可以固定一个角度（比如 (\theta=60^\circ, 120^\circ)）画出 (f(\theta; l_{\max})) 随 (l_{\max}) 的收敛曲线：SR2 应明显更快趋稳。
+
+3）截断与数值参数的收敛扫描
+至少扫这三个：`lBasisPad`（16→30→50），`spheroidalNumTerms`（40→60→80），`nFullThetaSteps`（400→800）。检查最终输出（比如 (|f|^2) 或你最终要的 (d\sigma/d\Omega)）在 40°–180° 的最大相对变化是否足够小。否则你现在的结果可能只是某个截断配置的偶然产物。
+
+4）对照 Schwarzschild 已知结果（a=0）
+Fig.3 本身就提供了 sanity check：a=0 情形你应当能复现文中趋势，并且 SR 与 Cesàro 的差异应当类似论文描述。若你修正 SR 递推后反而“更不像论文”，那通常说明你别处还有规范/归一化/参数取值不一致（例如 (\omega) 用了 0.5 vs 0.6，或者你的数据文件 `Re_C、B_ratio、S_0` 的定义与论文不一致）。
+
+总结一下你这份脚本当前的严格结论：工作流思路正确，但 `ReduceOnce` 的系数实现与论文 Appendix C 的 SR 公式不一致（缺平方根、缺 (1/(l+1)) 与 (1/l)），这是决定性错误，必须先修正；其次要确认你所谓“Fig.3”到底对应 (\omega=0.6) 还是 0.5，否则你可能在复现不同图（Fig.3 vs Appendix 示例）却没意识到。
+
+如果你愿意把你生成出来的 `fig3_sr_spherical.json`（修正前和修正后各一份）里某一组 ((a,\omega)) 的 `f_sr_re/im` 发我一小段（比如 (\theta=40,60,90,120,150,180) 的值），我可以进一步帮你做“数值行为层面”的一致性诊断：它是否呈现出 SR 应有的收敛/平滑特征，以及是否仍然存在 truncation artefact。
+
+
+
+很好，你已经把最致命的那一处（ReduceOnce）修到和 Appendix-C 的 Eq.(C5)–(C6) 结构一致了：你现在同时做到了
+
+1）(A_l,B_l) 用了平方根；2）在耦合到 (l\pm1) 时带了 (1/(l+1))、(1/l)；3）顶端 (l=l_{\max}) 不参与 reduction（避免缺失 (F_{l+1}) 尾项造成污染）。
+
+这三点是 SR 是否“真对齐 Appendix-C”的必要条件。下面我按“逐段审计”的方式，继续把你这份 Mathematica 生成器里仍然可能造成数值偏差或逻辑不一致的点全部列出来，并给出你可以用来“证明正确”的最小验证流程（不用额外数据，不靠主观判断）。
+
+---
+
+你现在的 ReduceOnce 是否严格等价于 Appendix-C？
+
+你的实现：
+
+* `termDiag = 1 - (2 m)/(l (l + 1));`
+* `aL = Sqrt[aNum/aDen]`
+* `bL = Sqrt[bNum/bDen]`
+* `out[l] = termDiag fl - (aL/(l + 1)) fp - (bL/l) fm;`
+
+这和 Appendix-C 的 Eq.(C5)-(C6) 一一对应（对照点：(A_l) 乘 (F_{l+1,m}) 且除 (l+1)，(B_l) 乘 (F_{l-1,m}) 且除 (l)）。形式上已经对齐。
+
+唯一一个我会提醒你“别无意中改坏”的细节：你这里的 `aNum>=0` / `bNum>=0` 保护是安全的（对 (l\ge2,m=2) 本来就应当非负），所以它不会改变真实物理系数，只是防止异常输入导致复数平方根。
+
+结论：**ReduceOnce 这一段现在通过。**
+
+---
+
+球基投影（LeastSquares）链路：逻辑正确，但有 3 个高风险数值点要你确认
+
+你要做的是：把在 spheroidal basis 上的
+[
+f(\theta)=\sum_l c_l,{}*{-2}S*{l2}(\theta,a\omega)
+]
+投影到 spherical basis
+[
+f(\theta)=\sum_L F_L,{}*{-2}Y*{L2}(\theta,\phi{=}0)
+]
+然后对 (F_L) 做 SR，最后再除 ((1-\cos\theta)^k) 得到 (f_{\rm SR}(\theta))。
+
+这条链路在方法论上是对的，但要注意下面三点会直接影响数值稳定性与可重复性。
+
+1）full grid 包含 (\theta=0,\pi)
+`fullThetaRadList = Subdivide[0, Pi, nFullThetaSteps]` 包含端点。你用权重 `sqrt(max(sin θ, 1e-30))` 把端点权重压得非常小，这确实能缓解极点病态；但极点处 spin-weighted spheroidal/spherical 的数值评估本身仍可能出现 “0×∞” 的数值不定式（取决于你调用的实现细节）。
+
+建议你做一个非常简单的自检：在 full grid 上检查每个 (l) 的 `fullSThetaAssoc[l][[i]]` 是否出现异常大值（比如超过 (10^{40}) 这种数量级），以及是否出现 `Indeterminate` 被你 Quiet 吃掉变成空表的情况。你现在只检查 Length 是否对齐，但不检查内容幅度是否异常。
+
+2）LeastSquares 的设计矩阵是复数矩阵
+`SpinWeightedSphericalHarmonicY` 返回一般是复数。Mathematica 的 `LeastSquares` 能处理复数，但你后续用 `SingularValueList[fullYFitMatW]` 来估 condition number 时，要确认 `SingularValueList` 在你版本下对复矩阵返回的是对的（一般没问题）。如果你发现 condition number 在某些组合下突然极大，第一怀疑不是物理，而是 basis 线性相关/权重选择导致的数值病态。
+
+你已经设了阈值 `>1e18` 就 skip，这对批处理是合理的，但要知道：这会产生“某些 (a,ω) 根本没有 SR 预计算曲线”的结构性缺洞，后续 Python 会 fallback 到 legacy SR（而 legacy SR 在 (a\omega\sim O(1)) 处正是你不想用的）。
+
+3）sol 的索引与你的 L 范围
+你构造 `fullYFitMat` 的列是 `{L,2,lBasisMax}`，列数 = `lBasisMax-1`，所以 `sol[[L-1]]` 的映射是正确的（L=2 对应 sol[[1]]）。这点没错，但它非常脆弱：任何人把 L 下限改成 0/1 都会立刻错位。建议你加一行 assert：
+
+* `If[Length[sol] != lBasisMax - 1, Print[...] ; Return[Nothing]]`
+
+这能避免 silent wrong result。
+
+---
+
+关于 prefactor、括号项与数据字段：你生成 f_sr 用的是 Eq.(12) 的 f，没问题
+
+你这段：
+
+* `pref = (2 Pi)/(I w)`
+* `bracket = (-1)^(l+1) (ReC/(16 w^4)) B - 1`
+* `coeffA[l] = pref * S0 * bracket`
+
+等价于 Eq.(12) 里 (f) 的定义（只取 m=2，且你这里生成的是 “(\gamma=0)” 的轴上散射用的 (S_{lm}(\gamma)\equiv S_0) 因子）。这与 Fig.3 的设定一致：on-axis m-sum 坍缩为 m=2，(\phi) 只剩整体相位，不影响截面曲线。
+
+所以 **prefactor/括号项这块通过**。
+
+---
+
+你这份生成器现在最大的“残余风险”是什么？
+
+不是 SR，而是“你生成的 SR 曲线是否真的在你关心角域改善了收敛、且能和直接模态和 Cesàro 给出一致的截面”。
+
+也就是说，你现在应该把审计从“形式正确”推进到“数值行为正确”。最少做两类验证：
+
+验证 A：重建一致性（projection 误差）
+对每个 (a,ω)：
+
+1）在 full grid 上，用 `sol` 重建 `f_fit = fullYFitMat . sol`；
+2）比较 `fullFFitVec` 与 `f_fit` 的相对误差（你已经算了 `fitResidual`）。
+
+要求：`fitResidual` 应当随着 `lBasisPad` 增大而下降，并在合理范围内稳定（比如 (10^{-10}\sim10^{-6}) 量级，具体取决于你 spheroidal expansion 的 NumTerms 和采样点数）。
+
+验证 B：SR 后的小角行为“可控”
+虽然你输出的 `thetaDegList` 从 40° 开始避开了最尖锐的 forward divergence，但 SR 的核心价值仍应当体现在：
+
+* 把同一个 (f(\theta)) 用 “未 SR 的 spherical sum” 与 “SR 后除 ((1-\cos\theta)^k)” 比较，在较小角（比如你 full grid 里 5°–20°）应当明显减少 Gibbs/振荡并更接近高 (l_{\max}) 的参考值。
+
+你现在不输出小于 40° 的最终曲线，这没问题（Fig.3 可能只画 40°–180°），但**为了自证 SR 正确**，你最好内部临时加一个更小角的 `thetaDegList_test` 做一致性检查，不一定写入 JSON。
+
+---
+
+最关键的跨语言一致性提醒：Python 端你必须同步修掉 “用 Re_C 过滤 g” 的错误
+
+你现在这份 Mathematica 生成器只生成 (f_{\rm SR}(\theta))（没有 (g)）。而你的 Python 引擎会用这个预计算 (f_{\rm SR}) 叠加一个模态求和的 (g) 来算 (d\sigma/d\Omega)。
+
+但你的 Python 先前版本里有一个会把 (g) 也误删的逻辑：用 `if abs(Re_C)<...: continue` 过滤整个 l 模态。请你务必确认你已经把它改成：
+
+* (f) 可按 `Re_C` 判断是否可算；
+* (g) 不能因为 `Re_C` 小就跳过，因为 Eq.(12) 的 (g) 根本不依赖 (\Re(C))。
+
+否则你 Mathematica 这边再正确，最终截面也会被 Python 端系统性压低（尤其在 backscattering 角域）。
+
+---
+
+一句话结论
+
+你现在这份 Mathematica 生成器在“Appendix-C aligned SR 的关键公式实现”上已经修正到位；接下来要严格保证数值正确性，你需要做两件事：一是为球基投影增加更强的数值 sanity check（不仅检查长度，还检查极点/幅度/sol 长度一致性），二是确认 Python 端对 (g) 的模态求和没有被 `Re_C` 条件误删。
+
+如果你把你 Python 端“修过后的版本”也贴一下（尤其是那几个 continue 条件），我可以把两边的链路做一次端到端的审计清单，确保 Fig.3 所需的四组 (a,ω) 在同一套数据上能同时通过：direct sum、Cesàro、SR 三种方法的交叉一致性。
+
+
+
+
+我按“它应该实现论文哪一条公式/哪一个数值流程”来逐段对照你的 Mathematica 生成器和 Python 引擎。整体结论先给出来：你在 Mathematica 里实现 Appendix C 的 series reduction 核心递推（你叫 `ReduceOnce`）时，系数写错了（缺少平方根、也缺少 (1/(l+1)) 与 (1/l) 的因子），这会直接把你生成的 `fig3_sr_spherical.json` 里的 (f_{\rm SR}(\theta)) 曲线搞偏；而你 Python 里的 `_series_reduce_once` 反而是对的（和论文 Eq.(C5)–(C6) 一致）。此外，你 Python 里对 (g) 的复共轭处理对“散射截面 (|f|^2+|g|^2)”不会造成数值错误，但若你后续要用 (f,g) 的复相位去构造波形/偏振混合，就会出现相位/符号约定不一致的问题。
+
+下面是严格对照与逐项“通过/不通过”的审计。
+
+一、你这套 Fig.3（on-axis）要实现的数学对象是什么
+
+论文的 on-axis（(\gamma=0)）散射把 Eq.(12) 的 (m)-和压缩到 (m=2)（文中明确说 ({}*{-2}S*{lm}(\gamma=0,a\omega)) 只在 (m=2) 非零，从而 (m)-sum collapse）。你代码里固定 `mIndex=2` 这一步是对的，前提是你确实只做 (\gamma=0)（Fig.3 就是这个案例）。
+
+Fig.3 的纵轴是差分散射截面（对 on-axis 情形最终不依赖 (\phi)），用
+[
+\frac{d\sigma}{d\Omega}(\theta)=|f(0,\theta,\phi)|^2+|g(0,\theta,\phi)|^2,
+]
+并且在 Appendix C 里强调：需要 series reduction 的是 helicity-preserving 振幅 (f)，而 (g) 在 (\theta=\gamma) 处是正则的，通常不必做 reduction。
+
+series reduction 的关键递推就是论文 Eq.(C5)–(C6)：它是对把 (f) 展开到 spin-weighted spherical harmonic 基底后的系数 (F_{lm}) 做一次“吸收一个 ((1-\cos\theta))”的变换，核心系数含平方根，并且对 (F_{l+1,m}) 与 (F_{l-1,m}) 分别带 (1/(l+1)) 与 (1/l)。
+
+二、Mathematica 生成器：逐段审计
+
+(1) 从 JSON 读入 ((a,\omega,l)) 的模态数据并构造“模态系数”
+
+你构造
+
+* `pref = (2 Pi)/(I w)`，
+* `bracket = (-1)^(l+1) (ReC/(16 w^4)) B - 1`，
+* `coeffA[l] = pref * S0 * bracket`，
+
+然后 (f(\theta)\approx \sum_l \text{coeffA}[l]; {}*{-2}S*{l2}(\theta,a\omega))（你用 `fullFFitVec` 实现）。
+
+这块与 Eq.(12) 第一行对 (f) 的定义是一致的（on-axis 下 (m=2)，(\phi=0) 时 (e^{im\phi}=1)），属于“通过”。
+
+(2) “spheroidal → spherical”的投影方法：你用的是加权最小二乘（LS）
+
+论文 Appendix C 说要把 (f) 写成 spherical 基底并得到
+[
+f(\theta,\phi)=\sum_{lm}F_{lm};{}*{-2}Y*{lm}(\theta,\phi),
+]
+并提到可用 BHPT 工具包的矩阵法（spheroidal 展开到 spherical）。
+
+你这里没有直接用“矩阵法的显式 mixing 系数”，而是：
+
+* 在 (\phi=0) 的一条子午线上，用很多 (\theta) 采样点，
+* 用权重 (\sqrt{\sin\theta}) 做 LS，拟合出 (F_{L,2})（你叫 `fCoeff`）。
+
+这在 on-axis、单一 (m) 的场景下是“原则上可行的”，因为目标函数和基函数都携带同一个 (e^{im\phi})，固定 (\phi=0) 并不会丢掉系数信息；权重 (\sqrt{\sin\theta}) 对应最小化 (\int \sin\theta,|,\cdot,|^2 d\theta) 的离散近似，也符合球面积分的测度。这个部分我判定为“方法上可以接受，但它是数值拟合而不是解析正交投影，所以需要用残差和稳定性测试自证”。你已经输出了 `fit_residual` 和 `fit_condition`，这是正确方向。
+
+这里我建议你增加两条硬性自检（否则 LS 方案很难称为“严格”）：
+
+A. Schwarzschild 极限自检：当 (a=0) 时 spheroidal (\to) spherical，应当出现“几乎对角”的投影：如果你把单个 spheroidal mode ({}*{-2}S*{l2}(\theta,0)) 拿去拟合 spherical 基底，应该主要落在 (L=l)（混合很弱）。这能直接验证你的 LS 投影没有病态偏差。
+
+B. 网格/截断自检：把 `nFullThetaSteps`、`lBasisPad`、`spheroidalNumTerms` 各自翻倍，检查 `fit_residual` 与最终 (f_{\rm SR}(\theta)) 是否在你关心的角度区间（40°–180°）收敛到稳定曲线。
+
+(3) 关键错误：你的 `ReduceOnce` 不符合论文 Eq.(C5)–(C6)
+
+这是我审计里唯一的“致命不通过”。
+
+你 Mathematica 的 `ReduceOnce` 写的是：
+
+* `aL = aNum/aDen`、`bL = bNum/bDen`（没有开平方根）
+* `out[l] = termDiag fl - aL fp - bL fm`（没有除以 (l+1) 与 (l)）
+
+但论文给出的 series reduction 系数是（我用你的变量名对照）：
+
+* (A_l=\sqrt{\text{aNum}/\text{aDen}})
+* (B_l=\sqrt{\text{bNum}/\text{bDen}})
+* (F^{(1)}*{lm} = \big(1-\frac{2m}{l(l+1)}\big)F*{lm} - \frac{A_l}{l+1}F_{l+1,m} - \frac{B_l}{l}F_{l-1,m})
+
+也就是说：平方根与分母因子是推导中不可缺的（来自 Wigner-3j 的解析积分）。你现在这版会把 reduction 的量纲与数值规模整体扭曲，最终生成的 `f_sr_spherical.json` 会系统性错误。
+
+你应当把 Mathematica 的 `ReduceOnce` 改成下面这样（我只改你出错的部分，其余结构不动）：
+
+```Mathematica
+ReduceOnce[coeff_Association, m_: 2] := Module[
+  {lVals, lMin, lMax, out, fl, fp, fm, termDiag, aNum, aDen, bNum, bDen, aL, bL},
+  lVals = Sort[Keys[coeff]];
+  If[Length[lVals] == 0, Return[<||>]];
+  lMin = Min[lVals];
+  lMax = Max[lVals];
+  out = <||>;
+  Do[
+    If[l >= lMax, Continue[]];
+    fl = Lookup[coeff, l, 0];
+    fp = Lookup[coeff, l + 1, 0];
+    fm = Lookup[coeff, l - 1, 0];
+
+    termDiag = 1 - (2 m)/(l (l + 1));
+
+    aNum = (l - 1) (l + 3) (l - m + 1) (l + m + 1);
+    aDen = 4 l (l + 2) + 3;
+    aL = If[aNum >= 0, Sqrt[N[aNum/aDen, workingPrec]], 0];
+
+    bNum = (l^2 - m^2) (l^2 - 4);
+    bDen = 4 l^2 - 1;
+    bL = If[bNum >= 0, Sqrt[N[bNum/bDen, workingPrec]], 0];
+
+    out[l] = termDiag fl - (aL/(l + 1)) fp - (bL/l) fm;
+    ,
+    {l, lMin, lMax}
+  ];
+  out
+];
+```
+
+只要你修正这一点，你的“Appendix-C aligned spherical-basis SR rows”这条链路才算真正对齐 Appendix C。
+
+三、Python 引擎：逐段审计
+
+(1) Eq.(12) 的 prefactor、(f) 的 bracket：总体正确
+
+你 `_scattering_prefactor(mode="eq12") = 2π/(iω)`，并在 `bracket_f` 用
+[
+(-1)^{l+1}\frac{\Re(C)}{16\omega^4}\frac{B^{\rm refl}}{B^{\rm inc}} - 1
+]
+这和 Eq.(12) 第一项匹配。
+
+(2) (g) 的实现：对“截面”没问题，但对“复振幅定义”不严格
+
+你在多处对 `bracket_g` 做了 `conj`，并且 prefactor 没有随之共轭。这会导致你计算到的“复数 (g)”不等于论文 Eq.(12) underbrace 定义的 (g(\gamma,\theta,\phi))，也不等于它的严格共轭 (g^*)；只是因为最后你只拿 (|g|^2)，所以 Fig.3 的散射截面不会因此出错。
+
+如果你后续要用 (f,g) 去算波形、偏振混合（比如 Eq.(17) 的 (h_+,h_\times) 里 (f\pm g) 的相位关系），这种“共轭处理随意化”会立刻变成实质性错误。论文是明确区分 (f) 与 (g) 并且在波形里以 (g^*) 出现的。
+
+建议你做一个干净的约定：
+
+* 永远先按 Eq.(12) underbrace 的定义计算出 (f) 与 (g)（不额外 conj）
+* 需要放入 (\psi_4) 或 (h) 时，再在最后一步取 (g^*)（以及相应的相位因子）
+
+这样你不会在“只算截面”和“要算波形”之间切换时踩雷。
+
+(3) 你用 `if abs(Re_C) < 1e-20: continue` 来过滤模态：逻辑上不严谨
+
+这一条我建议你改掉，理由很硬：
+
+* (f) 的 bracket 里有一个独立于 (\Re(C)) 的常数项 “(-1)”（对应“减去 incident wave”），即使 (\Re(C)) 很小，该 (l) 模态对 (f) 依然可能有贡献；
+* (g) 的 curly braces 根本不含 (\Re(C))（只含 (3iM\omega) 和 (B^{\rm refl}/B^{\rm inc})），用 (\Re(C)) 的大小去筛掉 (g) 模态在物理上没有依据。
+
+如果你的真实意图是“过滤解析失败导致 (\Re(C)) 被清洗成 0 的坏数据行”，请显式用数据层面的 `valid` 标志或字段存在性来判断，而不要用 (|\Re(C)|) 的大小当作 proxy。
+
+(4) `_series_reduce_once`：这一段是对的
+
+你 Python 的 `_series_reduce_once`（开方、以及除以 (l+1) 与 (l)）与 Appendix C 的 Eq.(C5)–(C6) 一致，这是“通过”。
+
+但请注意：你 legacy fallback 那条路径（直接在 spheroidal-index 系数上做 reduction）你自己也标注了“不 aligned”，这一点判断是正确的：论文的 reduction 是在 spherical-harmonic 系数层面做的，而不是直接在 spheroidal partial waves 上做。
+
+四、你接下来最应当做的三类“严格性验证”
+
+为了让你这套计算真正达到“可复现 + 可审计 + 不靠直觉”，我建议你把验证分成三层，每层都有明确的“应当成立的判据”。
+
+第一层：公式级一致性（不跑物理，只跑代数约束）
+
+1. 修复 Mathematica `ReduceOnce`（上面给了）。
+2. Python 里统一 (g) 的定义，去掉混乱的 `conj`（至少要做到：你能明确说出你算的是 (g) 还是 (g^*)）。
+3. 去掉用 (|\Re(C)|) 过滤模态的逻辑。
+
+第二层：数值稳定性（改变离散化/截断，结果应收敛）
+对每个 ((a,\omega))：
+
+* 把 `nFullThetaSteps` 从 400 → 800，`lBasisPad` 从 16 → 32，`spheroidalNumTerms` 从 40 → 80；要求 `fit_residual` 明显下降或至少保持同数量级，并且最终 (d\sigma/d\Omega(\theta)) 曲线在 40°–180° 变化小于你设定的容差（例如相对误差 < 1e-3 或 1e-4，取决于你要复现 Fig.3 的精度目标）。
+* 逐步增大 (l_{\max})（比如 60,70,80,88），要求 series reduction 的结果在你展示的角度区间单调趋稳；同时 (g) 的普通求和也应平滑趋稳（论文也展示了 (g) 的良性收敛）。
+
+第三层：物理极限/对称性自检（用已知极限排雷）
+
+* (a=0) 时：spheroidal→spherical，series reduction 后的 (f_{\rm SR}) 应该更快收敛，并且 Cesàro(α=2) 与 SR(k=2) 的差异应呈现论文类似的趋势（尤其在小角处差异更明显）。
+* on-axis 的 (\phi)-独立性：因为只剩 (m=2)，(f,g \propto e^{2i\phi})，所以 (|f|^2+|g|^2) 不依赖 (\phi)。你可以显式把 (\phi) 改成任意值检查截面不变，用来验证你“固定 (\phi=0)”没有引入隐藏 bug。
+
+五、最关键的行动项
+
+如果你只做一件事：请先修掉 Mathematica 的 `ReduceOnce`，然后重新生成 `data/fig3_sr_spherical.json`。在它没修之前，你 Python 引擎里“Preferred path: precomputed spherical-basis SR f(theta)”读取到的是错误 SR 曲线，后续所有 Fig.3 复现都会被污染。
+
+如果你愿意，我也可以按你现在的 repo 结构，给你一份“最小对照脚本清单”（包含：读取你导出的 SR 曲线、对比 direct partial sum / Cesàro / SR 三条曲线的收敛行为、并输出一组一致性指标），用来把上述三层验证自动化。
+我按“论文 Appendix C 的理论公式（尤其是 C2–C6）→ 你脚本的实现”做了逐项对照。整体工作流（spheroidal 模态求 (f(\theta)) → 投影到 spherical basis 得到 (F_{Lm}) → series reduction 得到 (\hat F_{Lm}) → 再除以 ((1-\cos\theta)^k) 重建 (f)）在概念层面是对的，而且你也正确区分了：需要 SR 的是 helicity-preserving 振幅 (f)，而不是 (g)。
+
+但是：你现在这份脚本里有一个“结构性硬错误”，会直接把 SR 的数学关系做错，结果数值即便看起来“能跑”，物理上也不可信。另外还有一个很可能导致“你以为在复现 Fig.3，其实参数不一致”的问题。下面我把结论、原因、修复建议、以及你应该怎么做自洽验证讲清楚。
+
+一、最关键的硬错误：ReduceOnce 实现与 Appendix C 的 SR 递推公式不一致（会严重错）
+
+你写的 `ReduceOnce` 显然是在实现 Appendix C 的一次降阶（(k=1)）递推，也就是论文里的（我用你脚本的符号）：
+
+[
+\hat F_{l m}
+============
+
+F_{l m}\Big(1-\frac{2m}{l(l+1)}\Big)
+-\frac{A_l}{l+1}F_{l+1,m}
+-\frac{B_l}{l}F_{l-1,m},
+]
+其中
+[
+A_l=\sqrt{\frac{(l-1)(l+3)(l-m+1)(l+m+1)}{4l(l+2)+3}},\qquad
+B_l=\sqrt{\frac{(l^2-4)(l^2-m^2)}{4l^2-1}}.
+]
+
+对照你的代码：
+
+* 你把 (A_l) 和 (B_l) 写成了“分子/分母”，但没有开平方；也就是说你实际用的是 (A_l^2)、(B_l^2) 的量级。
+* 你还漏掉了递推里至关重要的除法因子 ((l+1)) 和 (l)（即 (\frac{A_l}{l+1})、(\frac{B_l}{l}) 这两个系数你没有实现）。
+
+这不是一个“小系数差一点”的问题：在大 (l) 极限下，
+
+* 正确的 (\frac{A_l}{l+1}\sim O(1))，(\frac{B_l}{l}\sim O(1))，它们不会随 (l) 发散；
+* 你当前用的 (A_l^2\sim O(l^2))，(B_l^2\sim O(l^2))，会把高 (l) 项系数人为放大到完全不对的量级，SR 反而会“制造爆炸/伪振荡”。
+
+这会直接破坏 Fig.3 所依赖的“SR2 让 (f) 收敛更快、更平滑”的核心效果。也就是说：如果你现在得到的曲线“看起来还行”，那更可能是误差在别处被抵消了，而不是 SR 做对了。
+
+你应该把 `ReduceOnce` 改成下面这种（仍然是你现在的 Association keyed by l 的风格，且固定适用于 (s=-2) 的公式）：
+
+```mathematica
+ReduceOnce[coeff_Association, m_:2] := Module[
+  {lVals, lMin, lMax, out, fl, fp, fm, termDiag, Al, Bl},
+  lVals = Sort[Keys[coeff]];
+  If[Length[lVals] == 0, Return[<||>]];
+  lMin = Min[lVals]; lMax = Max[lVals];
+  out = <||>;
+
+  Do[
+    fl = Lookup[coeff, l, 0];
+    fp = Lookup[coeff, l + 1, 0];   (* truncation: assume missing higher l -> 0 *)
+    fm = Lookup[coeff, l - 1, 0];   (* for l=2 this is F_{1m}=0 anyway *)
+
+    termDiag = 1 - (2 m)/(l (l + 1));
+
+    Al = Sqrt[
+      ((l - 1) (l + 3) (l - m + 1) (l + m + 1)) / (4 l (l + 2) + 3)
+    ];
+    Bl = Sqrt[
+      ((l^2 - 4) (l^2 - m^2)) / (4 l^2 - 1)
+    ];
+
+    out[l] = termDiag fl - (Al/(l + 1)) fp - (Bl/l) fm;
+    ,
+    {l, lMin, lMax}
+  ];
+
+  out
+];
+```
+
+关于边界处理你现在还有一个额外问题：你原版代码对 `l == lMax` 直接 `Continue[]`，等于每做一次 reduction 你就把最高的 (l) 模式“硬砍掉一个”。这在 SR 里不是必然要这么做的；更合理的方式是像我上面这样把 `fp` 视为 0（等价于假设截断尾项为零），这样输出仍然覆盖到 `lMax`。在高 (l) 尾部已经很小、且你做了 `lBasisPad` 的情况下，这个处理通常比“直接丢掉顶端模式”更稳定、也更贴近递推的结构。
+
+二、第二个高风险点：你的 Fig.3 参数组合里把 (\omega) 写成 0.5，但论文 Fig.3 是 0.6（至少在你给的这版 PDF 中）
+
+你脚本默认：
+
+```mathematica
+defaultComboTargets = {
+  {0.0, 0.5},
+  {0.0, 2.0},
+  {0.99, 0.5},
+  {0.99, 2.0}
+};
+```
+
+但你给的论文版本里，Fig.3 的低频面板标注是 (M\omega = 0.6)，不是 0.5（而 Appendix C 的示例 Fig.10/文字确实用的是 (M\omega=0.5)）。这会导致两种典型错误场景：
+
+1）如果你的数据文件 `fig3_data.json` 真的是按 Fig.3 生成的（含 0.6），那你脚本会把 `comboKeys` 过滤空，最终“没算到你以为要算的那组”；你可能只看到了 `[skip]` 或者干脆 rows=0，但没注意到根因是 key 不匹配。
+
+2）如果你的数据文件就是 0.5（更像 Appendix C 示例），那你脚本算出来的东西也许能对上 Fig.10 的行为，但你把它叫“Fig.3 data generation”就会产生概念混淆：你并没有严格复现论文 Fig.3 的参数。
+
+严格复现 Fig.3（以你这版 PDF 为准）的话，建议把 0.5 改成 0.6，或者至少让 `defaultComboTargets` 同时包含 0.5 和 0.6，并在输出里把真实的 `omega` 写入并检查。
+
+三、你投影到 spherical basis 的方法“能用但不够严谨”的地方，以及我建议的更稳健替代
+
+你现在用的是：在 (\theta) 网格上采样 (f(\theta, \phi=0))，然后对 ({}*{-2}Y*{Lm}(\theta,0)) 做加权最小二乘拟合，权重用 (\sqrt{\sin\theta}) 来模拟球面积分的内积。
+
+这个方法从数值分析角度不是错的，但它有三个隐患：
+
+1）你其实不需要解一个病态的最小二乘问题
+因为 spherical harmonics 在球面上正交归一，你要的本质是“正交投影”的系数。对固定 (m) 的情形，完全可以直接用数值积分/求积来算：
+[
+F_{Lm} = \int f(\theta,\phi), {}*{-2}Y*{Lm}^*(\theta,\phi), d\Omega
+= 2\pi\int_0^\pi f(\theta,0),{}*{-2}Y*{Lm}^*(\theta,0),\sin\theta, d\theta.
+]
+这比 LS 更稳健，不会出现你现在还要靠 `SingularValueList` 去筛掉 `cond > 1e18` 的情况（而且“cond 不太大”不等于“投影系数就是对的”，它只说明线性代数上没完全崩）。
+
+2）你的 `lBasisPad` 与 `spheroidalNumTerms` 之间可能不自洽
+你用 `SpinWeightedSpheroidalHarmonicS[..., Method -> {"SphericalExpansion","NumTerms"->40}]` 生成 spheroidal 值，本身就是通过 spherical expansion 截断得到的近似。然后你又用一个只到 `lBasisMax = lModeMax + 16` 的 spherical basis 去拟合它。这里存在“双重截断”的耦合风险：你最终的 `fitResidual` 可能很小，但那可能只是因为你在“用截断的 spheroidal 去拟合截断的 spherical”，而不是因为真实的（无限模态）投影收敛了。
+
+严格做法是：至少做一次收敛性扫描，确认当你把 `spheroidalNumTerms` 从 40 提到 60/80、把 `lBasisPad` 从 16 提到 30/50 时，你的最终 (f_{\mathrm{SR}}(\theta))（或最后要画的 (d\sigma/d\Omega)）在目标角域（40°–180°）内变化足够小。
+
+3）采样点选在 `Subdivide[0,Pi,...]` 含端点，虽然你用 (\sin\theta) 权重压低了端点影响，但端点仍可能引入高 (L) 基函数的数值噪声
+特别是自旋权重 (-2) 的 harmonics 在端点附近的数值评估有时会出现舍入误差放大的问题（不同实现/规范会有差异）。这不是必然出错，但如果你追求“严格审核”，建议把 full-grid 改成“避开端点”的 Gauss–Legendre 节点（对 (\cos\theta)）更合适。
+
+四、你 SR 重建公式目前只适用于 on-axis（(\gamma=0)）或已旋转把发散点移到 (\theta=0) 的情形
+
+你现在的 SR 分母是 ((1-\cos\theta)^{k_{\rm SR}})。这正是 Appendix C 里 on-axis 的写法（发散在 (\theta=0)）。这点在 Fig.3 复现是对的。
+
+但如果你将来把这个脚本“顺手拿去做 off-axis（(\gamma\neq 0)）”，那就会错得很隐蔽：真实的发散位置在 (\theta=\gamma)（更准确说是观测方向与入射方向的夹角为 0 的位置），需要先做旋转把发散点搬到极点，或者把因子写成与两方向夹角有关的 ((1-\cos\Theta)^{k})，其中 (\cos\Theta=\cos\theta\cos\gamma+\sin\theta\sin\gamma\cos(\phi-\phi_{\rm inc}))。你当前代码完全没有处理这件事，所以它“严格上”只应标注为 on-axis SR pipeline。
+
+五、我建议你做的“最小严格自证”测试（不做这些，你很难说服自己结果可靠）
+
+你要的是“严格审核”，那就不仅是修 bug，还要有可复现的正确性证据。下面这四个测试是成本最低、说服力最高的：
+
+1）对 `ReduceOnce` 做单位测试（强烈建议）
+随便取一个纯模态 (f(\theta,\phi) = {}*{-2}Y*{L_0 m}(\theta,\phi))。你可以数值计算 (\hat f = (1-\cos\theta) f)，然后用正交投影算出 (\hat F_{Lm}) 的数值结果；再用 `ReduceOnce` 的解析递推从 (F_{Lm}) 生成 (\hat F_{Lm})，两者应当一致到数值误差。这能直接验证你实现的就是论文 C5/C6，而不是“看起来像”。
+
+2）做 SR 阶数一致性检查
+对同一组 ((a,\omega))，用 (k=1) 与 (k=2) 分别重建 (f(\theta))。理论上 (k=2) 应更平滑、对 (l_{\max}) 更不敏感。你可以固定一个角度（比如 (\theta=60^\circ, 120^\circ)）画出 (f(\theta; l_{\max})) 随 (l_{\max}) 的收敛曲线：SR2 应明显更快趋稳。
+
+3）截断与数值参数的收敛扫描
+至少扫这三个：`lBasisPad`（16→30→50），`spheroidalNumTerms`（40→60→80），`nFullThetaSteps`（400→800）。检查最终输出（比如 (|f|^2) 或你最终要的 (d\sigma/d\Omega)）在 40°–180° 的最大相对变化是否足够小。否则你现在的结果可能只是某个截断配置的偶然产物。
+
+4）对照 Schwarzschild 已知结果（a=0）
+Fig.3 本身就提供了 sanity check：a=0 情形你应当能复现文中趋势，并且 SR 与 Cesàro 的差异应当类似论文描述。若你修正 SR 递推后反而“更不像论文”，那通常说明你别处还有规范/归一化/参数取值不一致（例如 (\omega) 用了 0.5 vs 0.6，或者你的数据文件 `Re_C、B_ratio、S_0` 的定义与论文不一致）。
+
+总结一下你这份脚本当前的严格结论：工作流思路正确，但 `ReduceOnce` 的系数实现与论文 Appendix C 的 SR 公式不一致（缺平方根、缺 (1/(l+1)) 与 (1/l)），这是决定性错误，必须先修正；其次要确认你所谓“Fig.3”到底对应 (\omega=0.6) 还是 0.5，否则你可能在复现不同图（Fig.3 vs Appendix 示例）却没意识到。
+
+如果你愿意把你生成出来的 `fig3_sr_spherical.json`（修正前和修正后各一份）里某一组 ((a,\omega)) 的 `f_sr_re/im` 发我一小段（比如 (\theta=40,60,90,120,150,180) 的值），我可以进一步帮你做“数值行为层面”的一致性诊断：它是否呈现出 SR 应有的收敛/平滑特征，以及是否仍然存在 truncation artefact。

@@ -1,0 +1,20 @@
+[
+  {
+    "theta_deg": 30.0,
+    "a": 0.0,
+    "ff_plus": 0.9454284944641942,
+    "ff_cross": 0.9443410661331699,
+    "mismatch_plus": 0.05457150553580581,
+    "mismatch_cross": 0.055658933866830074,
+    "snr_ratio_plus": 1.223464270842339,
+    "snr_ratio_cross": 1.226768219939893,
+    "required_snr_plus": 13.72538052684339,
+    "required_snr_cross": 13.594440296185235,
+    "rho_dir_plus": 107.21318337933184,
+    "rho_dir_cross": 106.11353191668677,
+    "rho_obs_plus": 131.17149922788022,
+    "rho_obs_cross": 130.17670866096884,
+    "optimized": false,
+    "theta_mode": "exact"
+  }
+]

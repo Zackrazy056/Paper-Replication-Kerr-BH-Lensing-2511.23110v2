@@ -1,0 +1,553 @@
+
+========================= PAGE 9 =========================
+9
+whereA +(ˆnSL) =|A +(ˆnSL)|exp(iψ SL). We know from
+previous section that the subsequent scattered wave at
+the observer’s location is given by
+hµν
+SW =ϵℜ
+"
+eiψSL e−iω(t−rLO−rSL)
+(
+f(0, θ o, ϕo)
+rLO
+ξµ
++2ξν
++2
++ g(0, θo, ϕo)
+rLO
+ξµ
+−2ξν
+−2
+)#
+.(25)
+We can compare this with the direct wave emitted from
+the source which reaches the observer, given by
+hµν
+dir =ℜ
+"
+A+(ˆnSO)ξµ
++ξν
++ +A −(ˆnSO)ξµ
+−ξν
+−
+rSO
+e−iω(t−rSO)
+#
+(26)
+whereˆnSO is the unit spatial vector from the source to
+the observer and we have assumed that the polarization
+vectors appearing in Eq. (25) and Eq. (26) are approx-
+imately same asr SL ≪r SO ∼r LO. Also, as mentioned
+earlier,|g| ≪ |f|for small values ofθ 0 ≈π/6. Thus,
+focusing only on the contribution offfor a rough (but
+quite good) estimation, a suitable way to quantify the
+relative importance of strong-field wave scattering is by
+the followingstrong-field scattering factor (SFSF):
+SFSF≈ |A+(ˆnSL)|rSO
+|A+(ˆnSO)|rLOrSL
+|f(0, θ o, ϕo)|.(27)
+As a further approximation, we can neglect the variation
+in the wave amplitude betweenˆnSL andˆnSO, and special-
+ize to the situation where the source and lens are close
+(rSO ∼r LO) to each other. This yields
+SFSF≈ |f(0, θ o, ϕo)|
+rSL
+.(28)
+As the strength is governed primarily byrSL, a smaller
+rSL is thus preferred. However, we also require the
+source-lens separation to be much larger than the the
+wavelength of the wave, i.e.,ωrSL ≫1, and much larger
+than the Schwarzschild radius (RL = 2M) of the lens,
+i.e.,r SL ≫R L. These criteria ensure that the incident
+wave on the lens can be treated as a plane wave.
+We plot Eq. (28) for a particular configuration in Fig. 4
+as a function of frequency, and for various values of
+spin. We restrict to on-axis scattering(γ= 0) and se-
+lectθ o =π/6,ϕ o =π/6,r SL = 100M, andr SO ≈r LO.
+In contrast to the result in Ref. [1], we do not find SFSF
+to decay for any value of spin at high frequencies. Our
+result is consistent with the results in Ref. [113, 114],
+where the differential scattering cross section was also
+found not to markedly decrease in amplitude for large fre-
+quencies. Considering the earlier plots in Fig. 3 where we
+showed the comparison of series reduction method with
+Cesàro summation, it appears that the high-frequency
+decay seen in Ref. [1] is likely an artefact of the Cesàro
+resummation procedure, and not a physical effect asso-
+ciated with the absorption of high-frequency GWs. It is
+also important to emphasize that while a part (with low
+l) of high-frequency radiation can be efficiently absorbed
+by the BH lens, the degree of absorption also depends on
+the impact parameter (alternatively, the multipolar in-
+dexl). Thus, in our view, it is not reasonable to conclude
+that all high-frequency GW radiation will be generically
+absorbed by the BH lens, leading to a decayed amplitude.
+B. Mismatch analysis
+In this section, we assess thedistinguishabilityof the
+lensed waveform (the waveform including strong-field
+wave-scattering effects) from the unlensed one (without
+the scattering effects), and the prospects of itsdetectabil-
+ity.
+1. Setup
+A natural measure of thedistinguishabilitybetween
+two waveforms, sayh1 andh 2, is themismatch, defined
+as [147]:
+M(h 1, h2) := 1−O(h 1, h2),(29)
+whereO(h 1, h2)is thematch, defined as the normal-
+ized overlap between the waveforms maximized over any
+global time (t0) and phase (ϕ0) shifts [148, 149]:
+O(h1, h2) := max
+t0,ϕ0
+⟨h1|h2⟩p
+⟨h1|h1⟩ ⟨h2|h2⟩
+,(30)
+with the noise-weighted inner product (i.e., overlap) in a
+frequency windowν∈[ν low, νhigh]given by
+⟨h1|h2⟩= 4ℜ
+Z νhigh
+νlow
+dν
+˜h1(ν)˜h∗
+2(ν)
+Sn(ν) .(31)
+Here, tildes denote the Fourier-transformed waveforms
+in the frequency domain, andS n(ν)is the noise power
+spectral density (PSD) of the GW detector under consid-
+eration [150–153]. The normalization of the waveforms is
+done by dividing them by their norm,||h||=
+p
+⟨h|h⟩ ≡
+ρopt, whereρ opt defines the optimal SNR.
+Since in a GW search, the goal is essentially to find the
+template-bank member that has the smallest mismatch
+with the detector data, we are therefore interested in the
+mismatch optimized over all of the members of the un-
+lensed waveform family. For a target waveformhtarget
+whose match we wish to maximize using the template
+waveformsh template, we definefitting factor(FF)as the
+maximized match [117]:
+FF(htarget) = max
+Θopt
+O(htemplate(Θopt), htarget),(32)
+
+========================= PAGE 10 =========================
+10
+10−2 10−1 100
+0.1
+0.2
+0.04
+0.06
+0.08
+|f (γ = 0, θ o = φo = π/6)|/rSL
+a = 0
+Series reduction (k=2)
+Ces` aro (α = 2)
+Ces` aro (α = 5)
+10−2 10−1 100
+a = 0.8M
+10−2 10−1 100
+M ω
+0.1
+0.2
+0.04
+0.06
+0.08
+|f (γ = 0, θ o = φo = π/6)|/rSL
+a = 0.99M
+10−2 10−1 100
+M ω
+a = 0.999M
+FIG. 4. Log-Log plots showing the relative impact on the waveform (SFSF) due to on-axis scattering (γ= 0) forθo =ϕ o =π/6,
+rSL = 100M,r SO ≈r LO and different choices of spina. Spin does not seem to significantly affect the overall scale of the SFSF,
+but it does contribute appreciably in frequency-modulation. Note that results obtained using Cesàro summation predict a
+decay at high frequencies, which increases withα, in contrast to that obtained via series reduction, which maintains a stable
+amplitude.
+where, motivated by real GW searches, the maximization
+is done over the4D space of binary’s intrinsic parame-
+ters (Θopt): chirp mass, mass ratio, and the aligned spin
+components. The fully optimized mismatch is, therefore,
+1−FF.
+For illustration, we consider aGW150914-like event,
+consisting of two coalescing Schwarzchild BHs of masses
+m1 = 36.9 M⊙, andm2 = 32.8 M⊙4 [2, 5, 8]. The source
+is at a distance ofrSO = 402.6 Mpc. Although including
+cosmological effects such as redshift are straightforward,
+we neglect them here for simplicity. The redshift of the
+source is0.12, which is quite small and can be ignored
+without any major effects for this demonstration. We
+4 We use the maximum-likelihood values of the 1D-marginalized
+posteriors from the ‘C01:Mixed’ channel of ‘IGWN-GWTC2p1-
+v2-GW150914_095045_PEDataRelease_mixed_cosmo.h5’.
+Posterior samples are available at Zenodo.
+choose the lens mass asM= 100 M ⊙. Moreover, the
+distance between the source and lensr SL is chosen to
+be100Mor10 4 M⊙ ∼4×10 −16Mpc, which is much
+smaller than the distance between the source and ob-
+server. We orient our binary source such that its angular
+momentum points away from the lens (i.e., antiparallel
+to the source-lens line), this ensures that the lens expe-
+riences an approximately plane GW with purely positive
+helicity (h= +2). We further specialize to the case of
+on-axis (γ= 0) scattering, where the spin of the lens
+is parallel to the line joining the source and lens. The
+source-lens line is set at an angle ofθo with respect to
+the lens-observer line. At the observer, this corresponds
+to an inclination (angle between the source-observer line
+and the binary orbital angular momentum) ofι=π−θo.
+Finally, given the axisymmetry of the setup about the z-
+axis (the source-lens line which is parallel to the lens spin
+and the source-orbital angular momentum), we choose
+the azimuthal angleϕ o = 0 ◦ without loss of generality.
+
+========================= PAGE 11 =========================
+11
+The setup is visually presented in Fig. 5.
+The observer receives the gravitational radiation as
+two contributions. The first is the direct component,
+hµν
+dir, which is only weakly affected by the lens because
+of the large impact parameter and approximately follows
+the straight line between source and observer. Ref. [1]
+employs the point-lens, scalar-wave approximation to es-
+timate lensing effects on this part. Since the point-
+lens approximation breaks down for large observation
+angles (i.e., for largeθ o, where small-angle approxima-
+tions break down), we do not adopt it and treat the
+direct wave as essentially unaffected by the lens. The
+second is the scattered component,h µν
+SW, encoding the
+strong-field influences of the lens. Each frequency mode
+acquires an additional phasee iω(rLO+rSL−rSO). In the
+time domain this corresponds to a delay of approximately
+c−1(rLO +rSL −rSO)≈c −1 ×2rSL sin2(θo/2)∼0.005 sec,
+muchsmallerthanthe∼0.2 secdurationoftheGW150914
+signal observed by LIGO. Thus, the direct and scattered
+waves arrive nearly simultaneously and interfere, with
+the modulation depending on parameters such as the lens
+mass and spin. The observed waveform is, therefore,
+hµν
+obs =h µν
+dir +h µν
+SW.(33)
+For more details see Appendix-D.
+We use the software packagePyCBC[154] to compute
+the waveforms at the lens and at the observer, and uti-
+lize the approximantIMRPhenomD[155, 156] to generate
+unlensed waveforms. We use the advanced LIGO PSD
+at its A+ design sensitivity [3], which is the target sen-
+sitivity for the upcoming (O5) LIGO observing runs. To
+compute the FF values, we use the Nelder-Mead algo-
+rithm [157], as implemented in theoptimizationmod-
+ule of theScipylibrary [158], to maximize thematchbe-
+tween the waveforms. It is important to note that since
+we employ a maximization algorithm to compute FF, it
+is not sensitive to the discrete placement of templates.
+The waveform at the lens is treated as the incident plane
+wave for the scattering analysis described in earlier sec-
+tions, and the scattered waveform is computed in the fre-
+quency domain as outlined in Appendix-D. We restrict
+ourselves to cases withθo > π/6as it is approximately
+thesmallestanglewherethescatteringanalysispresented
+in this work may be trusted. The effect is expected to be
+stronger for smaller scattering angles, as seen from the
+plots of differential-cross section vs. scattering angle in
+Fig. 3.
+2. Results
+Fig.6showsthefrequency-domainwaveformswithand
+without the effect of strong-field scattering. In the top
+panel,θ o = 30 ◦, and thus the inclination of the source
+for the observer is180−30 = 150 ◦. At this inclination,
+the magnitudes ofh dir
++ andh dir
+× are very close to each
+other (with equality holding at180 ◦). Thus, they ap-
+pear almost overlapping in the plots. A similar feature
+M
+L
+O
+S
+⃗ℓ
+hµν
+dir
+hµν
+wave ˆz
+⃗J
+hµν
+SW
+θo
+FIG. 5. The source (S) is a quasi-circular binary coalescence
+of two spinless BHs. The orbital-angular momentum of the
+source is ⃗ℓ, oriented so that it faces away from the lens (note
+the difference with Fig. 1). The lens (L) has massMand
+spin-angular momentum| ⃗J|=M 2χ, whereχis the spin-
+parameterχ∈(−1,1). The direction of the lens spin defines
+theˆz-axis and is chosen to be antiparallel (whenχ >0) to⃗ℓ,
+and thus parallel to the source-lens line. The observer (O) is
+at an angleθo with respect toˆz-axis. The GWs emitted by the
+source reach the observer in two parts, as a direct component
+hµν
+dir and a scattered componenthµν
+SW which reach roughly at
+the same time and interfere.
+θ o χM(h
++
+dir , h
++
+obs )M(h
+×
+dir , h
+×
+obs )
+30 ◦
+0 0.0155 0.0157
+0.8 0.0155 0.0157
+0.99 0.0155 0.0158
+0.999 0.0155 0.0158
+−0.990.0156 0.0158
+60 ◦
+0 0.0026 0.0038
+0.8 0.0025 0.0036
+0.99 0.0025 0.0037
+0.999 0.0025 0.0037
+−0.990.0027 0.0040
+TABLE I. Mismatch between the direct component and the
+total waveform as the lens spin-parameterχis varied. For a
+fixed scattering angle (θo), spin does not seem to significantly
+affect the mismatch. This is seen more clearly in the contour
+plots in Fig. 7. However, increasingθo leads to a sharp drop
+in mismatch. The mismatch with cross polarization appears
+to dominate for these configurations.
+is also present for the scattered wave as apparent from
+Eq. (17) since|g| ≪ |f|and the waveform at the lens
+has purely positive helicity as mentioned before. Thus,
+even in the observed waveform, which includes the scat-
+tered component, this feature remains intact and we find
+that the curves forh obs
++ andh obs
+× are overlapping. As
+a comparison, we also show results forθo = 60 ◦, where
+the difference in the polarization content in+,×basis is
+more clearly visible. However, the difference between the
+direct and observed waveforms is much smaller (the oscil-
+lations have reduced amplitude) forθo = 60◦. The scale
+of the oscillatory features inhobs
++,× is determined by the
+
+========================= PAGE 12 =========================
+12
+200 400 600
+10−28
+10−27
+10−26
+10−25
+10−24
+10−23
+10−22
+|h+,×(ν)|
+θo = 30 ◦, a = 0
+|hdir
++ |
+|hdir
+× |
+|hobs
++ |
+|hobs
+× |
+200 400 600
+10−28
+10−27
+10−26
+10−25
+10−24
+10−23
+10−22
+θo = 30 ◦, a = 0.999M
+200 400 600
+Frequency [Hz]
+10−28
+10−27
+10−26
+10−25
+10−24
+10−23
+10−22
+|h+,×(ν)|
+θo = 60 ◦, a = 0
+200 400 600
+Frequency [Hz]
+10−28
+10−27
+10−26
+10−25
+10−24
+10−23
+10−22 θo = 60 ◦, a = 0.999M
+FIG. 6. Plots (y-axes in log-scale) illustrating the difference between the magnitude of the total observed waveform (hobs
++,×)
+unscattered, direct component (hdir
++,×) forθ o = 30◦ (top) andθ o = 60◦ (bottom). Forθ o = 30◦, both polarizations contribute
+with nearly equal strength, causing the+,×curves to overlap. Atθo = 60◦, the difference in polarization content becomes more
+pronounced. However, the deviation between the direct and observed waveforms is larger forθo = 30◦, whereas forθ o = 60◦
+the observed waveform remains close to the direct one, showing only small oscillations about it. The scale of oscillations in the
+observed waveform is set by the time delay between the direct and scattered components, i.e., a larger delay produces a greater
+number of oscillations.
+phase generated by the time delay between the two com-
+ponents. Asθ o increases, the quantity2r SL sin2(θo/2)
+grows, producing a phase that varies more rapidly with
+frequency. This results in faster oscillations in the ob-
+served waveform.
+In Fig. 7, we show the variation in the minimum mis-
+match (1−FF), see Eq. (32), across the parameter space
+ofθ o andχfor bothh +
+obs andh ×
+obs. As expected from
+Fig. 4 and demonstrated clearly in Fig. 6, the variation
+of lens spin parameter induce only very small affects in
+the mismatch for on-axis scattering. However, increasing
+the angleθ o fromπ/6toπ/3leads to a sharp drop in the
+mismatch. This is also expected from the plots in Fig. 3.
+This hints that it would be particularly interesting to
+probeθ o ≈0, where the effect could be much stronger,
+as also suggested in Ref. [1]. In the case ofh+
+obs, the mis-
+match values decreases monotonically with increasingθo,
+from∼1%atπ/6to∼0.1%atπ/2, for all values of the
+lens spin as seen from Fig. 7. In contrast, the mismatch
+values forh +
+obs exhibit qualitatively different behaviour.
+Fromθ o =π/6toπ/3, the (decreasing) trend is similar
+to that observed forh +
+obs. However, beyondθ o ≈π/3
+the mismatch forh ×
+obs starts to increase and within a
+thin band aroundθo ≈π/2, it increases sharply to reach
+a maximum value of∼30%atθ o =π/2. This large
+mismatch arises because nearθo =π/2the direct cross-
+polarized componenth ×
+dir vanishes5, leaving the observed
+signaldominatedprimarilybythescatteredcontribution,
+i.e.,h ×
+obs =h ×
+dir +h ×
+SW ≈h ×
+SW.
+The minimum mismatch also corresponds to the min-
+imum fractional loss in SNR due to missing physics in
+5 This is not strictly true when higher-mode contributions are sig-
+nificant or when the orbital plane undergoes precession.
+
+========================= PAGE 13 =========================
+13
+FIG. 7. Variation in the minimum mismatch (1−FF), see Eq. (32), across the parameter space ofθo (scattering angle), and
+the lens spinχ, for the+and the×polarizations of the lensed waveform that reaches the observer after scattering shown in
+theleftandrightpanels, respectively. Mismatches are computed against unlensed templates and minimised over component
+masses and aligned spins.
+FIG. 8. Comparison of the optimal SNRs of the lensed and unlensed waveforms for the+and×polarizations, shown in the
+left and right panels, respectively.
+the template bank [159], thereby affecting detectability.
+It is therefore instructive to examine how the optimal
+SNR itself changes in the presence of lensing. As men-
+tioned before, optimal SNR is quantified by the norm
+of the total observed waveform including the scattered
+wave. Thus, the ratio of the optimal SNR between the
+lensed and unlensed waveforms captures the amplifica-
+tionofthewaveformduetostrong-fieldlensing. InFig.8,
+we compare the optimal SNRs of the lensed and unlensed
+waveforms. For the plus-polarization, we observe no sig-
+nificant change in the optimal SNR due to lensing, with
+the values remaining close to unity. In contrast, for the
+cross polarization, we find a substantial enhancement in
+the optimal SNR, up to∼30%, nearθ o =π/2, for the
+same reason discussed in the previous paragraph, namely
+the vanishing of the cross-polarization component in the
+direct wave forθo =π/2.
+Next, we estimate the SNR required to identify lensing
+features in the signal. We use the approximation for the
+Bayes factor in terms of the fitting factor [119, 160],
+lnB≈ ρ2
+2
+
+1−FF 2
+
+,(34)
+and require the lensed-versus-unlensed ln-Bayes factor to
+
+========================= PAGE 14 =========================
+14
+FIG. 9. Illustrative estimation of the SNR required to identify scattering-induced lensing features inh+
+obs andh ×
+obs, shown in
+the left and right panels, respectively.
+be at least10for the identification of lensing features.
+We adopt a higher threshold than that suggested by, for
+example, Jeffreys’ criterion [161], since this approxima-
+tion is known to overestimate the Bayes factor (see, e.g.,
+Refs. [71, 160]). Fig. 9 shows the estimated SNR re-
+quired,ρ req, to identify scattering-induced lensing fea-
+tures inh +
+obs andh ×
+obs. We find thatρ req ≳25near
+θo =π/6, increasing to∼100atθ o =π/2forh +
+obs, while
+it decreases to∼10forh ×
+obs. This behaviour follows
+directly from the corresponding decrease in the fitting
+factor values (see Fig. 7). We emphasize that the sig-
+nal observed by a detector is a projection of the plus
+and cross polarizations. Consequently, nearθ o =π/2
+although scattering-induced features inh×
+obs become de-
+tectable in isolation, the observed signal may still be
+dominatedbyh +
+obs, potentiallyhinderingtheirdetectabil-
+ity. Additionally, note that although the required SNR
+is lower forθo =π/2when the cross-polarization is con-
+sidered in isolation, detecting a signal that meets this
+SNR threshold may in fact be more difficult. This is be-
+causeh ×
+obs is dominated by the scattered waveform for
+θo =π/2, which has a smaller amplitude than the un-
+lensed waveform due to the increased travel time and the
+corresponding additional decay [see Eq. (28)], as well as
+the directional dependence of the scattering amplitude,
+see Fig. 3. Nevertheless, with future detectors it may
+be possible to observe signals in this regime with SNRs
+exceeding the required threshold.
+Finally, we note that the scattering formalism pre-
+sented in this work is not valid for small angles (θo ≲
+π/6), where the modification of the direct component due
+to lensing cannot be ignored. In fact, the very notion of
+splitting the observed waveform into direct and scattered
+components would no longer be feasible. Nevertheless,
+the convergence of the partial-wave expansion might be
+improved by adopting an eikonal approach. Such an im-
+provement has indeed been demonstrated recently [162]
+by approximating the sum overl-modes by an integral
+over the impact parameter. We leave the numerical study
+of smallθ o for future work.
+IV. CONCLUSION
+Inthiswork, wepresentedadetailedanalysisofstrong-
+field gravitational lensing of GWs by a Kerr BH in
+the wave-optics regime, extending previous study for
+the corresponding non-rotating case. Using MST tech-
+niques and high-precision numerical implementations, we
+quantify the effects via the strong-field scattering factor
+(SFSF) and the resulting waveform modulations. Our
+calculations successfully reproduce known Kerr scatter-
+ing results [114] and clearly demonstrate that the SFSF
+remains non-decaying even at high frequencies for all spin
+parameters of the lens, in stark contrast to the conclusion
+of Ref. [1]. We traced this behaviour to the use Cesàro-
+αmethod adopted in Ref. [1], rather than a physically
+robust resummation method, like series reduction [114].
+The apparent high-frequency suppression reported there
+might, therefore, be attributed to numerical artefacts
+rather than genuine absorption of radiation by the lens.
+Several consistency checks against established results re-
+inforce the reliability of our results.
+By propagating the scattered field to a distant observer
+and coherently combining it with the direct waveform,
+we quantify how strong-field wave-optics Kerr lensing
+modifies incident GW signals. The effects are most pro-
+nounced when the source and lens lie sufficiently close

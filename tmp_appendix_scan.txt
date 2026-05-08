@@ -1,0 +1,1231 @@
+PAGE 1
+Strong-field Gravitational-Wave Lensing in the Kerr Background
+M. V. S. Saketh ,1,∗ Rajes Ghosh ,1,† and Anuj Mishra 1,‡
+1International Centre for Theoretical Sciences, Tata Institute of Fundamental Research, Bangalore 560089, India.
+(Dated: December 30, 2025)
+Gravitational lensing of gravitational waves (GWs) can encode valuable information about the
+properties of the intervening lens, but most existing studies remain restricted to the small-deflection,
+weak-field regime. To bridge this crucial gap, this work presents the first systematic analysis of
+strong-field, wave-optical GW lensing by a Kerr black hole (BH), extending recent results obtained
+in Ref. [1] for non-rotating lens to the astrophysically more relevant case of spinning-lens. Using the
+Mano-Suzuki-Takasugi formalism, we define and compute the strong-field scattering factor (SFSF)
+and show that the the spin produces characteristic modifications to the lensed waveform, and high-
+frequency incident radiation is not strongly absorbed by the BH lens, contrary to earlier claims in
+Ref. [1]. We further derive an explicit expression for the observed waveform for the general source-
+lens-observer configuration, showcasing the distortions produced by the scattering and quantifying
+their departure from the Schwarzschild case. Specializing to on-axis scattering, a mismatch analysis
+for aGW150914-like source lensed by a Kerr BH of massM= 102 M⊙ situated100GM/c 2 away from
+the source reveals percentage-level deviations from the direct (unscattered) wave at scattering angles
+near30 ◦, across a range of lens spin values. The mismatch generally decreases as the scattering
+angle increases, but this behavior can change substantially when polarization mixing induced by
+scattering becomes significant. In such cases, components that are absent or suppressed in the direct
+signal may become appreciable once scattering effects are taken into account. For a fixed scattering
+angle, however, the mismatch shows only a weak dependence on the BH spin in the case of on-axis
+scattering, which may improve for more general off-axis considerations. The framework developed
+here offers a unified treatment of strong-field GW scattering in Kerr spacetime and provides tools for
+interpreting future high-precision observations of compact-object lenses in the wave-optics regime.
+I. INTRODUCTION
+Since the first direct detection of gravitational waves
+(GWs) withGW150914[2], identifying GW signals from
+compact binary coalescences (CBCs) with the LIGO [3]
+and Virgo [4] has become a routine. With more than
+200confident detections to date [5–9], we are now able
+to probe the most extreme and dynamic regions of space-
+time like never before [10–15]. The ever-growing catalog
+of CBCs has also enabled population studies of stellar-
+mass black holes (BHs) [16–18], revealing several surpris-
+ing features, such as lower/upper mass-gap events [19–
+21], high-mass and misaligned-spin BHs [18, 22], the
+presence of hybrid binaries (e.g., BH-neutron star sys-
+tems) [23, 24], and indications of hierarchical merg-
+ers [25, 26]. The GW detection rate, currently several
+events per month, is expected to increase significantly as
+the sensitivities of second-generation ground-based de-
+tectors, including KAGRA [27–30], improve and the ad-
+dition of LIGO-India [31–33] strengthens the global net-
+work. Thegrowthwillbefurtheracceleratedwiththead-
+vent of next-generation observatories such as the Einstein
+Telescope (ET) [34, 35], Cosmic Explorer (CE) [36–38],
+and the space-based Laser Interferometer Space Antenna
+(LISA) [39]. With these advancements, a host of subtle
+phenomena are expected to become observable. Among
+∗ venkata.saketh@icts.res.in
+† rajes.ghosh@icts.res.in
+‡ anuj.mishra@icts.res.in
+these, GW lensing [40–42] stands out as a particularly
+promising probe, allowing us to explore structures across
+a wide range of astrophysical and cosmological scales.
+Gravitational lensing of GWs arise when spacetime
+curvature produced by an 
+---
+PAGE 5
+5
+Note, we have replacedrby the tortoise coordinater ∗
+in the exponent, which is allowed asr→r ∗ in spatial
+infinity. This replacement is useful to identify the outgo-
+ing wave atr→ ∞in its most natural form. Note also
+thatψ 4 also contains an ingoing piece at spatial infinity,
+which decays very rapidly (asr−5) which can be obtained
+from the outgoing piece using the Teukolsky-Starobinsky
+identities as outlined in Appendix-B. Hence, to make it
+self-evident, we shall represent the above-calculatedψ4
+byψ out
+4 .
+B. Scattering amplitudes
+Thepartialwavesindexedbyspheroidal(l, m)andpar-
+ity (P) indices do not mix after scattering. The only ef-
+fects of scattering are to phase-lag the outgoing pieces
+ofψ 4 consistently with the retarded boundary condition
+and cause helicity mixing, i.e., even though the incident
+wave was of positive-helicity, the scattered wave will con-
+tain both helicities. Now, using Eq. (5), let us first
+rewrite the outgoing part of the incidentψ4 by adding
+the specific-parity modes in the following suggestive form
+ψout
+4 ≈ −ϵ ω2
+4
+Z ∞
+−∞
+dω′X
+Plm
+Kout
+lmP(ω′) e−iω′(t−r∗)
+ω′r
+× −2Slm(θ, aω′)e imϕ,
+(9)
+whereK out
+lmP = bψlm
++ (ω′)δ(ω ′ −ω) + P bψlm
+− (ω′)δ(ω ′ +ω)
+with bψlm
+P (ω′) = eψlm
+P ω′r e−iω′r∗. An interesting point
+to note is that in several of the above equations, the
+parity operator (P) only appears linearly. This arises
+from the fact thatPis a projection operator satisfying
+P2 = 1. Consequently, any function ofPcan always
+be reduced to a linear combination ofPand the iden-
+tity operator. Then, as discussed earlier, the scattered
+wave can easily be obtained by introducing a phase shift
+Kout
+lmP →K out
+lmP ηP
+lm exp(2iδlm
+P ):
+ψSW
+4 (t, r, θ, ϕ)≈ −ϵ ω2
+4
+Z ∞
+−∞
+dω′X
+Plm
+h
+ηP
+lm e2iδP
+lm −1
+i
+×K out
+lmP(ω′) e−iω′(t−r∗)
+ω′r −2Slm(θ, aω′)eimϕ.
+(10)
+Since we only care for the scattered waveψSW
+4 , we have
+subtracted out the contribution from the incident wave.
+The scattering phase can be easily obtained via the
+Mano-Suzuki-Takasugi (MST) approach and is given by
+ηP
+lme2iδP
+lm = (−1)l+1 ℜ(C) + 12iM ω′P(−1)l
+16ω′4 × B(refl)
+lmω′
+B(inc)
+lmω′
+.
+(11)
+For a detailed derivation of this formula using
+the Teukolsky-Starobinsky identities is outlined in
+Appendix-B. Here,B (refl)
+lmω′ andB (inc)
+lmω′ are the coef-
+ficients that enter the asymptotic expansion ofψ 4
+for a given{lmω ′}-mode asB (refl)
+lmω′ e−iω′(t−r∗)r−1 +
+B(inc)
+lmω′e−iω′(t+r∗)ω′−4r−5. Eq (11) is consistent with the
+corresponding expression in Ref. [114], except for the
+difference in parity convention. We useP =±1to
+denote symmetry/antisymmetry under reflection, while
+Ref. [114] adopts the convention where axial modes are
+assignedP =−1and polar modes are assignedP = 1.
+Now, substitutingEq.(11)intoEq.(10), summingover
+parities and integrating over frequency, we finally get
+−2ω −2 ψSW
+4 (t, r, θ, ϕ)≈ ϵ e−iω(t−r∗)
+r
+"
+2π
+iω
+X
+lm
+eimϕ
+−2Slm(γ, aω) −2Slm(θ, aω)
+(
+(−1)l+1 ℜ(C)
+16ω4
+B(refl)
+lmω
+B(inc)
+lmω
+−1
+)
+| {z }
+≡f(γ,θ,ϕ)
+#
++ ϵ eiω(t−r∗)
+r
+"
+2π
+iω
+X
+lm
+(−1)l+m e−imϕ
+−2Slm(γ, aω) −2Slm(π−θ, aω)
+(
+(−1)l+1 3iM ω
+4ω4
+B(refl)
+lmω
+B(inc)
+lmω
+)
+| {z }
+≡g(γ,θ,ϕ)
+#∗
+,(12)
+where we have used the identity −2Slm(θ, aω) =
+(−1)l+s−2Sl−m(π−θ,−aω), and a property of the ra-
+dial Teukolsky equation that transforming{m, ω} →
+{−m,−ω}is equivalent to performing complex conju-
+gation. The ratioB (refl)/B(inc) can be computed ana-
+lytically in the MST formalism [140–142] for arbitrary
+frequency.
+Few more comments regarding the above result are
+in order. First, we should remind our readers again
+that the complex conjugation from the spheroidal har-
+monics are removed asωis real. The first term inside
+the square braces represents the helicity-preserving piece,
+whereas the second term represents the helicity-reversing
+piece. Secondly, for the special case of on-axis scattering
+(γ= 0), the above formula matches exactly with that in
+Ref. [114]. In the generic case (γ̸= 0), it is consistent
+---
+PAGE 6
+6
+with the expressions in Ref. [140].
+Some illustrative comparisons with Ref. [114] for the
+special case of on-axis scattering are shown in Fig. 2 and
+Fig. 3. In Fig. 2, we have plotted the absorption cross
+section [114]
+σa(γ= 0) = 4π2
+ω2
+∞X
+l=2
+−2S2
+l2(0, aω)
+h
+1− |η P
+l2e2iδP
+l2 |2
+i
+,
+(13)
+and differential scattering cross section [114]
+dσ(γ= 0, θ=π)
+dΩ =|f(0, π, ϕ)| 2 +|g(0, π, ϕ)| 2,(14)
+with frequency (M ω). Here, we have considered no-axis
+incidence (γ= 0) and scattering angle to beθ=π. For
+both cases, we have used the fact that−2Slm(γ= 0, aω)
+is only non-zero whenm= 2and as a result, them-sum
+collapses.
+In Fig. 3, we have plotted the scattering cross section
+as a function of scattering angle (θ). The computation of
+scattering cross section involves summing overl-modes
+appearing viafandgin Eq. (12). It is well-known that
+such a sum does not converge in usual sense and one
+needs various methods like series reduction (as used in
+Ref. [114], for example) as well and Cesàro-αsumma-
+tion [143] (as used in Ref. [1], for example). For more de-
+tails, we ask our readers to check Appendix-C. It is clear
+from Fig. 3 that these two methods do not agree very
+well (particularly forα= 5), especially at low scattering
+angles (θ) and high frequencies (M ω). In this case, the
+result produced by the series reduction method should
+be regarded as the more reliable one, since it is more
+closely tied to the underlying physics by explicitly iso-
+lating the partial-wave divergence atθ= 0, and has a
+well-established history of successful application in com-
+puting Coulomb-scattering series [144].
+Here, we must emphasize that, although we have
+explored various cases spanning the(a, ω, θ)-parameter
+space, Fig. 2 and Fig. 3 just show a few illustrative ex-
+amples. In all cases, our plots match very well with
+that of Ref. [114]. Moreover, the computation of the
+scattering amplitudesfandgcan be computation-
+ally intensive. We implemented the MST formalism
+in C++, based on the publicly availableBlack Hole
+Perturbation toolkit[145], which is originally imple-
+mented in Mathematica. Implementing the MST formal-
+ism numerically requires the use of arbitrary-precision
+arithmetic. For this purpose, we used theFLINT (Arb)
+library in C [146].
+C. Scattered wave at observer
+Now, we need to construct the asymptotic metric in
+the presence of the scattered wave (produced by the
+lens from the incident positive-helicity wave), which can
+be approximated as a plane wave in the vicinity of the
+detector on the earth. To that end, consider a plane
+wave moving towards the observer located at an an-
+gle(θ o, ϕo)with respect to the global frame centred at
+the lens. Thus, it has a momentumq µ ={ω, ⃗ q}with
+⃗ q=ω(sinθ o cosϕ o,sinθ o sinϕ o,cosθ o). We can decom-
+pose the observed wave in a linear combination of both
+positive and negative helicities (h=±2) as
+hµν
+SW =ℜ
+
+A ξµ
++2 ξν
++2 eiq·x +B ξ µ
+−2 ξν
+−2 eiq·x
+
+,(15)
+whereξ µ
+h=±2 ={0,cosθ o cosϕ o ∓isinϕ o,±icosϕ o +
+cosθ o sinϕ o,−sinθ o}are the polarization vectors. The
+correspondingψ SW
+4 , in the region around the detector
+(i.e.,θ≈θ o,ϕ≈ϕ o), is given by
+ψSW
+4 ≈ − ω2
+2
+h
+Ae−iω(t−r∗) +B ∗eiω(t−r∗)
+i
+.(16)
+Comparing with Eq. (12) and settingr→r ∗ =r LO, we
+getA=ϵ f(γ, θ o, ϕo)/rLO andB=ϵ g(γ, θ o, ϕo)/rLO.
+To decompose theψ 4 scalar into(+,×)-basis, we can
+use the standard asymptotic relation2ψSW
+4 ≈∂ 2
+t (hSW
++ −
+ihSW
+× ). In the monochromatic case, it reduces to2ψSW
+4 ≈
+−ω2 (hSW
++ −ih SW
+× ). Thus, comparing with Eq. (16) and
+taking its real/imaginary parts, we get the following re-
+lations:
+hSW
++ = ϵ
+rLO
+ℜ
+h
+(f+g)e −iω(t−r∗)
+i
+,
+hSW
+× =− ϵ
+rLO
+ℑ
+h
+(f−g)e −iω(t−r∗)
+i
+.
+(17)
+We have suppressed the dependence onγ, θo, ϕo in(f, g)
+for brevity. Now, in the special case of on-axis scattering
+(γ= 0), we can further write
+hSW
++ (γ= 0) = ϵ
+rLO
+ℜ
+h
+F e2iϕo−iω(t−r∗)
+i
+,
+hSW
+× (γ= 0) =− ϵ
+rLO
+ℑ
+h
+eF e2iϕo−iω(t−r∗)
+i
+.
+(18)
+Here, we have definedF= ˜f+ ˜gand eF= ˜f−˜g
+withf(γ, θ o, ϕo) = ˜f(γ, θ o)e 2iϕo, andg(γ, θ o, ϕo) =
+˜g(γ
+---
+PAGE 7
+7
+0.5 1.0 1.5 2.0
+M ω
+−10
+0
+10
+20
+30
+σa/πM 2
+a = 0
+a = 0.8M
+a = 0.99M
+a = 0.999M
+a = −0.99M
+0.5 1.0 1.5 2.0
+M ω
+0
+10
+20
+30M −2 dσ(θ = π)/dΩ
+FIG. 2. Plots showing the variations of the on-axis (γ= 0) absorption cross section (σa) and differential scattering cross section
+(dσ/dΩ) as a function of frequency (ω) for different spin values andθ=π. These plots match very well with that of Ref. [114].
+Note that the absorption cross section becomes negative for corotating (a >0) configurations at low frequencies. This is due
+to superradiant amplification.
+40 60 80 100 120 140 160 1800
+20
+40
+60
+80M −2 dσ/dΩ
+M ω = 0.6, a = 0
+Series reduction ( k = 2)
+Ces` aro (α = 2)
+Ces` aro (α = 5)
+40 60 80 100 120 140 160 1800
+20
+40
+60
+80 M ω = 2.0, a = 0
+40 60 80 100 120 140 160 180
+θ (degrees)
+0
+20
+40
+60
+80M −2 dσ/dΩ
+M ω = 0.6, a = 0.99M
+40 60 80 100 120 140 160 180
+θ (degrees)
+0
+20
+40
+60
+80 M ω = 2.0, a = 0.99M
+FIG. 3. Plots showing the variations of the on-axis (γ= 0) scattering cross section for different combinations of (M ω, a). The
+plots generated by the series reduction method match very well with that of Ref. [114]. Whereas the plots generated by Cesàro
+summation (withα= 2,5) technique systematically tend to disagree especially at low values ofθand large values ofM ω.
+---
+PAGE 9
+9
+whereA +(ˆnSL) =|A +(ˆnSL)|exp(iψ SL). We know from
+previous section that the subsequent scattered wave at
+the observer’s location is given by
+hµν
+SW =ϵℜ
+"
+eiψSL e−iω(t−rLO−rSL)
+(
+f(0, θ o, ϕo)
+rLO
+ξµ
++2ξν
++2
++ g(0, θo, ϕo)
+rLO
+ξµ
+−2ξν
+−2
+)#
+.(25)
+We can compare this with the direct wave emitted from
+the source which reaches the observer, given by
+hµν
+dir =ℜ
+"
+A+(ˆnSO)ξµ
++ξν
++ +A −(ˆnSO)ξµ
+−ξν
+−
+rSO
+e−iω(t−rSO)
+#
+(26)
+whereˆnSO is the unit spatial vector from the source to
+the observer and we have assumed that the polarization
+vectors appearing in Eq. (25) and Eq. (26) are approx-
+imately same asr SL ≪r SO ∼r LO. Also, as mentioned
+earlier,|g| ≪ |f|for small values ofθ 0 ≈π/6. Thus,
+focusing only on the contribution offfor a rough (but
+quite good) estimation, a suitable way to quantify the
+relative importance of strong-field wave scattering is by
+the followingstrong-field scattering factor (SFSF):
+SFSF≈ |A+(ˆnSL)|rSO
+|A+(ˆnSO)|rLOrSL
+|f(0, θ o, ϕo)|.(27)
+As a further approximation, we can neglect the variation
+in the wave amplitude betweenˆnSL andˆnSO, and special-
+ize to the situation where the source and lens are close
+(rSO ∼r LO) to each other. This yields
+SFSF≈ |f(0, θ o, ϕo)|
+rSL
+.(28)
+As the strength is governed primarily byrSL, a smaller
+rSL is thus preferred. However, we also require the
+source-lens separation to be much larger than the the
+wavelength of the wave, i.e.,ωrSL ≫1, and much larger
+than the Schwarzschild radius (RL = 2M) of the lens,
+i.e.,r SL ≫R L. These criteria ensure that the incident
+wave on the lens can be treated as a plane wave.
+We plot Eq. (28) for a particular configuration in Fig. 4
+as a function of frequency, and for various values of
+spin. We restrict to on-axis scattering(γ= 0) and se-
+lectθ o =π/6,ϕ o =π/6,r SL = 100M, andr SO ≈r LO.
+In contrast to the result in Ref. [1], we do not find SFSF
+to decay for any value of spin at high frequencies. Our
+result is consistent with the results in Ref. [113, 114],
+where the differential scattering cross section was also
+found not to markedly decrease in amplitude for large fre-
+quencies. Considering the earlier plots in Fig. 3 where we
+showed the comparison of series reduction method with
+Cesàro summation, it appears that the high-frequency
+decay seen in Ref. [1] is likely an artefact of the Cesàro
+resummation procedure, and not a physical effect asso-
+ciated with the absorption of high-frequency GWs. It is
+also important to emphasize that while a part (with low
+l) of high-frequency radiation can be efficiently absorbed
+by the BH lens, the degree of absorption also depends on
+the impact parameter (alternatively, the multipolar in-
+dexl). Thus, in our view, it is not reasonable to conclude
+that all high-frequency GW radiation will be generically
+absorbed by the BH lens, leading to a decayed amplitude.
+B. Mismatch analysis
+In this section, we assess thedistinguishabilityof the
+lensed waveform (the waveform including strong-field
+wave-scattering effects) from the unlensed one (without
+the scattering effects), and the prospects of itsdetectabil-
+ity.
+1. Setup
+A natural measure of thedistinguishabilitybetween
+two waveforms, sayh1 andh 2, is themismatch, defined
+as [147]:
+M(h 1, h2) := 1−O(h 1, h2),(29)
+whereO(h 1, h2)is thematch, defined as the normal-
+ized overlap between the waveforms maximized over any
+global time (t0) and phase (ϕ0) shifts [148, 149]:
+O(h1, h2) := max
+t0,ϕ0
+⟨h1|h2⟩p
+⟨h1|h1⟩ ⟨h2|h2⟩
+,(30)
+with the noise-weighted inner product (i.e., overlap) in a
+frequency windowν∈[ν low, νhigh]given by
+⟨h1|h2⟩= 4ℜ
+Z νhigh
+νlow
+dν
+˜h1(ν)˜h∗
+2(ν)
+Sn(ν) .(31)
+Here, tildes denote the Fourier-transformed waveforms
+in the frequency domain, andS n(ν)is the noise power
+spectral density (PSD) of the GW detector under consid-
+eration [150–153]. The normalization of the waveforms is
+done by dividing them by their norm,||h||=
+p
+⟨h|h⟩ ≡
+ρopt, whereρ opt defines the optimal SNR.
+Since in a GW search, the goal is essentially to find the
+template-bank member that has 
+---
+PAGE 10
+10
+10−2 10−1 100
+0.1
+0.2
+0.04
+0.06
+0.08
+|f (γ = 0, θ o = φo = π/6)|/rSL
+a = 0
+Series reduction (k=2)
+Ces` aro (α = 2)
+Ces` aro (α = 5)
+10−2 10−1 100
+a = 0.8M
+10−2 10−1 100
+M ω
+0.1
+0.2
+0.04
+0.06
+0.08
+|f (γ = 0, θ o = φo = π/6)|/rSL
+a = 0.99M
+10−2 10−1 100
+M ω
+a = 0.999M
+FIG. 4. Log-Log plots showing the relative impact on the waveform (SFSF) due to on-axis scattering (γ= 0) forθo =ϕ o =π/6,
+rSL = 100M,r SO ≈r LO and different choices of spina. Spin does not seem to significantly affect the overall scale of the SFSF,
+but it does contribute appreciably in frequency-modulation. Note that results obtained using Cesàro summation predict a
+decay at high frequencies, which increases withα, in contrast to that obtained via series reduction, which maintains a stable
+amplitude.
+where, motivated by real GW searches, the maximization
+is done over the4D space of binary’s intrinsic parame-
+ters (Θopt): chirp mass, mass ratio, and the aligned spin
+components. The fully optimized mismatch is, therefore,
+1−FF.
+For illustration, we consider aGW150914-like event,
+consisting of two coalescing Schwarzchild BHs of masses
+m1 = 36.9 M⊙, andm2 = 32.8 M⊙4 [2, 5, 8]. The source
+is at a distance ofrSO = 402.6 Mpc. Although including
+cosmological effects such as redshift are straightforward,
+we neglect them here for simplicity. The redshift of the
+source is0.12, which is quite small and can be ignored
+without any major effects for this demonstration. We
+4 We use the maximum-likelihood values of the 1D-marginalized
+posteriors from the ‘C01:Mixed’ channel of ‘IGWN-GWTC2p1-
+v2-GW150914_095045_PEDataRelease_mixed_cosmo.h5’.
+Posterior samples are available at Zenodo.
+choose the lens mass asM= 100 M ⊙. Moreover, the
+distance between the source and lensr SL is chosen to
+be100Mor10 4 M⊙ ∼4×10 −16Mpc, which is much
+smaller than the distance between the source and ob-
+server. We orient our binary source such that its angular
+momentum points away from the lens (i.e., antiparallel
+to the source-lens line), this ensures that the lens expe-
+riences an approximately plane GW with purely positive
+helicity (h= +2). We further specialize to the case of
+on-axis (γ= 0) scattering, where the spin of the lens
+is parallel to the line joining the source and lens. The
+source-lens line is set at an angle ofθo with respect to
+the lens-observer line. At the observer, this corresponds
+to an inclination (angle between the source-observer line
+and the binary orbital angular momentum) ofι=π−θo.
+Finally, given the axisymmetry of the setup about the z-
+axis (the source-lens line which is parallel to the lens spin
+and the source-orbital angular momentum), we choose
+the azimuthal angleϕ o = 0 ◦ without loss of generality.
+---
+PAGE 14
+14
+FIG. 9. Illustrative estimation of the SNR required to identify scattering-induced lensing features inh+
+obs andh ×
+obs, shown in
+the left and right panels, respectively.
+be at least10for the identification of lensing features.
+We adopt a higher threshold than that suggested by, for
+example, Jeffreys’ criterion [161], since this approxima-
+tion is known to overestimate the Bayes factor (see, e.g.,
+Refs. [71, 160]). Fig. 9 shows the estimated SNR re-
+quired,ρ req, to identify scattering-induced lensing fea-
+tures inh +
+obs andh ×
+obs. We find thatρ req ≳25near
+θo =π/6, increasing to∼100atθ o =π/2forh +
+obs, while
+it decreases to∼10forh ×
+obs. This behaviour follows
+directly from the corresponding decrease in the fitting
+factor values (see Fig. 7). We emphasize that the sig-
+nal observed by a detector is a projection of the plus
+and cross polarizations. Consequently, nearθ o =π/2
+although scattering-induced features inh×
+obs become de-
+tectable in isolation, the observed signal may still be
+dominatedbyh +
+obs, potentiallyhinderingtheirdetectabil-
+ity. Additionally, note that although the required SNR
+is lower forθo =π/2when the cross-polarization is con-
+sidered in isolation, detecting a signal that meets this
+SNR threshold may in fact be more difficult. This is be-
+causeh ×
+obs is dominated by the scattered waveform for
+θo =π/2, which has a smaller amplitude than the un-
+lensed waveform due to the increased travel time and the
+corresponding additional decay [see Eq. (28)], as well as
+the directional dependence of the scattering amplitude,
+see Fig. 3. Nevertheless, with future detectors it may
+be possible to observe signals in this regime with SNRs
+exceeding the required threshold.
+Finally, we note that the scattering formalism pre-
+sented in this work is not valid for small angles (θo ≲
+π/6), where the modification of the direct component due
+to lensing cannot be ignored. In fact, the very notion of
+splitting the observed waveform into direct and scattered
+components would no longer be feasible. Nevertheless,
+the convergence of the partial-wave expansion might be
+improved by adopting an eikonal approach. Such an im-
+provement has indeed been demonstrated recently [162]
+by approximating the sum overl-modes by an integral
+over the impact parameter. We leave the numerical study
+of smallθ o for future work.
+IV. CONCLUSION
+Inthiswork, wepresentedadetailedanalysisofstrong-
+field gravitational lensing of GWs by a Kerr BH in
+the wave-optics regime, extending previous study for
+the corresponding non-rotating case. Using MST tech-
+niques and high-precision numerical implementations, we
+quantify the effects via the strong-field scattering factor
+(SFSF) and the resulting waveform modulations. Our
+calculations successfully reproduce known Kerr scatter-
+ing results [114] and clearly demonstrate that the SFSF
+remains non-decaying even at high frequencies for all spin
+parameters of the lens, in stark contrast to the conclusion
+of Ref. [1]. We traced this behaviour to the use Cesàro-
+αmethod adopted in Ref. [1], rather than a physically
+robust resummation method, like series reduction [114].
+The apparent high-frequency suppression reported there
+might, therefore, be attributed to numerical artefacts
+rather than genuine absorption of radiation by the lens.
+Several consistency checks against established results re-
+inforce the reliability of our results.
+By propagating the scattered field to a distant observer
+and coherently combining it with the direct waveform,
+we quantify how strong-field wave-optics Kerr lensing
+modifies incident GW signals. The effects are most pro-
+nounced when the source and lens lie sufficiently close
+---
+PAGE 17
+17
+Now, followingthesimilarcomputationsasdemonstrated
+in Appendix-A, and obtain
+eψ′lm
++ (ω′, r)≈(−1) m 8πi
+ω′r e−iω′r
+2Slm(π−γ, aω ′),
+eψ′lm
+− (ω′, r)≈ 8πi
+ω′r e−iω′r
+2Slm(γ, aω′).
+(B5)
+Now, using Eq. (B2), we can rewrite the ingoing part of
+ψ0 by adding the specific-parity modes in the following
+suggestive form
+ψin
+0 ≈ −ϵ ω2
+4
+Z ∞
+−∞
+dω′X
+Plm
+K ′in
+lmP(ω′) e−iω′(t+r∗)
+ω′r
+× 2Slm(θ, aω′)e imϕ,
+(B6)
+whereK ′in
+lmP = bψ′lm
++ (ω′)δ(ω ′ −ω) + P bψ′lm
+− (ω′)δ(ω ′ +ω)
+with bψ′lm
+P (ω′) = eψ′lm
+P ω′r eiω′r∗.
+(b) Obtainingψ in
+4 fromψ in
+0 :Now that we have found
+the leading piece ofψ in
+0 , we can apply the follow-
+ing Teukolsky-Starobinsky identity in the Geroch-Held-
+Penrose (GHP) notation [140] as
+þ4ζ4ψ4 =ð ′4ζ4ψ0 −3ML t ¯ψ0,(B7)
+whereζ=r−iacosθ, þ=ℓ µ∂µ in Kinnersley tetrad,
+ð′ = ¯mµ∂µ +pβ ′ −q ¯βwithβ= cotθ/(2
+√
+2 ¯ζ),β ′ =
+[rcotθ−iasinθ(csc 2 θ+ 1)]/(2
+√
+2ζ), and{p, q}are the
+GHP weights of the function being acted upon by the op-
+erator (hereð). Specifically, the GHP weights ofψ0 and
+ζare{4,0}and{0,0}, respectively. When two functions
+are multiplied, their GHP weights are added. Finally,Lt
+is the Lie-derivative with respect to the time-like killing
+vector. Sinceψ 0 is a scalar function, and we have aligned
+our time-like direction with(∂t)α,L t is simply the time-
+derivative.
+Let us now evaluate both sides of the above identity
+for the following asymptoticω′lm-mode expansion ofψ4:
+ζ4 ψ4 ≈ϵ
+Z
+dω′X
+lm
+e−iω′t+imϕ
+−2Slm(θ, aω′)×
+h
+r3 B(refl)
+lmω′ eiω′r +B (inc)
+lmω′
+e−iω′r
+r
+i
+.
+(B8)
+Then, the left hand side of Eq. (B7), for the choice of
+tetrads given by Eq. (3), asymptotically reduces (in lead-
+ing contribution) to
+(∂t +∂ r)4ζ4ψ4 ≈16ϵ
+X
+lm
+Z
+dω′ ω′4 r−1B(inc)
+lmω′ e−iω′(t+r)
+× −2Slm(θ, aω′)eimϕ.(B9)
+Notethattheleadingpiece(outgoing)ofψ 4 isannihilated
+by þ4. Now, on the right hand side of Eq. (B7), the first
+term can be evaluated by using the relation [140]
+ð′4ζ4
+2Slm(θ, aω)e imϕ = 1
+4 ℜ(C) −2Slm(θ, aω)e imϕ,
+(B10)
+where the Teukolsky-Starobinsky constantCwas intro-
+duced earlier in Eq. (11). Note that the operatorð′ only
+involves angular derivatives as the tetrad vectormhas
+no time-like or radial components far away from the BH.
+Hence, one can straightforwardly apply the above result
+on Eq. (B6).
+Finally, we have−3ML t ¯ψ0 =−3M(d ¯ψ0/dt), where
+¯ψ0 can be obtained by taking the complex conjugation of
+Eq. (B6). This can be further simplified to
+− 3iM ω2
+4 ϵ
+X
+Plm
+Z
+dω′ (−1)l K ′in
+lmP(ω′) e−iω′(t+r)
+r
+−2Slm(θ, aω′)eimϕ
+by first switching the dummy variablesω′ → −ω ′ and
+m→ −m, and then applying the identitysSlm(θ, aω) =
+(−1)m+s−sSl−m(θ,−aω). Moreover, we have used
+¯K ′in
+l−mP (−ω′) = (−1)l+m+1PK ′in
+lmP(ω′), which follows eas-
+ily from the definition ofK′in
+lmP given below Eq. (B6).
+Now, collecting all parts of the Teukolsky-Starobinsky
+identity together, we get the relation betweenB(inc)
+lmω′ and
+K ′in
+lmP(ω′)as
+B(inc)
+lmω′ =− ω2
+4
+X
+P
+h ℜ(C) + 12iM ω′ P(−1)l
+16ω′5
+i
+Kin
+lmP(ω′),
+(B11)
+where we have usedKin
+lmP(ω′) =K ′in
+lmP(ω′)/4for future
+reference. Note also that the above expression has a
+relative(−1) l compared to the expression in Ref. [114],
+which is due to the different convention of parity
+operators being used.
+(c) Obtaining the phase formulae:We can now rewrite
+the asymptotic form of the incidentψ4 given by Eq. (B8)
+with parity modes separated and including the sublead-
+ing (ingoing) term as well:
+ζ4
+r4 ψPW
+4 ≈ −ϵ ω2
+4
+Z ∞
+−∞
+dω′
+−2Slm(θ, aω′)e imϕ×
+X
+Plm
+"
+Kout
+lmP(ω′) e−iω′(t−r∗)
+ω′r + ℜ(C) + 12iM ω′ P(−1)l
+16(ω′)4r4
+×K in
+lmP(ω′) e−iω′(t+r∗)
+ω′r
+#
+,
+(B12)
+where we have used Eq. (B11) and identifiedB refl in
+terms ofK out.
+Finally, to define the phase, we need to understand
+the relationship connecting the in-out coefficients, as
+given below Eq. (9) and Eq. (B6), for the case of in-
+cident and scattered plane waves. It can be easily
+verified that for the incident plane wave, we have the
+relationK out
+lmP(ω′) = (−1) l+1 Kin
+lmP(ω′). However, as
+discussed earlier, scattering produces a relative phase
+---
+PAGE 18
+18
+shift in the outgoing part of the wave. This suggests
+the above relation should be modified asK out
+lmP(ω′) =
+(−1)l+1 ηP
+lm exp(2iδP
+lm)K in
+lmP(ω′)after scattering. Thus,
+we have
+ηP
+lme2iδP
+lm(ω′) = (−1)l+1 ℜ(C) + 12iM ω′ P(−1)l
+16ω′4
+B(refl)
+lmω′
+B(inc)
+lmω′
+(B13)
+as used in the main text. Note that the ratio ofB′sin the
+right hand side of the above expression is independent of
+parity, and can be computed using the MST approach.
+Appendix C: Two resummation techniques
+In this appendix, we briefly describe two resumma-
+tion techniques, namely the Cesàro-αsummation and se-
+ries reduction procedure, used to resum the multipolar
+(l) spheroidal-harmonic expansion of a series, especially
+while reconstructing a plane wave from partial waves.
+When such a reconstruction is done from a truncated set
+of multipolar modes, i.e.,l∈[0, l max], the straightfor-
+ward sum typically fails to converge and usually show
+unphysical oscillations about the true value. This is a
+well-know difficulty in partial-wave analysis, where the
+following techniques can provide a controlled way to ex-
+tract the physically meaningful sum.
+(a) Cesàro-αsummation:Let us first discuss the
+methodology behind the Cesàro-αsum [143]. Given a
+sequence of terms{al}to be summed, the seriesP∞
+l=0 al
+is said to be Cesàro-αsummable to a value ofSif the fol-
+lowing series of weighted-terms (equivalently, of averaged
+partial sums) converges:
+C α[al] :=
+lmaxX
+l=0
+ lmax
+l
+
+ lmax+α
+l
+ al − − − − − − →
+lmax→∞
+S,(C1)
+for someα >−1. Forα= 0, this reduces to the ordinary
+sum. Whereas larger values ofαusually apply stronger
+smoothening by suppressing oscillations in the ordinary
+sum. In practice, however, one keeps on increase the
+value ofαunless a numerically stable sum [i.e., when
+the relative error between Cesàro-αand Cesàro-(α+ 1)
+sum drops below a prefixed threshold] of the underlying
+truncated (atl max) series is attained.
+Although largerαvalues usually regularize the sum
+better, care must be taken when applying it on such trun-
+cated series. Choosing too large a value ofαcan over-
+suppress the high-lcontributions that could be physically
+important. In such cases, the resummed result may de-
+viate from the correct value due to artificially induced
+smoothening/distortion effects. Hence, it is always best
+practice to start from lower values, sayα= 2, and then
+gradually increasing it to higher values, sayα= 5, while
+keeping track of the relative error in the subsequent in-
+crease inα.
+One should, however, keep in mind that Cesàro sum-
+mation is essentially a numerical regularization scheme.
+Thus, in a given physical problem (e.g., BH scattering),
+some other methods like series reduction, which we shall
+discuss next, can work better if they factor out the known
+physical divergence(s) of the underlying sum for achiev-
+ing a better convergence property.
+C0 1 2 5
+SR2 g
+0 10 20 30 40 50 60 70
+0.001
+0.010
+0.100
+1
+10
+100
+lmax
+|Amplitudes|
+FIG. 10. Plots showing the absolute amplitudes|f(γ=
+0, θo =ϕ o =π/6)|and|g(γ= 0, θ o =ϕ o =π/6)|for the
+spinless case (a= 0) atM ω= 0.5, resummed using series re-
+duction of order 2, and Cesàro summation forα={0,1,2,5}.
+The x-axis showslmax which sets the limit for summation over
+lin Eqs. (12). Note thatg, the helicity-reversing amplitude,
+smoothly converges asl max is increased. However, the raw
+result forf, i.e.,(C 0) (shown by the dotted-red line) is highly
+oscillatory and does not converge aslmax is increased. How-
+ever, upon doing series reduction of order2(SR2) or Cesàro
+summation(C 0,C 1,C 2,C 5), itshowsmuchbetterconvergece
+properties for largelmax.
+(b) Series reduction:In series reduction, one analyt-
+ically captures its divergent behaviour at some param-
+eter location(s) by properly factoring them out, leaving
+behind a well defined convergent sum. In the scatter-
+ing problem, it turns out that the helicity-preserving
+scattering amplitudef(γ, θ o, ϕo)requires series reduc-
+tion, whereas the helicity-reversing scattering amplitude
+g(γ, θo
+---
+PAGE 19
+19
+Thus, we have an expansion of the form
+f(γ, θ o, ϕo) =
+X
+lm
+Flm−2 Ylm(θo, ϕo).(C2)
+As a demonstration, we show series reduction for the on-
+axis case, whereγ= 0, albeit the principles remain sim-
+ilar. In this case, the above function is divergent for
+θo = 0. Note that one can always perform a rotation
+so the divergence is centred at 0. Thus, we rewrite the
+function as
+f(0, θ o, ϕo) =
+ˆf(θ o, ϕo)
+(1−cosθ o)k , ˆf=
+X
+lm
+ˆFlm−2 Ylm(θo, ϕo).
+(C3)
+For a suitable value ofk(referred to as the order of series
+reduction), the function ˆf(θ o, ϕo)is expected to have a
+well-defined convergent spherical expansion. For the spe-
+cific problem of interest [114], orderk= 2appears to be
+a good choice.
+To proceed further, we need to compute the coefficients
+ˆFlm, in terms of the knowns, i.e., the coefficientsFlm. It
+is sufficient to solve the problem fork= 1, as one can
+then just iterate as required to obtain the relation for any
+k∈Z +. We thus write
+ˆFlm =
+Z
+dθo sinθ o
+Z
+dϕo ˆf −2Y ∗
+lm
+=
+X
+l′m′
+Fl′m′
+Z
+dθo sinθ o
+Z
+dϕo−2 Yl′m′×(C4)
+−2Y ∗
+lm(1−cosθ o).
+This can be evaluated analytically using the Wigner-
+3j symbols. It is clear from angular-momentum con-
+siderations that there can be a non-zero value only for
+l={l ′, l′ + 1, l′ −1}andm ′ =m. Specifically, we have
+ˆFlm =F lm
+
+1− 2m
+l(l+ 1)
+
+− Al
+l+ 1 Fl+1,m − Bl
+l Fl−1,m,
+Al =
+s
+(l−1)(l+ 3)(l−m+ 1)(l+m+ 1)
+4l(l+ 2) + 3 ,(C5)
+Bl =
+r
+(l2 −4)(l 2 −m 2)
+4l2 −1 .(C6)
+The above relation lets us generate the list of the reduced
+series ˆFlm. Doing it twice yields the result fork= 2. The
+reduced series is found to converge much faster. In this
+work, we compute the coefficients up tol= 70.
+Asademonstration, weshowforparticularcase(a= 0,
+M ω= 0.5,γ= 0,θ o =ϕ o =π/6) in Fig. 10 how the
+amplitudes (fandg) obtained directly via computation
+compares with that obtained either via series reduction
+(at k=2), and Cesàro summation (forα= 1,2,3,5.).
+Note that all methods succeed in smoothening the data
+and giving a convergent result forfandgasl max is in-
+creased. However, increasingαdoes not cause the series-
+reduction result and Cesàro summation results to agree
+with each other. For example, in Fig. 10, Cesàro sum-
+mation withα= 5(solid pink) disagrees more with the
+result obtained via series-reduction technique than the
+correspondingα= 2(solid orange) case.
+Appendix D: Computing correction to waveform in
+frequency domain
+In the main text, we have already shown (via SFSF)
+how a monochromatic-plane wave is affected by a Kerr
+BH lens. Here, we generalize this to the case where the
+plane wave is instead a superposition of frequencies, as
+expected from realistic GW signals that evolve in time.
+It is simplest to work in the frequency domain. We again
+restrict to the case where the lens experiences purely pos-
+itive helicity GW radiation, for simplicity. It is straight-
+forward to generalize this, following the discussion below
+Eq. (18), in cases where the incident wave is a linear
+combination of both helicities.
+The frequency-domain waveform at the lens location
+in the(+,×)-basis can be easily obtained using the soft-
+ware packagePyCBCand is related to the time-domain
+waveform via a Fourier transform. If the time-domain
+waveform is schematically given by
+hµν
+wave(t, ⃗ r) =h+(t−r, ⃗ r)ηµν
++ +h ×(t−r, r)η µν
+× ,(D1)
+whereη µν
++,× are the basis polarization tensors. We define
+the frequency domain waveforms as
+h+,×(ν, ⃗ r) =
+Z ∞
+−∞
+h+,×(u, ⃗ r)e2iπνu du,(D2)
+whereu=t−ris the retarded time. It is convenient
+to write them ash+(ν) =A +eiψ+ andh ×(ν) =A ×eiψ×.
+We can invert these relations as
+hµν
+wave(u, ⃗ r) =
+Z ∞
+−∞
+dν
+2π e−2πiνu 
+h+(ν, ⃗ r)ηµν
++ + (+↔ ×)
+
+= 2ℜ
+Z ∞
+0
+dν
+2π e−2πiνu 
+h+(ν, ⃗ r)ηµν
++ + (+↔ ×)
+
+(D3)
+Now, in the special case whereA + =A ×, andψ × =
+π/2 +ψ +. We have
+hµν
+wave(u, ⃗ r) = 2ℜ
+Z ∞
+0
+dν
+2π e−2πiνu A+eiψ+
+
+ηµν
++ +iη µν
+×
+
+.
+(D4)
+Now, using the relationεµ
++εν
++ =η µν
++ +iη µν
+× , whereε µ
++εν
++
+is the polarization tensor for a positive helicity wave, de-
+fined in the main text. We see, th
+---
+PAGE 22
+22
+Phys. Rev. D112, 063044 (2025), arXiv:2501.02096 [astro-
+ph.CO].
+[99] O. Bulashenko, N. Villanueva, R. B. Nerin, and J. A. Font,
+arXiv (2025), 2510.20442 [gr-qc].
+[100] R. P. Kerr, Phys. Rev. Lett.11, 237 (1963).
+[101] J. M. Bardeen, W. H. Press, and S. A. Teukolsky, The As-
+trophysical Journal178, 347 (1972).
+[102] C. W. Misner, K. S. Thorne, and J. A. Wheeler,Gravitation
+(W. H. Freeman, San Francisco, 1973).
+[103] A. Farooqui, N. Kamran, and P. Panangaden, Adv. Theor.
+Math. Phys.18, 659 (2014), arXiv:1306.6292 [math-ph].
+[104] Z.Gelles, E.Himwich, D.C.M.Palumbo,andM.D.Johnson,
+Phys. Rev. D104, 044060 (2021), arXiv:2105.09440 [gr-qc].
+[105] V. P. Frolov and A. Koek, Phys. Rev. D111, 104081 (2025),
+arXiv:2503.19208 [gr-qc].
+[106] V. Bozza, F. De Luca, G. Scarpetta, and M. Sereno, Phys.
+Rev. D72, 083003 (2005), arXiv:gr-qc/0507137.
+[107] M. Sereno and F. De Luca, Phys. Rev. D74, 123009 (2006),
+arXiv:astro-ph/0609435.
+[108] M. Sereno and F. De Luca, Phys. Rev. D78, 023008 (2008),
+arXiv:0710.5923 [astro-ph].
+[109] S. A. Teukolsky, Phys. Rev. Lett.29, 1114 (1972).
+[110] S. A. Teukolsky and W. H. Press, Astrophys. J.193, 443
+(1974).
+[111] J. A. H. Futterman, F. A. Handler, and R. A. Matzner,
+SCATTERING FROM BLACK HOLES, Cambridge Mono-
+graphs on Mathematical Physics (Cambridge University
+Press, 2012).
+[112] K. Glampedakis and N. Andersson, Class. Quant. Grav.18,
+1939 (2001), arXiv:gr-qc/0102100.
+[113] S.R.Dolan,Phys.Rev.D77,044004(2008),arXiv:0710.4252
+[gr-qc].
+[114] S. R. Dolan, Class. Quant. Grav.25, 235002 (2008),
+arXiv:0801.3805 [gr-qc].
+[115] K.-i. Kubota, S. Arai, H. Motohashi, and S. Mukohyama,
+Phys. Rev. D110, 124011 (2024), arXiv:2408.03289 [gr-qc].
+[116] L. C. S. Leite, C. L. Benone, and L. C. B. Crispino, Phys.
+Rev. D96, 044043 (2017), arXiv:1708.03370 [gr-qc].
+[117] L. Lindblom, B. J. Owen, and D. A. Brown, Phys. Rev. D
+78, 124020 (2008), arXiv:0809.3844 [gr-qc].
+[118] T. Damour, A. Nagar, and M. Trias, Phys. Rev. D83, 024006
+(2011), arXiv:1009.5998 [gr-qc].
+[119] N. Cornish, L. Sampson, N. Yunes, and F. Pretorius, Phys.
+Rev. D84, 062003 (2011), arXiv:1105.2088 [gr-qc].
+[120] J. E. Thompson, C. Hoy, E. Fauchon-Jones, and M. Hannam,
+Phys. Rev. D112, 064011 (2025), arXiv:2506.10530 [gr-qc].
+[121] C. L. Rodriguez and A. Loeb, Astrophys. J. Lett.866, L5
+(2018), arXiv:1809.01152 [astro-ph.HE].
+[122] F. Antonini and M. Gieles, Phys. Rev. D102, 123016 (2020),
+arXiv:2009.01861 [astro-ph.HE].
+[123] H. Ubach, M. Gieles, and J. Miralda-Escudé, Phys. Rev. D
+112, 083026 (2025), arXiv:2505.04794 [astro-ph.HE].
+[124] B. McKernan, K. E. S. Ford, W. Lyra, and H. B. Perets,
+MNRAS425, 460 (2012), arXiv:1206.2309 [astro-ph.GA].
+[125] H. Tagawa, Z. Haiman, and B. Kocsis, Astrophys. J.898, 25
+(2020), arXiv:1912.08218 [astro-ph.GA].
+[126] B. Mckernanet al., Astrophys. J.866, 66 (2018),
+arXiv:1702.07818 [astro-ph.HE].
+[127] M. Gröbner, W. Ishibashi, S. Tiwari, M. Haney, and P. Jet-
+zer, Astron. Astrophys.638, A119 (2020), arXiv:2005.03571
+[astro-ph.GA].
+[128] J. S. Santos, V. Cardoso, J. Natário, and M. van de Meent,
+Phys. Rev. Lett.135, 211402 (2025), arXiv:2506.14868 [gr-
+qc].
+[129] F. Antonini, N. Murray, and S. Mikkola, Astrophys. J.781,
+45 (2014), arXiv:1308.3674 [astro-ph.HE].
+[130] K. Silsbee and S. Tremaine, Astrophys. J.836, 39 (2017),
+arXiv:1608.07642 [astro-ph.HE].
+[131] G. Fragione and A. Loeb, Mon. Not. Roy. Astron. Soc.486,
+4443 (2019), arXiv:1903.10511 [astro-ph.GA].
+[132] B. Liu and D. Lai, Mon. Not. Roy. Astron. Soc.502, 2049
+(2021), arXiv:2009.10068 [astro-ph.HE].
+[133] M. J. Grahamet al., Phys. Rev. Lett.124, 251102 (2020),
+arXiv:2006.14122 [astro-ph.HE].
+[134] S. L. Morton, S. Rinaldi, A. Torres-Orjuela, A. Derdzinski,
+M. P. Vaccaro, and W. Del Pozzo, Phys. Rev. D108, 123039
+(2023), arXiv:2310.16025 [gr-qc].
+[135] S. H. W. Leong, J. Janquart, A. K. Sharma, P. Martens,
+P. Ajith, and O. A. Hannuksela, Astrophys. J. Lett.979,
+L27 (2025), arXiv:2408.13144 [astro-ph.HE].
+[136] M. V. S. Saketh and J. Vines, Phys. Rev. D106, 12
+---

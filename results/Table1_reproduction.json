@@ -1,0 +1,62 @@
+[
+  {
+    "theta_deg": 30.0,
+    "a": 0.0,
+    "mismatch_plus": 0.019192307831994437,
+    "mismatch_cross": 0.018089327580469106
+  },
+  {
+    "theta_deg": 30.0,
+    "a": 0.8,
+    "mismatch_plus": 0.01687859616218612,
+    "mismatch_cross": 0.01558620066440608
+  },
+  {
+    "theta_deg": 30.0,
+    "a": 0.99,
+    "mismatch_plus": 0.02391524626971009,
+    "mismatch_cross": 0.022307233891227574
+  },
+  {
+    "theta_deg": 30.0,
+    "a": 0.999,
+    "mismatch_plus": 0.018002990868971724,
+    "mismatch_cross": 0.016615114464217928
+  },
+  {
+    "theta_deg": 30.0,
+    "a": -0.99,
+    "mismatch_plus": 0.024162955665808727,
+    "mismatch_cross": 0.02341677290139821
+  },
+  {
+    "theta_deg": 60.0,
+    "a": 0.0,
+    "mismatch_plus": 0.0033497905211516965,
+    "mismatch_cross": 0.0052011089413610545
+  },
+  {
+    "theta_deg": 60.0,
+    "a": 0.8,
+    "mismatch_plus": 0.0028288539749347086,
+    "mismatch_cross": 0.004200208861132926
+  },
+  {
+    "theta_deg": 60.0,
+    "a": 0.99,
+    "mismatch_plus": 0.003177500576185044,
+    "mismatch_cross": 0.004691026397852016
+  },
+  {
+    "theta_deg": 60.0,
+    "a": 0.999,
+    "mismatch_plus": 0.0032549416966416445,
+    "mismatch_cross": 0.004821596811641626
+  },
+  {
+    "theta_deg": 60.0,
+    "a": -0.99,
+    "mismatch_plus": 0.0037583633483468937,
+    "mismatch_cross": 0.005825416621290769
+  }
+]

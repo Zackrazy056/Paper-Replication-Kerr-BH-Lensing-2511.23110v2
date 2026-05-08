@@ -1,0 +1,8 @@
+[*] Building Fig.3 spherical-basis SR rows...
+    combos: 1
+    l_mode_target=60, k=2, nTheta=281
+    full-grid points=81, spheroidal NumTerms=40
+    working precision=30
+    projection method=orth_projection
+[*] SR rows generated: 1
+[+] Export complete: data/fig3_sr_spherical.json

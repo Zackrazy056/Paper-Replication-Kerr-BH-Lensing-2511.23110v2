@@ -1,0 +1,38 @@
+[
+  {
+    "name": "base_N20_S80",
+    "num_terms": 20,
+    "full_steps": 80,
+    "returncode": 0,
+    "seconds": 90.52,
+    "rows": 1,
+    "saved_json": "c:/Users/97747/GW QNM EMRI PROJECT/GW lens2/Kerr_GW_Lensing_Fig2\\results\\audit_sr_bs\\base_N20_S80.json"
+  },
+  {
+    "name": "N40_S80",
+    "num_terms": 40,
+    "full_steps": 80,
+    "returncode": 0,
+    "seconds": 238.92,
+    "rows": 1,
+    "saved_json": "c:/Users/97747/GW QNM EMRI PROJECT/GW lens2/Kerr_GW_Lensing_Fig2\\results\\audit_sr_bs\\N40_S80.json"
+  },
+  {
+    "name": "N20_S160",
+    "num_terms": 20,
+    "full_steps": 160,
+    "returncode": 0,
+    "seconds": 213.98,
+    "rows": 1,
+    "saved_json": "c:/Users/97747/GW QNM EMRI PROJECT/GW lens2/Kerr_GW_Lensing_Fig2\\results\\audit_sr_bs\\N20_S160.json"
+  },
+  {
+    "name": "N40_S160",
+    "num_terms": 40,
+    "full_steps": 160,
+    "returncode": 0,
+    "seconds": 411.22,
+    "rows": 1,
+    "saved_json": "c:/Users/97747/GW QNM EMRI PROJECT/GW lens2/Kerr_GW_Lensing_Fig2\\results\\audit_sr_bs\\N40_S160.json"
+  }
+]
