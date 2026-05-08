@@ -4,8 +4,33 @@
 (* modal f(theta) on spheroidal basis -> spherical projection -> SR    *)
 (* =================================================================== *)
 
-AppendTo[$Path, "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+EnvOrDefault[name_, default_] := Module[{value},
+  value = Environment[name];
+  If[StringQ[value] && StringLength[StringTrim[value]] > 0, StringTrim[value], default]
+];
+
+swshPath = EnvOrDefault["BHP_SW_SH_PATH", "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+AppendTo[$Path, swshPath];
 Needs["SpinWeightedSpheroidalHarmonics`"];
+
+Print["[*] Initializing Parallel Kernels..."];
+kernelRaw = Environment["FIG3_KERNELS"];
+kernelTarget = If[
+  StringQ[kernelRaw] && StringLength[StringTrim[kernelRaw]] > 0,
+  Quiet[Check[ToExpression[StringTrim[kernelRaw]], 0]],
+  0
+];
+If[IntegerQ[kernelTarget] && kernelTarget > 0,
+  LaunchKernels[kernelTarget],
+  LaunchKernels[]
+];
+ParallelEvaluate[
+  sw = Environment["BHP_SW_SH_PATH"];
+  If[!StringQ[sw] || StringLength[StringTrim[sw]] == 0, sw = "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+  AppendTo[$Path, StringTrim[sw]];
+  Needs["SpinWeightedSpheroidalHarmonics`"];
+];
+Print["[*] Active kernels: ", $KernelCount];
 
 sWeight = -2;
 mIndex = 2;
@@ -13,10 +38,11 @@ workingPrec = 70;
 
 kSR = 2;
 lModeTarget = 88;
-lBasisPad = 16;
+lBasisPad = 24;
 minModeCount = 20;
-nFullThetaSteps = 400;
-spheroidalNumTerms = 40;
+nFullThetaSteps = 800;
+spheroidalNumTerms = 80;
+parallelSR = True;
 defaultComboTargets = {
   {0.0, 0.5},
   {0.0, 0.6},
@@ -38,6 +64,12 @@ If[StringQ[lModeRaw] && StringLength[StringTrim[lModeRaw]] > 0,
 ];
 If[!IntegerQ[lModeTarget] || lModeTarget < 10, lModeTarget = 88];
 
+basisPadRaw = Environment["FIG3_SR_BASIS_PAD"];
+If[StringQ[basisPadRaw] && StringLength[StringTrim[basisPadRaw]] > 0,
+  lBasisPad = Quiet[Check[ToExpression[basisPadRaw], lBasisPad]];
+];
+If[!IntegerQ[lBasisPad] || lBasisPad < 4, lBasisPad = 24];
+
 fullStepsRaw = Environment["FIG3_SR_FULL_STEPS"];
 If[StringQ[fullStepsRaw] && StringLength[StringTrim[fullStepsRaw]] > 0,
   nFullThetaSteps = Quiet[Check[ToExpression[fullStepsRaw], nFullThetaSteps]];
@@ -49,6 +81,11 @@ If[StringQ[numTermsRaw] && StringLength[StringTrim[numTermsRaw]] > 0,
   spheroidalNumTerms = Quiet[Check[ToExpression[numTermsRaw], spheroidalNumTerms]];
 ];
 If[!IntegerQ[spheroidalNumTerms] || spheroidalNumTerms < 8, spheroidalNumTerms = 40];
+
+parallelRaw = Environment["FIG3_SR_PARALLEL"];
+If[StringQ[parallelRaw] && StringLength[StringTrim[parallelRaw]] > 0,
+  parallelSR = MemberQ[{"1", "true", "yes", "on"}, ToLowerCase[StringTrim[parallelRaw]]];
+];
 
 thetaDegList = N[Range[40, 180, 1/2], workingPrec];
 thetaRadList = N[thetaDegList * Pi / 180, workingPrec];
@@ -367,13 +404,27 @@ Print["[*] Building Fig.3 spherical-basis SR rows..."];
 Print["    combos: ", Length[comboKeys]];
 Print["    l_mode_target=", lModeTarget, ", k=", kSR, ", nTheta=", nTheta];
 Print["    full-grid points=", nFullTheta, ", spheroidal NumTerms=", spheroidalNumTerms];
+Print["    basis pad=", lBasisPad, ", parallel=", parallelSR];
 Print["    working precision=", workingPrec];
 Print["    projection method=orth_projection"];
 
 srRows = DeleteCases[
-  Table[
-    ComputeSRRow[pair[[1]], pair[[2]]],
-    {pair, comboKeys}
+  If[TrueQ[parallelSR],
+    DistributeDefinitions[
+      sWeight, mIndex, workingPrec, kSR, lModeTarget, lBasisPad, minModeCount,
+      thetaDegList, thetaRadList, nTheta, fullThetaRadList, nFullTheta,
+      spheroidalNumTerms, modeAssoc, CleanNum, SafeNumList, KeyA, KeyW,
+      ReduceOnce, ComputeSRRow
+    ];
+    ParallelTable[
+      ComputeSRRow[pair[[1]], pair[[2]]],
+      {pair, comboKeys},
+      Method -> "FinestGrained"
+    ],
+    Table[
+      ComputeSRRow[pair[[1]], pair[[2]]],
+      {pair, comboKeys}
+    ]
   ],
   Nothing
 ];

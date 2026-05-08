@@ -3,13 +3,30 @@
 (* Recompute only S(theta) and S(pi-theta), preserving radial data.     *)
 (* =================================================================== *)
 
-AppendTo[$Path, "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+EnvOrDefault[name_, default_] := Module[{value},
+  value = Environment[name];
+  If[StringQ[value] && StringLength[StringTrim[value]] > 0, StringTrim[value], default]
+];
+
+swshPath = EnvOrDefault["BHP_SW_SH_PATH", "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+AppendTo[$Path, swshPath];
 Needs["SpinWeightedSpheroidalHarmonics`"];
 
 Print["[*] Initializing Parallel Kernels..."];
-LaunchKernels[];
+kernelRaw = Environment["FIG3_KERNELS"];
+kernelTarget = If[
+  StringQ[kernelRaw] && StringLength[StringTrim[kernelRaw]] > 0,
+  Quiet[Check[ToExpression[StringTrim[kernelRaw]], 0]],
+  0
+];
+If[IntegerQ[kernelTarget] && kernelTarget > 0,
+  LaunchKernels[kernelTarget],
+  LaunchKernels[]
+];
 ParallelEvaluate[
-  AppendTo[$Path, "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+  sw = Environment["BHP_SW_SH_PATH"];
+  If[!StringQ[sw] || StringLength[StringTrim[sw]] == 0, sw = "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+  AppendTo[$Path, StringTrim[sw]];
   Needs["SpinWeightedSpheroidalHarmonics`"];
 ];
 Print["[*] Active kernels: ", $KernelCount];
@@ -22,6 +39,8 @@ thetaList = N[Range[40, 180, 1/2] * Pi / 180, workingPrec];
 inputName = "fig3_patch_w2_a0_a099.json";
 targetAList = {0.99};
 targetOmegaList = {2};
+lMin = 2;
+lMax = Infinity;
 
 If[StringQ[Environment["FIG3_DENSIFY_FILE"]] && StringLength[StringTrim[Environment["FIG3_DENSIFY_FILE"]]] > 0,
   inputName = StringTrim[Environment["FIG3_DENSIFY_FILE"]];
@@ -31,6 +50,12 @@ If[StringQ[Environment["FIG3_DENSIFY_A_LIST"]] && StringLength[StringTrim[Enviro
 ];
 If[StringQ[Environment["FIG3_DENSIFY_OMEGA_LIST"]] && StringLength[StringTrim[Environment["FIG3_DENSIFY_OMEGA_LIST"]]] > 0,
   targetOmegaList = Quiet[Check[ToExpression /@ StringSplit[StringTrim[Environment["FIG3_DENSIFY_OMEGA_LIST"]], ","], targetOmegaList]];
+];
+If[StringQ[Environment["FIG3_DENSIFY_LMIN"]] && StringLength[StringTrim[Environment["FIG3_DENSIFY_LMIN"]]] > 0,
+  lMin = Quiet[Check[ToExpression[StringTrim[Environment["FIG3_DENSIFY_LMIN"]]], lMin]];
+];
+If[StringQ[Environment["FIG3_DENSIFY_LMAX"]] && StringLength[StringTrim[Environment["FIG3_DENSIFY_LMAX"]]] > 0,
+  lMax = Quiet[Check[ToExpression[StringTrim[Environment["FIG3_DENSIFY_LMAX"]]], lMax]];
 ];
 
 dataPath = ExpandFileName[
@@ -60,6 +85,7 @@ NeedsDensifyQ[row_] := Module[{sTheta, sPi, key},
   If[!AssociationQ[row], Return[False]];
   If[KeyExistsQ[row, "valid"] && !TrueQ[row["valid"]], Return[False]];
   If[!(KeyExistsQ[row, "l"] && KeyExistsQ[row, "a"] && KeyExistsQ[row, "omega"]), Return[False]];
+  If[Round[row["l"]] < lMin || Round[row["l"]] > lMax, Return[False]];
   key = {KeyA[row["a"]], KeyW[row["omega"]]};
   If[!MemberQ[targetKeys, key], Return[False]];
   sTheta = If[KeyExistsQ[row, "S_theta"], row["S_theta"], {}];

@@ -81,3 +81,22 @@ scripts/audit_fig3_numeric_status.py
 - `a=0.99, Momega=2` 目前 281 点角网格覆盖到 `l=2..29`，更高 `l` 仍保留旧短网格 radial 数据。
 - `fig3_sr_spherical.json` 目前只含 `Momega=2` 的旧 spherical SR row，且 `l_mode_max=60`。
 
+## 本轮修复入口
+
+已经加入针对论文 Fig.3 的高频/高自旋修复流程：
+
+```text
+docs/FIG3_REPAIR_RUNBOOK.md
+cluster/README_CLUSTER_FIG3.md
+cluster/run_fig3_a099_w2_l30_70.slurm
+cluster/run_fig3_a099_w06_l42_60.slurm
+cluster/run_fig3_merge_sr_plot.slurm
+```
+
+修复目标：
+
+- 补齐 `a=0.99, Momega=2, l=30..70` 的 281 点角网格 mode。
+- 补齐 `a=0.99, Momega=0.6, l=42..60`。
+- 重新生成 `fig3_sr_spherical.json`，默认 `FIG3_SR_LMAX=70`、`FIG3_SR_BASIS_PAD=24`。
+- 重新审计、重画 `results/Fig3_paper_methods_grid.png`。
+- 生成 `theta=120 deg` 的 `l_max` 收敛诊断。

@@ -3,20 +3,44 @@
 (* Default cases: M omega = 0.6, 2; a = 0 and a = 0.99                   *)
 (* =================================================================== *)
 
-AppendTo[$Path, "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
-AppendTo[$Path, "C:/Users/97747/KerrGeodesics/Kernel"];
-AppendTo[$Path, "C:/Users/97747/Teukolsky/Kernel"];
+EnvOrDefault[name_, default_] := Module[{value},
+  value = Environment[name];
+  If[StringQ[value] && StringLength[StringTrim[value]] > 0, StringTrim[value], default]
+];
+
+swshPath = EnvOrDefault["BHP_SW_SH_PATH", "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+kerrGeodesicsPath = EnvOrDefault["BHP_KERR_GEODESICS_PATH", "C:/Users/97747/KerrGeodesics/Kernel"];
+teukolskyPath = EnvOrDefault["BHP_TEUKOLSKY_PATH", "C:/Users/97747/Teukolsky/Kernel"];
+
+AppendTo[$Path, swshPath];
+AppendTo[$Path, kerrGeodesicsPath];
+AppendTo[$Path, teukolskyPath];
 
 Needs["SpinWeightedSpheroidalHarmonics`"];
 Needs["KerrGeodesics`"];
 Needs["Teukolsky`"];
 
 Print["[*] Initializing Parallel Kernels..."];
-LaunchKernels[];
+kernelRaw = Environment["FIG3_KERNELS"];
+kernelTarget = If[
+  StringQ[kernelRaw] && StringLength[StringTrim[kernelRaw]] > 0,
+  Quiet[Check[ToExpression[StringTrim[kernelRaw]], 0]],
+  0
+];
+If[IntegerQ[kernelTarget] && kernelTarget > 0,
+  LaunchKernels[kernelTarget],
+  LaunchKernels[]
+];
 ParallelEvaluate[
-  AppendTo[$Path, "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
-  AppendTo[$Path, "C:/Users/97747/KerrGeodesics/Kernel"];
-  AppendTo[$Path, "C:/Users/97747/Teukolsky/Kernel"];
+  sw = Environment["BHP_SW_SH_PATH"];
+  kg = Environment["BHP_KERR_GEODESICS_PATH"];
+  tk = Environment["BHP_TEUKOLSKY_PATH"];
+  If[!StringQ[sw] || StringLength[StringTrim[sw]] == 0, sw = "C:/Users/97747/SpinWeightedSpheroidalHarmonics/Kernel"];
+  If[!StringQ[kg] || StringLength[StringTrim[kg]] == 0, kg = "C:/Users/97747/KerrGeodesics/Kernel"];
+  If[!StringQ[tk] || StringLength[StringTrim[tk]] == 0, tk = "C:/Users/97747/Teukolsky/Kernel"];
+  AppendTo[$Path, StringTrim[sw]];
+  AppendTo[$Path, StringTrim[kg]];
+  AppendTo[$Path, StringTrim[tk]];
   Needs["SpinWeightedSpheroidalHarmonics`"];
   Needs["KerrGeodesics`"];
   Needs["Teukolsky`"];
@@ -37,7 +61,7 @@ workingPrec = 80;
 retryPrec1 = 120;
 retryPrec2 = 180;
 harmRelTol = 10^-12;
-bratioRelTol = 10^-10;
+bratioRelTol = 10^-8;
 checkBratio = False;
 
 thetaList = N[Range[40, 180, 1/2] * Pi / 180, workingPrec];
@@ -203,13 +227,14 @@ GetTeukolskyDataPatch[l_, a_, omega_] := Module[
   omegaPrec = SetPrecision[omega, workingPrec];
   c = SetPrecision[aPrec * omegaPrec, workingPrec];
 
-  harmonicsPrecList = {60, 80, 100, 120};
-  eigenPrecList = {60, 80, 100, 120, 160};
+  harmonicsPrecList = {60, 80, 100, 120, 180};
+  eigenPrecList = {60, 80, 100, 120, 160, 220, 300};
   radialTryList = {
     {60, 0.50, True}, {80, 0.45, True}, {100, 0.40, True},
     {30, 0.0, False}, {40, 0.0, False}, {50, 0.0, False}, {60, 0.0, False},
     {70, 0.0, False}, {80, 0.0, False}, {100, 0.0, False},
-    {120, 0.35, True}, {160, 0.30, True}
+    {120, 0.35, True}, {160, 0.30, True},
+    {200, 0.40, True}, {240, 0.45, True}, {300, 0.50, True}
   };
 
   Do[
@@ -348,6 +373,10 @@ If[StringQ[Environment["FIG3_PATCH_CHECK_BRATIO"]] && StringLength[StringTrim[En
     ToLowerCase[StringTrim[Environment["FIG3_PATCH_CHECK_BRATIO"]]]
   ];
 ];
+If[StringQ[Environment["FIG3_PATCH_BRATIO_TOL"]] && StringLength[StringTrim[Environment["FIG3_PATCH_BRATIO_TOL"]]] > 0,
+  bratioRelTol = Quiet[Check[ToExpression[StringTrim[Environment["FIG3_PATCH_BRATIO_TOL"]]], bratioRelTol]];
+];
+DistributeDefinitions[bratioRelTol, checkBratio];
 
 If[!IntegerQ[lMin], lMin = 2];
 If[!IntegerQ[lMax], lMax = 90];

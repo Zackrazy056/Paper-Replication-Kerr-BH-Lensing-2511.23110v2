@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Kerr GW Lensing Figure Reproduction
 
 This directory contains a cached-data reproduction workflow for the
@@ -330,3 +331,6 @@ Useful quick checks:
 - The default Fig.7-Fig.9 optimizer uses Nelder-Mead with a baseline start and
   warm starts across the grid. Add `--multistart`/`-MultiStart` for slower but
   less order-sensitive fitting-factor checks.
+=======
+# Paper-Replication-Kerr-BH-Lensing-2511.23110v2
+>>>>>>> origin/main
